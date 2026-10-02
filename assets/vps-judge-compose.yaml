@@ -1,0 +1,10 @@
+services:
+  main:
+    cpu_shares: 128
+    build:
+      network: host
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
+      - seccomp:unconfined

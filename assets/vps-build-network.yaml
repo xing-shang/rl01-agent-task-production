@@ -1,0 +1,5 @@
+services:
+  main:
+    cpu_shares: 128
+    build:
+      network: host

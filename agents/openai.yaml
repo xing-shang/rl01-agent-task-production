@@ -1,0 +1,3 @@
+interface:
+  display_name: "RL0-1 Agent Task Production"
+  short_description: "Design A3 tasks and validate RL0-1 rewardkit quality"

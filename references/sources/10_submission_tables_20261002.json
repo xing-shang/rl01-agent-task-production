@@ -1,0 +1,1299 @@
+{
+  "read_date": "2026-10-02",
+  "timezone": "Asia/Shanghai",
+  "source_kind": "live_lark_cli_readback_and_user_table_convention",
+  "reference": {
+    "url": "https://shujufuwubu.feishu.cn/base/VQRMbvnoba6Jeos33zocWBg5npg?table=tblCFgsP5rAcyblH&view=vew03qk8kA",
+    "field_count": 10,
+    "view_record_count": 15,
+    "has_more": false,
+    "fields": [
+      {
+        "default_value": null,
+        "id": "fldmcQUzSQ",
+        "multiple": false,
+        "name": "内容专项一级",
+        "options": [
+          {
+            "hue": "Blue",
+            "lightness": "Lighter",
+            "name": "Skills 数据"
+          },
+          {
+            "hue": "Orange",
+            "lightness": "Lighter",
+            "name": "Workflow Execution"
+          }
+        ],
+        "type": "select"
+      },
+      {
+        "default_value": null,
+        "id": "fld13cZgTB",
+        "name": "姓名",
+        "style": {
+          "type": "plain"
+        },
+        "type": "text"
+      },
+      {
+        "default_value": null,
+        "id": "fldplO9Ver",
+        "multiple": false,
+        "name": "内容专项二级",
+        "options": [
+          {
+            "hue": "Blue",
+            "lightness": "Lighter",
+            "name": "Skill Discovery"
+          },
+          {
+            "hue": "Orange",
+            "lightness": "Lighter",
+            "name": "Skill Generation/Editing"
+          },
+          {
+            "hue": "Wathet",
+            "lightness": "Lighter",
+            "name": "Skill Dependency"
+          },
+          {
+            "hue": "Yellow",
+            "lightness": "Lighter",
+            "name": "Dependency-aware Workflow"
+          },
+          {
+            "hue": "Turquoise",
+            "lightness": "Lighter",
+            "name": "Subagent Workflow"
+          }
+        ],
+        "type": "select"
+      },
+      {
+        "id": "fldAvJa2nu",
+        "name": "实跑截图4张（Oracle+3个模型）",
+        "style": {
+          "type": "plain"
+        },
+        "type": "attachment"
+      },
+      {
+        "default_value": null,
+        "id": "fldwTrm5Og",
+        "multiple": false,
+        "name": "状态",
+        "options": [
+          {
+            "hue": "Blue",
+            "lightness": "Lighter",
+            "name": "【标注】首次提交"
+          },
+          {
+            "hue": "Turquoise",
+            "lightness": "Lighter",
+            "name": "【标注】修改提交"
+          },
+          {
+            "hue": "Wathet",
+            "lightness": "Lighter",
+            "name": "【冬兰】验收驳回"
+          },
+          {
+            "hue": "Yellow",
+            "lightness": "Lighter",
+            "name": "【冬兰】验收通过"
+          },
+          {
+            "hue": "Purple",
+            "lightness": "Lighter",
+            "name": "【冬兰】已交付"
+          }
+        ],
+        "type": "select"
+      },
+      {
+        "default_value": null,
+        "description": "试标只能通用，客户验收通过后再领取其他领域",
+        "id": "fldMvF6WSl",
+        "multiple": false,
+        "name": "领域",
+        "options": [
+          {
+            "hue": "Blue",
+            "lightness": "Lighter",
+            "name": "通用办公"
+          },
+          {
+            "hue": "Orange",
+            "lightness": "Lighter",
+            "name": "金融"
+          },
+          {
+            "hue": "Wathet",
+            "lightness": "Lighter",
+            "name": "法律"
+          },
+          {
+            "hue": "Yellow",
+            "lightness": "Lighter",
+            "name": "医疗"
+          }
+        ],
+        "type": "select"
+      },
+      {
+        "description": "【领域】-日期-澳鹏通用RL0-1-自动编号-返修 \n【领域】-日期-澳鹏通用RL0-1-自动编号\n（不是返修就不在文件名写【返修】）",
+        "id": "fldCLKoWmC",
+        "name": "提交文件",
+        "style": {
+          "type": "plain"
+        },
+        "type": "attachment"
+      },
+      {
+        "id": "fldQD5GJI1",
+        "name": "自动编号",
+        "style": {
+          "rules": [
+            {
+              "text": "AP-R",
+              "type": "text"
+            },
+            {
+              "length": 3,
+              "type": "incremental_number"
+            }
+          ]
+        },
+        "type": "auto_number"
+      },
+      {
+        "default_value": null,
+        "id": "fldDYU5nkj",
+        "multiple": false,
+        "name": "C1-C5分级",
+        "options": [
+          {
+            "hue": "Blue",
+            "lightness": "Lighter",
+            "name": "C1"
+          },
+          {
+            "hue": "Orange",
+            "lightness": "Lighter",
+            "name": "C2"
+          },
+          {
+            "hue": "Wathet",
+            "lightness": "Lighter",
+            "name": "C3"
+          },
+          {
+            "hue": "Yellow",
+            "lightness": "Lighter",
+            "name": "C4"
+          },
+          {
+            "hue": "Turquoise",
+            "lightness": "Lighter",
+            "name": "C5"
+          }
+        ],
+        "type": "select"
+      },
+      {
+        "default_value": null,
+        "id": "fldtSZjhAq",
+        "multiple": false,
+        "name": "难度等级",
+        "options": [
+          {
+            "hue": "Blue",
+            "lightness": "Lighter",
+            "name": "A1"
+          },
+          {
+            "hue": "Orange",
+            "lightness": "Lighter",
+            "name": "A2"
+          },
+          {
+            "hue": "Wathet",
+            "lightness": "Lighter",
+            "name": "A3"
+          }
+        ],
+        "type": "select"
+      }
+    ],
+    "visible_fields": [
+      "自动编号",
+      "姓名",
+      "领域",
+      "难度等级",
+      "C1-C5分级",
+      "内容专项一级",
+      "内容专项二级",
+      "实跑截图4张（Oracle+3个模型）",
+      "提交文件",
+      "状态"
+    ],
+    "attachment_name_samples": [
+      "澳鹏-通用办公-OFFICE-COMP-019-20260925.zip",
+      "通用办公-20260928-澳鹏通用RL0-1-AP002.zip",
+      "通用办公-20261001-奥鹏通用RL0-1-AP003.zip",
+      "通用办公-20261001-澳鹏通用RL0-1-AP-R004.zip",
+      "通用办公-20261001-澳鹏通用RL0-1-AP-R005.zip",
+      "通用办公-20261001-澳鹏通用RL0-1-AP006.zip",
+      "通用办公-20261001-澳鹏通用RL0-1-AP-R008.zip",
+      "通用办公-20261002-澳鹏通用RL0-1-AP-R010_fix2.zip",
+      "通用办公-20261001-澳鹏通用RL0-1-AP-R011.zip",
+      "通用办公-20261001-澳鹏通用RL0-1-AP-R012.zip"
+    ]
+  },
+  "user_table": {
+    "url": "https://my.feishu.cn/base/WjlIbRCI5aiFFssW4hGcMXR0nff?table=tbljHGCxCsozYpRw&view=vewsPnZuT6",
+    "before_field_count": 5,
+    "after_field_count": 13,
+    "view_record_count": 8,
+    "has_more": false,
+    "fields": [
+      {
+        "default_value": null,
+        "description": "能力专项二级：Skills 数据对应Skill Discovery、Skill Generation/Editing、Skill Dependency；Workflow Execution对应Dependency-aware Workflow、Subagent Workflow。",
+        "id": "fldRIkE8pJ",
+        "multiple": false,
+        "name": "内容专项二级",
+        "options": [
+          {
+            "hue": "Blue",
+            "lightness": "Lighter",
+            "name": "Skill Discovery"
+          },
+          {
+            "hue": "Orange",
+            "lightness": "Lighter",
+            "name": "Skill Generation/Editing"
+          },
+          {
+            "hue": "Wathet",
+            "lightness": "Lighter",
+            "name": "Skill Dependency"
+          },
+          {
+            "hue": "Yellow",
+            "lightness": "Lighter",
+            "name": "Dependency-aware Workflow"
+          },
+          {
+            "hue": "Turquoise",
+            "lightness": "Lighter",
+            "name": "Subagent Workflow"
+          }
+        ],
+        "type": "select"
+      },
+      {
+        "default_value": null,
+        "description": "A1/A2/A3按同版本三模型有效正式分数的均值归档；目标难度和未完成跑分不作为实测等级。",
+        "id": "fldUQr3Xfr",
+        "multiple": false,
+        "name": "难度等级",
+        "options": [
+          {
+            "hue": "Blue",
+            "lightness": "Lighter",
+            "name": "A1"
+          },
+          {
+            "hue": "Orange",
+            "lightness": "Lighter",
+            "name": "A2"
+          },
+          {
+            "hue": "Wathet",
+            "lightness": "Lighter",
+            "name": "A3"
+          }
+        ],
+        "type": "select"
+      },
+      {
+        "default_value": null,
+        "id": "fldkhoHvhV",
+        "name": "均分",
+        "style": {
+          "type": "plain"
+        },
+        "type": "text"
+      },
+      {
+        "default_value": null,
+        "description": "题目实际作者姓名；不根据账户昵称推断。",
+        "id": "fldNC9tEpd",
+        "name": "姓名",
+        "style": {
+          "type": "plain"
+        },
+        "type": "text"
+      },
+      {
+        "description": "本表附件命名：领域-YYYYMMDD-澳鹏通用RL0-1-本表自动编号.zip。例：金融-20261002-澳鹏通用RL0-1-AP-R001.zip。当前均为首次提交，提交前内部修改不加返修或_fixN；仅收到客户返修后沿用原名加_fixN。Harbor题目编号及包内规范目录另行保留。",
+        "id": "fldSwlU0r2",
+        "name": "提交文件",
+        "style": {
+          "type": "plain"
+        },
+        "type": "attachment"
+      },
+      {
+        "default_value": null,
+        "description": "能力专项一级，正式选项为Skills 数据和Workflow Execution；与金融领域二级标签分别记录。Weakness-driven为独立数据构造方向，不自行新增专项一级枚举。",
+        "id": "fldvM0LJG2",
+        "multiple": false,
+        "name": "内容专项一级",
+        "options": [
+          {
+            "hue": "Blue",
+            "lightness": "Lighter",
+            "name": "Skills 数据"
+          },
+          {
+            "hue": "Orange",
+            "lightness": "Lighter",
+            "name": "Workflow Execution"
+          }
+        ],
+        "type": "select"
+      },
+      {
+        "default_value": null,
+        "description": "真实Harbor题目编号，与metadata.task_id一致；自动编号另作表内提交索引。",
+        "id": "fldnT6IkTi",
+        "name": "题目编号",
+        "style": {
+          "type": "plain"
+        },
+        "type": "text"
+      },
+      {
+        "default_value": [
+          "待提交"
+        ],
+        "description": "记录本提交表的实际流转。有附件的现有题目为首次提交，未附包为待提交；首次提交前内部修改不算客户返修，验收状态只凭真实回执。",
+        "id": "fld8RHR7FF",
+        "multiple": false,
+        "name": "状态",
+        "options": [
+          {
+            "hue": "Gray",
+            "lightness": "Lighter",
+            "name": "待提交"
+          },
+          {
+            "hue": "Blue",
+            "lightness": "Lighter",
+            "name": "首次提交"
+          },
+          {
+            "hue": "Turquoise",
+            "lightness": "Lighter",
+            "name": "修改提交"
+          },
+          {
+            "hue": "Red",
+            "lightness": "Lighter",
+            "name": "验收驳回"
+          },
+          {
+            "hue": "Green",
+            "lightness": "Lighter",
+            "name": "验收通过"
+          },
+          {
+            "hue": "Purple",
+            "lightness": "Lighter",
+            "name": "已交付"
+          }
+        ],
+        "type": "select"
+      },
+      {
+        "default_value": null,
+        "description": "按task.toml的task_complexity及实际文件、需求、证据链和工具评定；与A1-A3难度分别记录。",
+        "id": "fldb5DlcaC",
+        "multiple": false,
+        "name": "C1-C5分级",
+        "options": [
+          {
+            "hue": "Blue",
+            "lightness": "Lighter",
+            "name": "C1"
+          },
+          {
+            "hue": "Orange",
+            "lightness": "Lighter",
+            "name": "C2"
+          },
+          {
+            "hue": "Wathet",
+            "lightness": "Lighter",
+            "name": "C3"
+          },
+          {
+            "hue": "Yellow",
+            "lightness": "Lighter",
+            "name": "C4"
+          },
+          {
+            "hue": "Turquoise",
+            "lightness": "Lighter",
+            "name": "C5"
+          }
+        ],
+        "type": "select"
+      },
+      {
+        "default_value": [
+          "金融"
+        ],
+        "description": "任务业务领域；本表当前金融任务填写金融。",
+        "id": "fldoRJAxEV",
+        "multiple": false,
+        "name": "领域",
+        "options": [
+          {
+            "hue": "Blue",
+            "lightness": "Lighter",
+            "name": "通用办公"
+          },
+          {
+            "hue": "Orange",
+            "lightness": "Lighter",
+            "name": "金融"
+          },
+          {
+            "hue": "Wathet",
+            "lightness": "Lighter",
+            "name": "法律"
+          },
+          {
+            "hue": "Yellow",
+            "lightness": "Lighter",
+            "name": "医疗"
+          }
+        ],
+        "type": "select"
+      },
+      {
+        "default_value": null,
+        "id": "fldLdohkbg",
+        "name": "完成时间",
+        "style": {
+          "format": "yyyy/MM/dd"
+        },
+        "type": "datetime"
+      },
+      {
+        "description": "本表提交索引，AP-R加3位递增序号；与Harbor题目编号分别保存。",
+        "id": "fldfOJxALs",
+        "name": "自动编号",
+        "style": {
+          "rules": [
+            {
+              "text": "AP-R",
+              "type": "text"
+            },
+            {
+              "length": 3,
+              "type": "incremental_number"
+            }
+          ]
+        },
+        "type": "auto_number"
+      },
+      {
+        "default_value": null,
+        "description": "金融领域的固定二级标签，按生产规范知识体系Fin1—Fin9及最终题包domain_l2填写；与内容专项一级、二级分别记录。",
+        "id": "fldwpvEvSZ",
+        "multiple": false,
+        "name": "所属领域二级标签",
+        "options": [
+          {
+            "hue": "Blue",
+            "lightness": "Lighter",
+            "name": "Fin1-投资银行"
+          },
+          {
+            "hue": "Orange",
+            "lightness": "Lighter",
+            "name": "Fin2-股票研究"
+          },
+          {
+            "hue": "Wathet",
+            "lightness": "Lighter",
+            "name": "Fin3-私募股权"
+          },
+          {
+            "hue": "Yellow",
+            "lightness": "Lighter",
+            "name": "Fin4-财富管理"
+          },
+          {
+            "hue": "Turquoise",
+            "lightness": "Lighter",
+            "name": "Fin5-零售证券投资"
+          },
+          {
+            "hue": "Purple",
+            "lightness": "Lighter",
+            "name": "Fin6-家庭财富规划"
+          },
+          {
+            "hue": "Green",
+            "lightness": "Lighter",
+            "name": "Fin7-消费金融"
+          },
+          {
+            "hue": "Red",
+            "lightness": "Lighter",
+            "name": "Fin8-个人税务与社保"
+          },
+          {
+            "hue": "Carmine",
+            "lightness": "Lighter",
+            "name": "Fin9-跨境个人金融"
+          }
+        ],
+        "type": "select"
+      }
+    ],
+    "visible_fields": [
+      "自动编号",
+      "题目编号",
+      "姓名",
+      "领域",
+      "所属领域二级标签",
+      "难度等级",
+      "C1-C5分级",
+      "内容专项一级",
+      "内容专项二级",
+      "提交文件",
+      "状态",
+      "完成时间",
+      "均分"
+    ],
+    "record_index": [
+      {
+        "record_id": "reczz28HmaTN7wpN",
+        "task_id": "FIN8-DW-001",
+        "table_number": "AP-R001",
+        "completion_date": "2026-09-30T00:00:00.000+08:00",
+        "state": [
+          "首次提交"
+        ],
+        "attachment_names": [
+          "FIN8-DW-001_A1_delivery_20260930.zip"
+        ],
+        "complexity": [
+          "C3"
+        ],
+        "content_level1": [
+          "Workflow Execution"
+        ],
+        "content_level2": [
+          "Dependency-aware Workflow"
+        ],
+        "domain_l2": [
+          "Fin8-个人税务与社保"
+        ],
+        "specialty_review_status": "supported_by_task_instructions",
+        "delivery_static_review_status": "requires_correction"
+      },
+      {
+        "record_id": "reczz28HmaTN7yVh",
+        "task_id": "FIN1-CB-001",
+        "table_number": "AP-R002",
+        "completion_date": "2026-10-01T00:00:00.000+08:00",
+        "state": [
+          "首次提交"
+        ],
+        "attachment_names": [
+          "FIN1-CB-001-金融-投资银行-20261001提交.zip"
+        ],
+        "complexity": [
+          "C5"
+        ],
+        "content_level1": [
+          "Skills 数据"
+        ],
+        "content_level2": [
+          "Skill Dependency"
+        ],
+        "domain_l2": [
+          "Fin1-投资银行"
+        ],
+        "specialty_review_status": "original_declaration_preserved_skill_necessity_not_independently_proven",
+        "delivery_static_review_status": "requires_correction"
+      },
+      {
+        "record_id": "reczz28HmaTN7yso",
+        "task_id": "FIN1-PPA-001",
+        "table_number": "AP-R003",
+        "completion_date": "2026-10-01T00:00:00.000+08:00",
+        "state": [
+          "首次提交"
+        ],
+        "attachment_names": [
+          "FIN1-PPA-001_A3_delivery_20261001.zip"
+        ],
+        "complexity": [
+          "C5"
+        ],
+        "content_level1": [],
+        "content_level2": [],
+        "domain_l2": [
+          "Fin1-投资银行"
+        ],
+        "specialty_review_status": "reviewed_insufficient_evidence_for_fixed_specialty",
+        "delivery_static_review_status": "passed_with_full_acceptance_unreviewed",
+        "specialty_applicability_status": "separate_weakness_driven_branch"
+      },
+      {
+        "record_id": "reczz28HmaTN7zIl",
+        "task_id": "FIN2-CAP-001",
+        "table_number": "AP-R004",
+        "completion_date": "2026-10-02T00:00:00.000+08:00",
+        "state": [
+          "首次提交"
+        ],
+        "attachment_names": [
+          "FIN2-CAP-001-金融-股票研究.zip"
+        ],
+        "complexity": [
+          "C4"
+        ],
+        "content_level1": [],
+        "content_level2": [],
+        "domain_l2": [
+          "Fin2-股票研究"
+        ],
+        "specialty_review_status": "reviewed_insufficient_evidence_for_fixed_specialty",
+        "delivery_static_review_status": "requires_correction",
+        "specialty_applicability_status": "separate_weakness_driven_branch"
+      },
+      {
+        "record_id": "reczz28HmaTN7zhr",
+        "task_id": "FIN1-SPAC-001",
+        "table_number": "AP-R005",
+        "completion_date": "2026-10-02T00:00:00.000+08:00",
+        "state": [
+          "首次提交"
+        ],
+        "attachment_names": [
+          "FIN1-SPAC-001.zip"
+        ],
+        "complexity": [
+          "C5"
+        ],
+        "content_level1": [],
+        "content_level2": [],
+        "domain_l2": [
+          "Fin1-投资银行"
+        ],
+        "specialty_review_status": "reviewed_insufficient_evidence_for_fixed_specialty",
+        "delivery_static_review_status": "requires_correction",
+        "specialty_applicability_status": "separate_weakness_driven_branch"
+      },
+      {
+        "record_id": "reczz28IPiucd7TP",
+        "task_id": "FIN5-ORP-001",
+        "table_number": "AP-R006",
+        "completion_date": null,
+        "state": [
+          "待提交"
+        ],
+        "attachment_names": [],
+        "complexity": [],
+        "content_level1": [],
+        "content_level2": [],
+        "domain_l2": []
+      },
+      {
+        "record_id": "reczz28IPrcWIeNR",
+        "task_id": "FIN9-TRF-001",
+        "table_number": "AP-R007",
+        "completion_date": null,
+        "state": [
+          "待提交"
+        ],
+        "attachment_names": [],
+        "complexity": [],
+        "content_level1": [],
+        "content_level2": [],
+        "domain_l2": []
+      },
+      {
+        "record_id": "reczz28IQDl4NLQ7",
+        "task_id": "FIN7-FLEX-001",
+        "table_number": "AP-R008",
+        "completion_date": null,
+        "state": [
+          "待提交"
+        ],
+        "attachment_names": [],
+        "complexity": [],
+        "content_level1": [],
+        "content_level2": [],
+        "domain_l2": []
+      }
+    ],
+    "primary_field": "fldfOJxALs"
+  },
+  "user_preferences": {
+    "exclude_screenshot_column": true,
+    "modify_own_table_authorized": true,
+    "current_submission_round": "首次提交",
+    "internal_revisions_are_customer_returns": false,
+    "first_submission_count": 5,
+    "pending_count": 3,
+    "first_column": "自动编号",
+    "second_column": "题目编号"
+  },
+  "naming": {
+    "scope": "personal_table_attachment_only",
+    "first_submission": "<领域>-<YYYYMMDD>-澳鹏通用RL0-1-<本表自动编号或真实task_id>.zip",
+    "customer_return_only": "<original_basename>_fix<N>.zip",
+    "customer_package_and_internal_batch_layout": "S03",
+    "historical_attachments_replaced": false
+  },
+  "reading_limits": "Read field schema, specified views, and projected record/attachment metadata only; no screenshot files or ZIP contents inspected. This is not customer acceptance evidence.",
+  "layout_updates": [
+    {
+      "date": "2026-10-02",
+      "user_request": "自动编号和题目编号换一下位置",
+      "before_first_columns": [
+        "题目编号",
+        "自动编号"
+      ],
+      "after_first_columns": [
+        "自动编号",
+        "题目编号"
+      ],
+      "primary_field": "自动编号",
+      "before_field_roles": {
+        "fldfOJxALs": "题目编号:text",
+        "fldnT6IkTi": "自动编号:auto_number"
+      },
+      "after_field_roles": {
+        "fldfOJxALs": "自动编号:auto_number",
+        "fldnT6IkTi": "题目编号:text"
+      },
+      "record_count": 8,
+      "all_record_values_preserved": true
+    }
+  ],
+  "classification_updates": [
+    {
+      "date": "2026-10-02",
+      "user_request": "补充已经提交题目的C分级和内容一二级选择",
+      "source": "downloaded_current_submission_ZIPs",
+      "added_level1_option": "Weakness 数据",
+      "added_level2_option": "Weakness-driven",
+      "option_scope": "personal_table_display_mapping_for_existing_metadata.category=weakness-driven",
+      "decisions": [
+        {
+          "record_id": "reczz28HmaTN7wpN",
+          "task_id": "FIN8-DW-001",
+          "table_number": "AP-R001",
+          "complexity": "C3",
+          "level1": "Workflow Execution",
+          "level2": "Dependency-aware Workflow",
+          "basis": "题包声明C3与dependency-aware-workflow；8份输入、9个官方案例及4组事实变化，法律分类、年度排程、三层现金和发布/恢复状态相互依赖，3份交付须同步更新。",
+          "source_archive": "/Users/xingshang/appen-审计会计/rl01-web-review/submission-classification-20261002-4chgh86j/attachments/FIN8-DW-001/FIN8-DW-001_A1_delivery_20260930.zip",
+          "source_archive_sha256": "17000e788bef29c5c4bbfb0c8a730e6e39d8a9035e730a47ca44e6fa4a483143",
+          "source_task_version": "1.0.0"
+        },
+        {
+          "record_id": "reczz28HmaTN7yVh",
+          "task_id": "FIN1-CB-001",
+          "table_number": "AP-R002",
+          "complexity": "C5",
+          "level1": "Skills 数据",
+          "level2": "Skill Dependency",
+          "basis": "题包声明C5与skill-dependency；15份输入、两期可转债、票券权属和营业日、3个情景的资金节点及整数处置优化，题面指定capital-action-review规程，形成备忘录、公式模型和执行记录。",
+          "source_archive": "/Users/xingshang/appen-审计会计/rl01-web-review/submission-classification-20261002-4chgh86j/attachments/FIN1-CB-001/FIN1-CB-001-金融-投资银行-20261001提交.zip",
+          "source_archive_sha256": "5e9550fbad0d9dbca1e39e91fa9b55d72b4ed4a1914db7f6b70f499cae5264f2",
+          "source_task_version": "1.0.0"
+        },
+        {
+          "record_id": "reczz28HmaTN7yso",
+          "task_id": "FIN1-PPA-001",
+          "table_number": "AP-R003",
+          "complexity": "C5",
+          "level1": "Weakness 数据",
+          "level2": "Weakness-driven",
+          "basis": "题包声明C5与weakness-driven；双路径购买会计、两期N/T盈利与完整摊销、27个联合估值组合及24组协同可行边界，针对跨源核对、口径自造和覆盖缺失；没有必须调用的Skill。",
+          "source_archive": "/Users/xingshang/appen-审计会计/rl01-web-review/submission-classification-20261002-4chgh86j/attachments/FIN1-PPA-001/FIN1-PPA-001_A3_delivery_20261001.zip",
+          "source_archive_sha256": "b9b6c5745498dfe5fc25a045789447b3dd00480f696b84aea5476d314ffd6da8",
+          "source_task_version": "1.0.0"
+        },
+        {
+          "record_id": "reczz28HmaTN7zIl",
+          "task_id": "FIN2-CAP-001",
+          "table_number": "AP-R004",
+          "complexity": "C4",
+          "level1": "Weakness 数据",
+          "level2": "Weakness-driven",
+          "basis": "题包声明C4与weakness-driven；10份披露、收购和业绩/税项/现金/债务桥、52周资金回放、4组压力场景、股息恢复及授权边界，输出4份可独立使用的模型、记录、备忘录与交接清单。",
+          "source_archive": "/Users/xingshang/appen-审计会计/rl01-web-review/submission-classification-20261002-4chgh86j/attachments/FIN2-CAP-001/FIN2-CAP-001-金融-股票研究.zip",
+          "source_archive_sha256": "35e88f921c45d2fc05f2146021d8b1186dcec6f1365b451bc83358aa3c206a29",
+          "source_task_version": "1.0.1"
+        },
+        {
+          "record_id": "reczz28HmaTN7zhr",
+          "task_id": "FIN1-SPAC-001",
+          "table_number": "AP-R005",
+          "complexity": "C5",
+          "level1": "Weakness 数据",
+          "level2": "Weakness-driven",
+          "basis": "题包声明C5与weakness-driven；分期现金与股份/权证连续性、净杠杆和稀释约束、基准及联合压力下的整数融资与分位边界反证。虽提供证据审阅规程，原包主分类仍为weakness-driven。",
+          "source_archive": "/Users/xingshang/appen-审计会计/rl01-web-review/submission-classification-20261002-4chgh86j/attachments/FIN1-SPAC-001/FIN1-SPAC-001.zip",
+          "source_archive_sha256": "1099f5813b43bc6a850841bcdc1ad08344dea4327b14cbd0b69127298e17b996",
+          "source_task_version": "1.0.2"
+        }
+      ],
+      "readback": {
+        "date": "2026-10-02",
+        "completed": true,
+        "record_count": 8,
+        "classified_records": 5,
+        "pending_records_unchanged": 3,
+        "changed_fields": [
+          "C1-C5分级",
+          "内容专项一级",
+          "内容专项二级"
+        ],
+        "source": "downloaded_current_submission_attachments",
+        "other_record_values_preserved": true,
+        "classifications": [
+          {
+            "task_id": "FIN8-DW-001",
+            "table_number": "AP-R001",
+            "complexity": "C3",
+            "level1": "Workflow Execution",
+            "level2": "Dependency-aware Workflow"
+          },
+          {
+            "task_id": "FIN1-CB-001",
+            "table_number": "AP-R002",
+            "complexity": "C5",
+            "level1": "Skills 数据",
+            "level2": "Skill Dependency"
+          },
+          {
+            "task_id": "FIN1-PPA-001",
+            "table_number": "AP-R003",
+            "complexity": "C5",
+            "level1": "Weakness 数据",
+            "level2": "Weakness-driven"
+          },
+          {
+            "task_id": "FIN2-CAP-001",
+            "table_number": "AP-R004",
+            "complexity": "C4",
+            "level1": "Weakness 数据",
+            "level2": "Weakness-driven"
+          },
+          {
+            "task_id": "FIN1-SPAC-001",
+            "table_number": "AP-R005",
+            "complexity": "C5",
+            "level1": "Weakness 数据",
+            "level2": "Weakness-driven"
+          }
+        ]
+      },
+      "superseded_specialty_mapping": {
+        "task_ids": [
+          "FIN1-PPA-001",
+          "FIN2-CAP-001",
+          "FIN1-SPAC-001"
+        ],
+        "reason": "Withdrawn after source-document review; Weakness data branch was not a listed specialty two-level mapping. Original metadata and complexity retained."
+      }
+    }
+  ],
+  "taxonomy_corrections": [
+    {
+      "date": "2026-10-02",
+      "user_request": "你确定金融是这些分类吗，你看看文档",
+      "documents_reviewed": [
+        "S01 page 2 taxonomy image",
+        "S02 page 2 specialty table and Weakness-driven branch",
+        "S07/S08 metadata field definitions"
+      ],
+      "financial_category_field": "所属领域二级标签",
+      "unconfirmed_options_removed": [
+        "Weakness 数据",
+        "Weakness-driven"
+      ],
+      "specialty_mapping_pending": [
+        "FIN1-PPA-001",
+        "FIN2-CAP-001",
+        "FIN1-SPAC-001"
+      ],
+      "decisions": [
+        {
+          "record_id": "reczz28HmaTN7wpN",
+          "task_id": "FIN8-DW-001",
+          "domain_l2": "Fin8-个人税务与社保",
+          "original_category": "dependency-aware-workflow",
+          "complexity": "C3",
+          "remove_unconfirmed_specialty_mapping": false,
+          "archive_sha256": "17000e788bef29c5c4bbfb0c8a730e6e39d8a9035e730a47ca44e6fa4a483143"
+        },
+        {
+          "record_id": "reczz28HmaTN7yVh",
+          "task_id": "FIN1-CB-001",
+          "domain_l2": "Fin1-投资银行",
+          "original_category": "skill-dependency",
+          "complexity": "C5",
+          "remove_unconfirmed_specialty_mapping": false,
+          "archive_sha256": "5e9550fbad0d9dbca1e39e91fa9b55d72b4ed4a1914db7f6b70f499cae5264f2"
+        },
+        {
+          "record_id": "reczz28HmaTN7yso",
+          "task_id": "FIN1-PPA-001",
+          "domain_l2": "Fin1-投资银行",
+          "original_category": "weakness-driven",
+          "complexity": "C5",
+          "remove_unconfirmed_specialty_mapping": true,
+          "archive_sha256": "b9b6c5745498dfe5fc25a045789447b3dd00480f696b84aea5476d314ffd6da8"
+        },
+        {
+          "record_id": "reczz28HmaTN7zIl",
+          "task_id": "FIN2-CAP-001",
+          "domain_l2": "Fin2-股票研究",
+          "original_category": "weakness-driven",
+          "complexity": "C4",
+          "remove_unconfirmed_specialty_mapping": true,
+          "archive_sha256": "35e88f921c45d2fc05f2146021d8b1186dcec6f1365b451bc83358aa3c206a29"
+        },
+        {
+          "record_id": "reczz28HmaTN7zhr",
+          "task_id": "FIN1-SPAC-001",
+          "domain_l2": "Fin1-投资银行",
+          "original_category": "weakness-driven",
+          "complexity": "C5",
+          "remove_unconfirmed_specialty_mapping": true,
+          "archive_sha256": "1099f5813b43bc6a850841bcdc1ad08344dea4327b14cbd0b69127298e17b996"
+        }
+      ],
+      "readback": {
+        "date": "2026-10-02",
+        "completed": true,
+        "field_count": 13,
+        "record_count": 8,
+        "financial_domain_l2_filled": 5,
+        "unsupported_specialty_mappings_removed": 3,
+        "confirmed_specialty_mappings_preserved": 2,
+        "complexity_scores_dates_attachments_preserved": true,
+        "financial_labels": [
+          {
+            "task_id": "FIN8-DW-001",
+            "domain_l2": "Fin8-个人税务与社保"
+          },
+          {
+            "task_id": "FIN1-CB-001",
+            "domain_l2": "Fin1-投资银行"
+          },
+          {
+            "task_id": "FIN1-PPA-001",
+            "domain_l2": "Fin1-投资银行"
+          },
+          {
+            "task_id": "FIN2-CAP-001",
+            "domain_l2": "Fin2-股票研究"
+          },
+          {
+            "task_id": "FIN1-SPAC-001",
+            "domain_l2": "Fin1-投资银行"
+          }
+        ],
+        "source_documents": {
+          "financial_taxonomy": "S01 page 2 knowledge体系 image",
+          "specialty_taxonomy": "S02 page 2 fixed specialty table",
+          "weakness_branch": "S02 page 2 independent Weakness-driven section; no listed specialty two-level mapping"
+        }
+      }
+    }
+  ],
+  "local_record_reviews": {
+    "review_date": "2026-10-02",
+    "user_request": "你看一下吧，目前提交的，都在本地有记录吧",
+    "report_markdown": "/Users/xingshang/appen-审计会计/rl01-web-review/submission-local-review-20261002-6edt67tw/local-records-and-specialty-review.md",
+    "report_json": "/Users/xingshang/appen-审计会计/rl01-web-review/submission-local-review-20261002-6edt67tw/local-records-and-specialty-review.json",
+    "live_record_readback": "/Users/xingshang/appen-审计会计/rl01-web-review/submission-local-review-20261002-6edt67tw/current-records.ndjson",
+    "original_archives_found": 5,
+    "original_archive_upload_hash_matches": 5,
+    "records": [
+      {
+        "task_id": "FIN8-DW-001",
+        "table_number": "AP-R001",
+        "original_archive": "/Users/xingshang/appen-审计会计/FIN8-DW-001_A1_delivery_20260930.zip",
+        "archive_sha256": "17000e788bef29c5c4bbfb0c8a730e6e39d8a9035e730a47ca44e6fa4a483143",
+        "matches_uploaded_attachment": true,
+        "task_version": "1.0.0",
+        "category": "dependency-aware-workflow",
+        "complexity": "C3",
+        "financial_domain_l2": [
+          "Fin8-个人税务与社保"
+        ],
+        "current_specialty_level1": [
+          "Workflow Execution"
+        ],
+        "current_specialty_level2": [
+          "Dependency-aware Workflow"
+        ],
+        "specialty_review_reason": "原包声明dependency-aware-workflow。题面要求4组最小事实变化向分类、年表、三层现金与发布/阻断状态传播，并列出恢复后的重算范围；可沿用Workflow Execution / Dependency-aware Workflow。"
+      },
+      {
+        "task_id": "FIN1-CB-001",
+        "table_number": "AP-R002",
+        "original_archive": "/Users/xingshang/appen-审计会计/FIN1-CB-001-金融-投资银行-20261001提交.zip",
+        "archive_sha256": "5e9550fbad0d9dbca1e39e91fa9b55d72b4ed4a1914db7f6b70f499cae5264f2",
+        "matches_uploaded_attachment": true,
+        "task_version": "1.0.0",
+        "category": "skill-dependency",
+        "complexity": "C5",
+        "financial_domain_l2": [
+          "Fin1-投资银行"
+        ],
+        "current_specialty_level1": [
+          "Skills 数据"
+        ],
+        "current_specialty_level2": [
+          "Skill Dependency"
+        ],
+        "specialty_review_reason": "原包声明skill-dependency，列明capital-action-review及expected_skill_dependencies，题面指定读取规程。表中沿用原稿的Skills 数据 / Skill Dependency声明；本轮文档核对不等于已独立证明Skill不可替代。"
+      },
+      {
+        "task_id": "FIN1-PPA-001",
+        "table_number": "AP-R003",
+        "original_archive": "/Users/xingshang/appen-审计会计/FIN1-PPA-001_A3_delivery_20261001.zip",
+        "archive_sha256": "b9b6c5745498dfe5fc25a045789447b3dd00480f696b84aea5476d314ffd6da8",
+        "matches_uploaded_attachment": true,
+        "task_version": "1.0.0",
+        "category": "weakness-driven",
+        "complexity": "C5",
+        "financial_domain_l2": [
+          "Fin1-投资银行"
+        ],
+        "current_specialty_level1": [],
+        "current_specialty_level2": [],
+        "specialty_review_reason": "原包声明weakness-driven，明确没有必须调用的Skill；要求跨期会计桥、N/T盈利、27组合与24可行边界。现有正文主要证明专业计算与跨源覆盖需求，没有单独定义待执行步骤的完成状态或依赖未满足时的执行控制。当前不据普通计算传导强归固定专项。"
+      },
+      {
+        "task_id": "FIN2-CAP-001",
+        "table_number": "AP-R004",
+        "original_archive": "/Users/xingshang/appen-审计会计/FIN2-CAP-001-金融-股票研究.zip",
+        "archive_sha256": "35e88f921c45d2fc05f2146021d8b1186dcec6f1365b451bc83358aa3c206a29",
+        "matches_uploaded_attachment": true,
+        "task_version": "1.0.1",
+        "category": "weakness-driven",
+        "complexity": "C4",
+        "financial_domain_l2": [
+          "Fin2-股票研究"
+        ],
+        "current_specialty_level1": [],
+        "current_specialty_level2": [],
+        "specialty_review_reason": "原包声明weakness-driven，明确没有任务特定Skill。52周资金回放、压力场景、授权边界和交接清单有业务依赖，但现有任务要求交付分析及待核事项，未要求运行一个维护完成状态、按依赖解锁步骤的工作流。当前不据多模块交付强归固定专项。"
+      },
+      {
+        "task_id": "FIN1-SPAC-001",
+        "table_number": "AP-R005",
+        "original_archive": "/Users/xingshang/Downloads/FIN1-SPAC-001.zip",
+        "archive_sha256": "1099f5813b43bc6a850841bcdc1ad08344dea4327b14cbd0b69127298e17b996",
+        "matches_uploaded_attachment": true,
+        "task_version": "1.0.2",
+        "category": "weakness-driven",
+        "complexity": "C5",
+        "financial_domain_l2": [
+          "Fin1-投资银行"
+        ],
+        "current_specialty_level1": [],
+        "current_specialty_level2": [],
+        "specialty_review_reason": "原包声明weakness-driven，提供capital-evidence-review并要求运用其方法。该文件内容为来源、口径、连续性、约束反证及导出回读的通用审阅规程，未见只由Skill提供的特殊阈值、内部映射、业务优先级或特化审批规则。仅有Skill文件及必读措辞不足以确认Skill Dependency。"
+      }
+    ],
+    "remote_table_changed_in_this_review": false,
+    "scope": "Only the five currently attached immutable versions. Financial domain labels and capability specialties are separate; internal changes are first submissions."
+  },
+  "classification_delivery_reviews": {
+    "review_date": "2026-10-02",
+    "user_request": "空值？题包中找不到？那符合交付要求吗",
+    "report_markdown": "/Users/xingshang/appen-审计会计/rl01-web-review/submission-requirements-review-20261002-99bx7_rd/classification-and-requirements-review.md",
+    "report_json": "/Users/xingshang/appen-审计会计/rl01-web-review/submission-requirements-review-20261002-99bx7_rd/classification-and-requirements-review.json",
+    "interpretation": {
+      "weakness_driven_is_a_separate_allowed_branch": true,
+      "personal_specialty_blank_is_not_proof_of_missing_package_classification": true,
+      "all_five_required_metadata_fields_present": true,
+      "all_five_archives_fully_compliant": false,
+      "read_only_review_of_original_archives": true,
+      "customer_acceptance_claimed": false
+    },
+    "records": [
+      {
+        "task_id": "FIN8-DW-001",
+        "archive_sha256": "17000e788bef29c5c4bbfb0c8a730e6e39d8a9035e730a47ca44e6fa4a483143",
+        "category": "dependency-aware-workflow",
+        "weakness_tag": [
+          "W07-流程跳步",
+          "W12-约束遵循"
+        ],
+        "unmatched_weakness_tags": [
+          "W07-流程跳步",
+          "W12-约束遵循"
+        ],
+        "static_checks_passed": false,
+        "issues_by_rule": {
+          "weakness-tag": 2,
+          "rubric-likert-scale": 16
+        }
+      },
+      {
+        "task_id": "FIN1-CB-001",
+        "archive_sha256": "5e9550fbad0d9dbca1e39e91fa9b55d72b4ed4a1914db7f6b70f499cae5264f2",
+        "category": "skill-dependency",
+        "weakness_tag": [
+          "跨文件权利与现金时点混淆",
+          "局部经济最优违反全局流动性"
+        ],
+        "unmatched_weakness_tags": [
+          "跨文件权利与现金时点混淆",
+          "局部经济最优违反全局流动性"
+        ],
+        "static_checks_passed": false,
+        "issues_by_rule": {
+          "weakness-tag": 2
+        }
+      },
+      {
+        "task_id": "FIN1-PPA-001",
+        "archive_sha256": "b9b6c5745498dfe5fc25a045789447b3dd00480f696b84aea5476d314ffd6da8",
+        "category": "weakness-driven",
+        "weakness_tag": [
+          "跨源交叉核对缺失",
+          "无据自造数据与口径",
+          "长表格/多Sheet下的数据覆盖与抗干扰能力弱",
+          "多要求/多交付物下缺少Requirement Coverage Accounting"
+        ],
+        "unmatched_weakness_tags": [],
+        "static_checks_passed": true,
+        "issues_by_rule": {}
+      },
+      {
+        "task_id": "FIN2-CAP-001",
+        "archive_sha256": "35e88f921c45d2fc05f2146021d8b1186dcec6f1365b451bc83358aa3c206a29",
+        "category": "weakness-driven",
+        "weakness_tag": [
+          "跨源交叉核对缺失",
+          "长表格/多Sheet下的数据覆盖与抗干扰能力弱",
+          "无据自造数据与口径",
+          "多要求/多交付物下缺少Requirement Coverage Accounting"
+        ],
+        "unmatched_weakness_tags": [],
+        "static_checks_passed": false,
+        "issues_by_rule": {
+          "residue": 1
+        }
+      },
+      {
+        "task_id": "FIN1-SPAC-001",
+        "archive_sha256": "1099f5813b43bc6a850841bcdc1ad08344dea4327b14cbd0b69127298e17b996",
+        "category": "weakness-driven",
+        "weakness_tag": [
+          "混淆现金与会计权益",
+          "不同期间和证券范围混用",
+          "局部正确但全局融资不可行"
+        ],
+        "unmatched_weakness_tags": [
+          "混淆现金与会计权益",
+          "不同期间和证券范围混用",
+          "局部正确但全局融资不可行"
+        ],
+        "static_checks_passed": false,
+        "issues_by_rule": {
+          "weakness-tag": 3
+        }
+      }
+    ],
+    "changes_to_original_submitted_archives": false,
+    "changes_to_remote_table": false
+  },
+  "skill_enforcement_updates": {
+    "review_date": "2026-10-02",
+    "report_markdown": "/Users/xingshang/appen-审计会计/rl01-web-review/skill-delivery-gates-review-20261002-w7sw4maq/skill-delivery-gates-review.md",
+    "report_json": "/Users/xingshang/appen-审计会计/rl01-web-review/skill-delivery-gates-review-20261002-w7sw4maq/skill-delivery-gates-review.json",
+    "new_archive_checker": "scripts/check_rl01_archive.py",
+    "archive_checker_sha256": "8e237e5a243e2aad1e54dafd403afedd2110679145693812dd03e6aac1a9cdff",
+    "task_checker_sha256": "8f57dd4638cf42a8fc767b326184f533c2ab530d7cdc9586b8ad0bd633540c40",
+    "regression_tests_passed": 22,
+    "final_archive_checks": [
+      {
+        "task_id": "FIN8-DW-001",
+        "ok": false,
+        "exit_code": 1,
+        "tasks_checked": 1,
+        "issues_by_rule": {
+          "weakness-tag": 2,
+          "rubric-likert-scale": 16
+        },
+        "archive_sha256": "17000e788bef29c5c4bbfb0c8a730e6e39d8a9035e730a47ca44e6fa4a483143"
+      },
+      {
+        "task_id": "FIN1-CB-001",
+        "ok": false,
+        "exit_code": 1,
+        "tasks_checked": 1,
+        "issues_by_rule": {
+          "weakness-tag": 2
+        },
+        "archive_sha256": "5e9550fbad0d9dbca1e39e91fa9b55d72b4ed4a1914db7f6b70f499cae5264f2"
+      },
+      {
+        "task_id": "FIN1-PPA-001",
+        "ok": true,
+        "exit_code": 0,
+        "tasks_checked": 1,
+        "issues_by_rule": {},
+        "archive_sha256": "b9b6c5745498dfe5fc25a045789447b3dd00480f696b84aea5476d314ffd6da8"
+      },
+      {
+        "task_id": "FIN2-CAP-001",
+        "ok": false,
+        "exit_code": 1,
+        "tasks_checked": 1,
+        "issues_by_rule": {
+          "archive-residue": 4,
+          "residue": 1
+        },
+        "archive_sha256": "35e88f921c45d2fc05f2146021d8b1186dcec6f1365b451bc83358aa3c206a29"
+      },
+      {
+        "task_id": "FIN1-SPAC-001",
+        "ok": false,
+        "exit_code": 1,
+        "tasks_checked": 1,
+        "issues_by_rule": {
+          "weakness-tag": 3
+        },
+        "archive_sha256": "1099f5813b43bc6a850841bcdc1ad08344dea4327b14cbd0b69127298e17b996"
+      }
+    ],
+    "dw_embedded_preflight_ok": false,
+    "original_archives_and_remote_state_preserved": true
+  }
+}

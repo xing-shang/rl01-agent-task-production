@@ -1,0 +1,19 @@
+[Unit]
+Description=Isolated RL01 Harbor shared eight-slot dispatcher
+After=network.target docker.service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/rl01-harbor
+ExecStart=/opt/rl01-harbor/bin/rl01 worker
+Environment=PYTHONDONTWRITEBYTECODE=1
+Nice=15
+IOSchedulingClass=idle
+UMask=0077
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=infinity
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

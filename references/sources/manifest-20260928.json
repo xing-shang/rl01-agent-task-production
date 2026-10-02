@@ -1,0 +1,301 @@
+{
+  "retrieved_at": "2026-09-28T23:50:46.746550+08:00",
+  "note": "Browser hashes identify locally captured rendered text, not original server export bytes. Reading files remove duplicate display lines and are not JSON/code authority.",
+  "files": [
+    {
+      "path": "01_RL0-1-数据生产规范GuidelineV1.1--20260920+for外部供应商.txt",
+      "bytes": 23695,
+      "sha256": "ebc41f9d041eebec169f4ef2b8f1030f307168f966850568d7ff348b20a87362"
+    },
+    {
+      "path": "01_domain_taxonomy_20260928.png",
+      "bytes": 54848,
+      "sha256": "df6c1b27d4c110ddee816c56b02c8af7344553a521474649ddf89718c649d132"
+    },
+    {
+      "path": "02_weakness_table_embedded.png",
+      "bytes": 137028,
+      "sha256": "00d5f38cfb4c477ea8f05a0215847978d3699648e4d7d0380bc9d6581519652d"
+    },
+    {
+      "path": "02_weakness_table_page5_300dpi.png",
+      "bytes": 1228130,
+      "sha256": "300897dd7d378682074fc718daff59ff4859d62459ee7579d6ef09bab2183b86"
+    },
+    {
+      "path": "02_外发版-基于weakness和skill+的数据构造方案.txt",
+      "bytes": 46823,
+      "sha256": "7b4e1600db0d81c15215ed485a65b22e219969175712a717772f8a3f362546f5"
+    },
+    {
+      "path": "03_外发版-评测题包交付规范（rewardkit）20260913.txt",
+      "bytes": 133974,
+      "sha256": "e8e3424e8b6eb203ff112a240071c9fe88478100fccb5524f6bb0a91520d1af8"
+    },
+    {
+      "path": "04_AQ-001（一个交付格式的案例）.zip",
+      "bytes": 153444,
+      "sha256": "02f76c54b68023b3bcf218d8fb37a56214d6a1b61f5ca6108f99ad194184e953"
+    },
+    {
+      "path": "05_feishu_RL01_GuidelineV1.1.md",
+      "bytes": 29760,
+      "sha256": "20089fbcfb88066560a0cc3d9600d617fca6b5eafdc71cc35d0545b23795b32c"
+    },
+    {
+      "path": "06_qc_20260928_browser.txt",
+      "bytes": 170837,
+      "sha256": "0563b17d8fbfe3d3cf0baa6c89d157609f15c922d2e472f3bd907ec42ec0e4fa"
+    },
+    {
+      "path": "06_qc_20260928_reading.txt",
+      "bytes": 35851,
+      "sha256": "65a8c18813cb863af193df422dfb0a2a1e03111d0b5381e4c1e5e58700a60476"
+    },
+    {
+      "path": "07_internal_expert_20260928_browser.txt",
+      "bytes": 197436,
+      "sha256": "e0783c056b97d3edfabb094bb6b20bc8ded8220d10e24d38dcf063c235008985"
+    },
+    {
+      "path": "07_internal_expert_20260928_reading.txt",
+      "bytes": 36584,
+      "sha256": "9398ca69baf586add9d090bc03369738b094f3a20ed1dd65ae4f5616a33327f3"
+    },
+    {
+      "path": "08_expert_20260928_browser.txt",
+      "bytes": 196938,
+      "sha256": "2116ec16165565c6f0178783347d1cd21e2b39ffce5c10f4c93854df3940239e"
+    },
+    {
+      "path": "08_expert_20260928_reading.txt",
+      "bytes": 37003,
+      "sha256": "cc4be4261a35d6485b74c73bca24d09696085420db42f1c0355382d11b2af76f"
+    },
+    {
+      "path": "expert-images/00.webp",
+      "bytes": 133572,
+      "sha256": "49909e817690638e23cc2d0fc6561e197d3c2708cb0d05dc67e4ca65a7eae7d1"
+    },
+    {
+      "path": "expert-images/01.webp",
+      "bytes": 213480,
+      "sha256": "732495e718f072111979dc37d86d786524ba37a5af7fa53f92e8b30d38af4c95"
+    },
+    {
+      "path": "expert-images/02.webp",
+      "bytes": 94204,
+      "sha256": "3eac34848bdd6e01215fd87c678c9c96cb83d4be1757607a1822ff7367805d8e"
+    },
+    {
+      "path": "expert-images/03.webp",
+      "bytes": 131644,
+      "sha256": "c7288c6e5877e5423bb150f4289179504cf7752bc0a885ccee2d74afa62f4e26"
+    },
+    {
+      "path": "expert-images/04.webp",
+      "bytes": 85948,
+      "sha256": "a79f4bae5fa188176da290c350cd889a6cdc6801dca7e87b0032edf475e6184b"
+    },
+    {
+      "path": "expert-images/05.webp",
+      "bytes": 87744,
+      "sha256": "808759a7b82ac497012ae3121bc8fefb63fc4f27c6264f1fb9617c362ec86ec0"
+    },
+    {
+      "path": "expert-images/06.webp",
+      "bytes": 275510,
+      "sha256": "8a37a5d41104d7f39f07d245fac7232a7d0def38e52e461eefc6aacdf7aaf19f"
+    },
+    {
+      "path": "expert-images/07.webp",
+      "bytes": 53046,
+      "sha256": "241ca1cf22d829ae0f0bff903edff797eb1e7d1f5adcade5ce7dc29e00052c43"
+    },
+    {
+      "path": "expert-images/08.webp",
+      "bytes": 171442,
+      "sha256": "0f19b79ffa09ca01949069aade9691d03a4ea43a1ab35aa7e618fb1225c8274b"
+    },
+    {
+      "path": "expert-images/09.webp",
+      "bytes": 116216,
+      "sha256": "a7a8976c1aea9c67caa2cb1052867a7afd5003143b8a758ef55bcbc73baa2e15"
+    },
+    {
+      "path": "expert-images/10.webp",
+      "bytes": 151964,
+      "sha256": "8a5bc2618163c589b19dca2ab3def00b415f61f0d3488a92f58528d9dcd06a03"
+    },
+    {
+      "path": "expert-images/11.webp",
+      "bytes": 174066,
+      "sha256": "a9908d8ed9ca70cd298577d79c4bd8783a8d036acf7a29ddd8fe22c066df3ebc"
+    },
+    {
+      "path": "expert-images/12.webp",
+      "bytes": 274124,
+      "sha256": "d4dad15c00c4ace9e5f8be70cecaee0f53f67b6dc9b5fb52942292556c8b9b6b"
+    },
+    {
+      "path": "expert-images/13.webp",
+      "bytes": 261460,
+      "sha256": "c9cc72e8b0613dd750339b7455d30f4e0f9a92e63086c31f37276409a042c30e"
+    },
+    {
+      "path": "expert-images/14.webp",
+      "bytes": 49624,
+      "sha256": "698d942e28499871619482766d65a1160c6ce176246e34879609944184d078ef"
+    },
+    {
+      "path": "expert-images/15.webp",
+      "bytes": 150192,
+      "sha256": "ec1d0bb914d242c5f2066a8434c8ac483d8e72d3d2cb6e6ee5707cf54fd0fc70"
+    },
+    {
+      "path": "expert-images/16.webp",
+      "bytes": 153578,
+      "sha256": "f466f70afa85dd8b728b474ab9b7ea62f6e4472f73e9763c9ea7b59647a49179"
+    },
+    {
+      "path": "expert-images/17.webp",
+      "bytes": 139436,
+      "sha256": "4e790d3edba28cdad282e1a10f682523063376e30a01785ff1f7d7c40a7ffe6d"
+    },
+    {
+      "path": "expert-images/18.webp",
+      "bytes": 128626,
+      "sha256": "352d60b5f77936e1a9da18692276d194a4665f9f4585c7c623f9208585390c5d"
+    },
+    {
+      "path": "expert-images/19.webp",
+      "bytes": 139770,
+      "sha256": "e39784a9cee6588f2e40477e6b09e6ca9cc3661fc9c29603d373b675b1300882"
+    },
+    {
+      "path": "expert-images/20.webp",
+      "bytes": 131440,
+      "sha256": "d92237c55c3f127cffda4afa4311de8160e27dbc13130b62d9371205b9031269"
+    },
+    {
+      "path": "expert-images/21.webp",
+      "bytes": 129532,
+      "sha256": "dce37a4f2676852fcec6f036456b819fc7c78d1b6cdf213786de9fb7e37cf84c"
+    },
+    {
+      "path": "expert-images/22.webp",
+      "bytes": 130872,
+      "sha256": "66d8538c99bcb228572418730fbd2c68c38b220c17a485df1d704fa916867cea"
+    },
+    {
+      "path": "expert-images/23.webp",
+      "bytes": 35678,
+      "sha256": "6e9adfbc0e1139d794736f474f2d7200236fd4d33056ca52c37899b2dae4ee1c"
+    },
+    {
+      "path": "expert-images/24.webp",
+      "bytes": 139966,
+      "sha256": "706dd803ef320cca79f5e8763aa386c17d48765a94137594db411a92b0b0d7ca"
+    },
+    {
+      "path": "expert-images/manifest.json",
+      "bytes": 9906,
+      "sha256": "044e372c127c4384c8070f2eed43491fc162e11be946658de9366338836bf09e"
+    },
+    {
+      "path": "feishu-images/00.png",
+      "bytes": 605178,
+      "sha256": "134371de11a27d06f3813fc1642aa4e6ad9d95af2452b1e71dd34f3084d6e6af"
+    },
+    {
+      "path": "feishu-images/01.png",
+      "bytes": 1709909,
+      "sha256": "e5af0c353b06ad9004281db2764e424634229732aef6ea72c0769de418d80107"
+    },
+    {
+      "path": "feishu-images/02.png",
+      "bytes": 1523133,
+      "sha256": "efaae549e323307e7bf4318c43b0e8b42bda5c750f8fbe93ed9b16634a059cd8"
+    },
+    {
+      "path": "feishu-images/03.png",
+      "bytes": 1375160,
+      "sha256": "df44b4d5c51ea4c96d23d826ff78c29fb7771fbfc4ec4f5578c9e9ab5ac65980"
+    },
+    {
+      "path": "feishu-images/04.png",
+      "bytes": 1369581,
+      "sha256": "8f338a02064fc327c3fdecab24c652c6db9cc9d6cc22016762797910b13efef7"
+    },
+    {
+      "path": "feishu-images/05.png",
+      "bytes": 1376293,
+      "sha256": "9c0cb34a6cab796c6ca58542b1c31e59d4fb3a27d3fd5bdd980ff48164e29bf1"
+    },
+    {
+      "path": "feishu-images/06.png",
+      "bytes": 1375367,
+      "sha256": "1f11b26f244ee199ed4312d99a922088b6e4db143780898478b69d108f08f42c"
+    },
+    {
+      "path": "feishu-images/07.png",
+      "bytes": 1378314,
+      "sha256": "a536e065da3f2841437ac735f176ecac9b7da8e2e0fbf2d78a4e6a0b557c7392"
+    },
+    {
+      "path": "feishu-images/08.png",
+      "bytes": 171651,
+      "sha256": "9f56f1018251b05172e492ae4f9d636a3567b3581a7ff1ca96561b88410c0183"
+    },
+    {
+      "path": "feishu-images/09.png",
+      "bytes": 1381963,
+      "sha256": "0cef7164352afd2e3f69568ae7ef606a1347a91a3079784043770381fbe6b0bb"
+    },
+    {
+      "path": "feishu-images/manifest.json",
+      "bytes": 1854,
+      "sha256": "37544ee8f5010981fce129c8a83ea9d8f03ca841842f06845cab68731b9f85fb"
+    },
+    {
+      "path": "history/20260921/01_RL0-1-数据生产规范GuidelineV1.1--20260920+for外部供应商.txt",
+      "bytes": 22980,
+      "sha256": "5eb7f945ce1de78c8e92486704448d93102ebad5d8a4b83d8cf7781735c41693"
+    },
+    {
+      "path": "history/20260921/02_外发版-基于weakness和skill+的数据构造方案.txt",
+      "bytes": 24123,
+      "sha256": "8a53fcc014092f4f5ea02a21e6874999f6473ed2a8a27c9eaa78ab78985adde9"
+    },
+    {
+      "path": "history/20260921/20260913外发版-基于weakness和skill+的数据构造方案.pdf",
+      "bytes": 975395,
+      "sha256": "88cdb7ed794d3e0752fe079c25b0e82949f72797c27bd8036d8447e01b0d775d"
+    },
+    {
+      "path": "history/20260921/RL0-1-数据生产规范GuidelineV1.1--20260920+for外部供应商.pdf",
+      "bytes": 968404,
+      "sha256": "ef016d0ddd8f197334c148456b27454191342150c05f2c71dfcf36326135d8dc"
+    },
+    {
+      "path": "image-reading-20260928.md",
+      "bytes": 2524,
+      "sha256": "324a341a61a8894632cde4bb14e2c637937bdbd44de45cbe2e0701c5745e7e42"
+    },
+    {
+      "path": "pdf/20260913外发版-基于weakness和skill+的数据构造方案.pdf",
+      "bytes": 1333650,
+      "sha256": "6a4bbe7094b9b8e802c6e760c09b9948d0b2faa545efb70a034deddf77e14d39"
+    },
+    {
+      "path": "pdf/RL0-1-数据生产规范GuidelineV1.1--20260920+for外部供应商.pdf",
+      "bytes": 972397,
+      "sha256": "7e1ed0f16a44fae28fea9464196b8a900d1ce5460a714e903a46daf55b6f6e6f"
+    },
+    {
+      "path": "pdf/外发版-评测题包交付规范（rewardkit）20260913.pdf",
+      "bytes": 3417524,
+      "sha256": "7753ed8b89a51fac5cb5dbe684faa48ca188781132f9c5fa7f8408da3abec36e"
+    }
+  ]
+}

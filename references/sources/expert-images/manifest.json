@@ -1,0 +1,155 @@
+{
+  "note": "Read-only copies of observed image resources embedded in both expert documents; images were fetched in the authenticated document iframe. No credential material is stored.",
+  "images": [
+    {
+      "file": "00.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde5bb626a6a2deffbbd7bb145d35fd9037675b8339e1c4c24831b75b38faadcd24bec177c308ebd53040db464bf1383d55d981f6807cd3efb793be3236231a80c70c5555cee748e51d90b58d146b5cd96f04fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1910
+    },
+    {
+      "file": "01.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde5bb626a6a2deffbbd7bb145d35fd9037675b8339e1c4c24831b75b38faadcd24bec177c308ebd53042093dfef2bcc89180d48dc58ff388303139a356087d98ffa61dee9d20e88c3ceaa84060d62e6e49a4fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1914
+    },
+    {
+      "file": "02.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde56ebec5446ea53059e4f29fc34494256375b8339e1c4c24831b75b38faadcd24bec177c308ebd530468e0af0e8ae512c969c021028ebc86a057f2a4762d89eef78497f140e62aa70ba3e1d2d3c677e8cd4fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1916
+    },
+    {
+      "file": "03.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde56ebec5446ea53059e4f29fc34494256375b8339e1c4c24831b75b38faadcd24bec177c308ebd5304fcf9220dab74ab2389c1f09bda1364acf49d3fd5842665a1320c9893c717da78bc0349313d0da6204fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 2190,
+      "height": 3748
+    },
+    {
+      "file": "04.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde56ebec5446ea53059e4f29fc34494256375b8339e1c4c24831b75b38faadcd24bec177c308ebd53049ed215c2bec464c9a63d3d3848d07bba761c4d984087138bdf33d475314447fd655d64dcddae32dd4fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 2234,
+      "height": 1894
+    },
+    {
+      "file": "05.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde56ebec5446ea53059e4f29fc34494256375b8339e1c4c24831b75b38faadcd24bec177c308ebd5304817feb4be2706f26388094b85f1c226422ee1e71811abe942886b70bfd68e2edbb83744b2964b9914fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1908
+    },
+    {
+      "file": "06.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde56ebec5446ea53059e4f29fc34494256375b8339e1c4c24831b75b38faadcd24bec177c308ebd530406001cb410ccfa19b4d52ac23d66f0d3a836b90d3163ce6c0ded1afc723717ade644bdb85cedfb794fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1902
+    },
+    {
+      "file": "07.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde56ebec5446ea53059e4f29fc34494256375b8339e1c4c24831b75b38faadcd24bec177c308ebd5304c155368f7f4cbd20b023729c345c8cec66f600613b491e8e5c6126ec3458d02ca0406afd4a92896d4fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1908
+    },
+    {
+      "file": "08.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde56ebec5446ea53059e4f29fc34494256375b8339e1c4c24831b75b38faadcd24bec177c308ebd5304429b8dea159e4e8a372e07cc9ea279574ad2a2a7313c67f715a5c3693021a381c2d346978307c57d4fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1908
+    },
+    {
+      "file": "09.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde56ebec5446ea53059e4f29fc34494256375b8339e1c4c24831b75b38faadcd24bec177c308ebd53042bf5ec8f496a70253e8be4153469b828fb3fc2fadb5477859c9e15f172fbd621db0f1daac6ccdbcd4fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1924
+    },
+    {
+      "file": "10.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde56ebec5446ea53059e4f29fc34494256375b8339e1c4c24831b75b38faadcd24bec177c308ebd53045d3bf83b15134bf8a78cf733a6cb4a60027ce37fd7e8ba20c1d753869c68f451f036b8fd606d28714fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1908
+    },
+    {
+      "file": "11.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde56ebec5446ea53059e4f29fc34494256375b8339e1c4c24831b75b38faadcd24bec177c308ebd5304c4a403516ce3e75497ff24a6244f2fd88e4a4a9e8d1a185e4bc18c4986b62f583a92d5a445c9655e4fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1920
+    },
+    {
+      "file": "12.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde56ebec5446ea53059e4f29fc34494256375b8339e1c4c24831b75b38faadcd24bec177c308ebd5304bebf6000ef12590c9b95338c5ce244b65a2e17f2872dfe91b41a5f00e97ac13c9c1b3f5186beb7bf4fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1902
+    },
+    {
+      "file": "13.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde56ebec5446ea53059e4f29fc34494256375b8339e1c4c24831b75b38faadcd24bec177c308ebd5304a08572324e39d78619754b544db5282dc7a52402e95749801941385367dea2253f19057beeee6a874fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1902
+    },
+    {
+      "file": "14.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde56ebec5446ea53059e4f29fc34494256375b8339e1c4c24831b75b38faadcd24bec177c308ebd53045cbf93afeb550678d5190e94140488ecede13d3e3699119465d611f12142bce3496e1f3297dceb384fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1902
+    },
+    {
+      "file": "15.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde56ebec5446ea53059e4f29fc34494256375b8339e1c4c24831b75b38faadcd24bec177c308ebd530447874880b874c7a54d9d84444b27723c222e398d81a32b44bebb23f3706fea4667205fb71ff188374fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3024,
+      "height": 1646
+    },
+    {
+      "file": "16.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde5bb626a6a2deffbbd7bb145d35fd9037675b8339e1c4c24831b75b38faadcd24bec177c308ebd530464dd92c89961b4db9639c435a2bf3d6e77f0b4d26a9bf041b4f68f6b3ed18b8cd4976161e3f682844fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 2376,
+      "height": 4829
+    },
+    {
+      "file": "17.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde5bb626a6a2deffbbd7bb145d35fd9037675b8339e1c4c24831b75b38faadcd24bec177c308ebd53049e394e11276a3dba13eb66bbaded702790cf9ee09bacddaaf714d5fadc4c1355bae2ebd987c3113b4fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1910
+    },
+    {
+      "file": "18.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde5bb626a6a2deffbbd7bb145d35fd9037675b8339e1c4c24831b75b38faadcd24bec177c308ebd5304f5d0355adefda73a4966abb3727c26ee17dfa9e0a3e3b8cd27f76bd882f4ec9a6840a24ff142254f4fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1908
+    },
+    {
+      "file": "19.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde5bb626a6a2deffbbd7bb145d35fd9037675b8339e1c4c24831b75b38faadcd24bec177c308ebd5304abe25a8aa7e95a7fcfb6f38347ec20a861ea3a4e3f348bbc33a49e74f3f2e2e01e828db1996e3ab84fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3836,
+      "height": 1898
+    },
+    {
+      "file": "20.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde5bb626a6a2deffbbd7bb145d35fd9037675b8339e1c4c24831b75b38faadcd24bec177c308ebd5304e77ff70b8ea8427f214791af08e798a1e9da1180493903d1820d9f0c2f284bd7f7622b9c672b82124fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1904
+    },
+    {
+      "file": "21.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde5bb626a6a2deffbbd7bb145d35fd9037675b8339e1c4c24831b75b38faadcd24bec177c308ebd53040d95eb2119f0bacf341f21611697e574b808bab7d9bab6ef3667e7d7b0048eda8b7a7a2ab38531e54fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1908
+    },
+    {
+      "file": "22.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde5bb626a6a2deffbbd7bb145d35fd9037675b8339e1c4c24831b75b38faadcd24bec177c308ebd5304a001e240a469972a43c416352e68d55d12d06dc8d993765771b82bc0498d8f52dc61121f5b9c210b4fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1912
+    },
+    {
+      "file": "23.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde5bb626a6a2deffbbd7bb145d35fd9037675b8339e1c4c24831b75b38faadcd24bec177c308ebd53040b198c5b8b3145a716b4d9f4400026c143bce03f55ec7efe6fc15de2cc2b3696607c3fc3bbc3f8c04fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 2298,
+      "height": 1722
+    },
+    {
+      "file": "24.webp",
+      "url": "https://alidocs.dingtalk.com/core/api/resources/img/5eecdaf48460cde5bb626a6a2deffbbd7bb145d35fd9037675b8339e1c4c24831b75b38faadcd24bec177c308ebd530472976383b56e9604c763f4cb38b67c2d410964669099c36f4163c5b3d0b0d5cf99daa3ad2c75a05c4fb4c8ed7016461c?x-oss-process=image/format,webp/ignore-error,1",
+      "width": 3840,
+      "height": 1914
+    }
+  ]
+}
