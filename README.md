@@ -2,7 +2,7 @@
 
 当前多领域RL0-1生产Skill及网页Pro工程资料，工程版本20261003.1。
 
-技能入口为[SKILL.md](SKILL.md)。网页作者先读[当前工程导航](project-support/20261003/31_20261003_当前工程导航.md)，取得[离线工程资料包](dist/RL01_author_engineering_20261003_1.zip)，核对manifest并实际运行冒烟检查。它包含当前目录/ZIP检查器、固定模板、JSON schema、统一JSON/TOML生成器及合成格式回归，覆盖档位端点键、数组结构和待确认环境标识。
+技能入口为[SKILL.md](SKILL.md)。网页操作端先读[启动与文件挂载](project-support/20261003/37_20261003_网页Pro启动与文件挂载.md)，将当前小工程ZIP直接随制作消息附上，再读[当前工程导航](project-support/20261003/31_20261003_当前工程导航.md)，取得[离线工程资料包](dist/RL01_author_engineering_20261003_1.zip)，核对manifest并实际运行冒烟检查。它包含当前目录/ZIP检查器、固定模板、JSON schema、统一JSON/TOML生成器及合成格式回归，覆盖档位端点键、数组结构和待确认环境标识。
 
 当前项目指令见[project-instructions.txt](project-support/20261003/project-instructions.txt)。金融业务继续使用[用户原始Prompt](project-support/20261002/27_20261002_金融Pro生产Prompt_用户原文.md)，后续本地Harbor；医疗使用[当前医疗Prompt](project-support/20261003/35_20261003_医疗Pro生产Prompt.md)，后续本地仅检查交付格式；其他领域使用[当前通用Prompt](project-support/20261003/36_20261003_多领域Pro生产Prompt.md)，按当轮范围执行。
 

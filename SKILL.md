@@ -23,7 +23,7 @@ description: Design, improve, review, calibrate and package Appen RL0-1 Harbor r
 
 出题或加难时读[构造方案](references/construction-plan.md)、[W1—W14词表](references/weakness-catalog.md)、[A3与批量生产](references/a3-production.md)，同时读[质检规则](references/quality-review.md)。选定金融场景时用[生产规范与知识体系](references/rl01-guideline.md)核对标签。
 
-网页Pro制作或本地接力时必读[Golden接力与量表回归](references/pro-golden-handoff.md)和[网页作者工程资料](references/web-author-engineering.md)。先实际取得当前检查器、固定模板和hash清单，执行工程冒烟检查；网页项目文件列表可见不等于作者已读取或运行。网页交包前必做逐条Pro模拟Golden及反方复查，保留分数、证据和修复记录，不能因缺外部Judge跳过。当前用户要求所有领域网页作者Golden严格>0.85，目标1.0，客户通用≥0.85另记；金融后续本地跑Harbor，医疗后续本地仅delivery_format_only。后续其他领域按当轮范围处理，不自动继承金融运行流程。用户要求极难、复杂或增加坑点时读[金融高难度设计](references/adversarial-finance-design.md)；为候选模型及Judge启动请求前读[运行与10次重试](references/execution-reliability.md)。这些是用户目标及本地生产方法，不冒充客户新增验收条款。
+网页Pro制作或本地接力时必读[Golden接力与量表回归](references/pro-golden-handoff.md)、[网页作者工程资料](references/web-author-engineering.md)及[网页启动与挂载](references/web-pro-startup.md)。网页操作端开启Pro制作时将当前小工程ZIP直接附到制作消息；先实际取得当前检查器、固定模板和hash清单，执行工程冒烟检查，项目文件列表可见不等于原件已进入本轮代码环境。网页交包前必做逐条Pro模拟Golden及反方复查，保留分数、证据和修复记录，不能因缺外部Judge跳过。当前用户要求所有领域网页作者Golden严格>0.85，目标1.0，客户通用≥0.85另记；金融后续本地跑Harbor，医疗后续本地仅delivery_format_only。后续其他领域按当轮范围处理，不自动继承金融运行流程。用户要求极难、复杂或增加坑点时读[金融高难度设计](references/adversarial-finance-design.md)；为候选模型及Judge启动请求前读[运行与10次重试](references/execution-reliability.md)。这些是用户目标及本地生产方法，不冒充客户新增验收条款。
 
 已授权运行的任务先读[VPS／Bohrium自主选机](references/runtime-selection.md)。用户2026-10-03要求后续自主决定使用VPS还是Bohrium：按任务所需回执、实际隔离能力、依赖、队列和资源选择，不再把正常选机作为需要用户确认的步骤。原生Harbor或严格容器资源要求优先用具备能力的VPS；符合已验证直跑范围且资源更合适时，可直接选Bohrium。冻结前确定主机和执行方式，记录私有选择回执；本地直跑证据如实记录`native_harbor_trial=false`。
 

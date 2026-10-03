@@ -1,7 +1,7 @@
 {
   "snapshot_date": "2026-10-03",
   "engineering_version": "20261003.1",
-  "created_at_utc": "2026-10-03T02:03:49.791054+00:00",
+  "created_at_utc": "2026-10-03T02:30:34.424240+00:00",
   "skill_name": "rl01-agent-task-production",
   "skill_source_files": [
     {
@@ -30,8 +30,8 @@
     },
     {
       "path": "SKILL.md",
-      "bytes": 14821,
-      "sha256": "d2712f8efcb44eee94e4743f2ca2b1c618cd3156ea12077b9036a884e34bc273",
+      "bytes": 14962,
+      "sha256": "3bd23107c2366bb0bcf51c77419187b446bd591fa46418ab8ea7c1fc087f2c7f",
       "executable": false
     },
     {
@@ -611,6 +611,12 @@
       "executable": false
     },
     {
+      "path": "references/web-pro-startup.md",
+      "bytes": 1720,
+      "sha256": "939438b5eacf9942e2abb934719ed82463ee96c3d44133ab1433f4e32173d09c",
+      "executable": false
+    },
+    {
       "path": "scripts/author_engineering_smoke.py",
       "bytes": 5121,
       "sha256": "1bd8be99747abb185867d921be96158e2cbe044cfd25eab677ea3732405b1344",
@@ -733,5 +739,6 @@
   ],
   "project_support": "project-support/20261003",
   "legacy_support_retained": "project-support/20261002",
-  "original_finance_prompt_retained": true
+  "original_finance_prompt_retained": true,
+  "startup_rule": "direct_current_kit_attachment"
 }
