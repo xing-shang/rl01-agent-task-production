@@ -1,6 +1,6 @@
 ---
 name: rl01-agent-task-production
-description: Design, improve, review, calibrate and package Appen RL0-1 Harbor rewardkit tasks, including batch A3 production, Skill/Workflow and weakness cases, client quality checks, and personal Feishu submission-table fields and attachment naming. Tracks current client sources and answered versus pending rule clarifications; excludes the separate audit L3/L4 Harbor v4 contract.
+description: Design, improve, review, calibrate and package Appen RL0-1 Harbor rewardkit tasks, including batch A3 production, automatic VPS/Bohrium runtime selection, Skill/Workflow and weakness cases, client quality checks, and personal Feishu submission-table fields and attachment naming. Tracks current client sources and answered versus pending rule clarifications; excludes the separate audit L3/L4 Harbor v4 contract.
 ---
 
 # RL0-1 Agent Task Production
@@ -23,15 +23,19 @@ description: Design, improve, review, calibrate and package Appen RL0-1 Harbor r
 
 出题或加难时读[构造方案](references/construction-plan.md)、[W1—W14词表](references/weakness-catalog.md)、[A3与批量生产](references/a3-production.md)，同时读[质检规则](references/quality-review.md)。选定金融场景时用[生产规范与知识体系](references/rl01-guideline.md)核对标签。
 
-网页Pro制作或本地接力时必读[Golden接力与量表回归](references/pro-golden-handoff.md)，网页交包前必做逐条Pro模拟Golden及反方复查，保留分数、证据和修复记录，不能因缺外部Judge跳过。用户要求极难、复杂或增加坑点时读[金融高难度设计](references/adversarial-finance-design.md)；为候选模型及Judge启动请求前读[运行与10次重试](references/execution-reliability.md)。这些是用户目标及本地生产方法，不冒充客户新增验收条款。
+网页Pro制作或本地接力时必读[Golden接力与量表回归](references/pro-golden-handoff.md)和[网页作者工程资料](references/web-author-engineering.md)。先实际取得当前检查器、固定模板和hash清单，执行工程冒烟检查；网页项目文件列表可见不等于作者已读取或运行。网页交包前必做逐条Pro模拟Golden及反方复查，保留分数、证据和修复记录，不能因缺外部Judge跳过。当前用户要求所有领域网页作者Golden严格>0.85，目标1.0，客户通用≥0.85另记；金融后续本地跑Harbor，医疗后续本地仅delivery_format_only。后续其他领域按当轮范围处理，不自动继承金融运行流程。用户要求极难、复杂或增加坑点时读[金融高难度设计](references/adversarial-finance-design.md)；为候选模型及Judge启动请求前读[运行与10次重试](references/execution-reliability.md)。这些是用户目标及本地生产方法，不冒充客户新增验收条款。
 
-使用用户指定VPS运行、配置缓存/low或安排Golden与候选并发时，读[VPS与Harbor运行](references/vps-harbor.md)。后续默认复用独立前缀`/opt/rl01-harbor`，默认总并发8，新题Agent与Verifier默认内存上限2GiB（2048MiB），先核对现用session和资源。用户2026-10-01最终更正：low仅用于三指定候选模型在Harbor中的作答。Golden生成、Golden评审、正式判分及出题复核等其他环节沿各自默认或明确指定的思考设置，不因本项降低思考程度，也不擅自指定high。用户2026-10-01允许完成预检和冻结后并行预跑Golden与候选，候选先留产物与轨迹，Golden有效通过后统一补判。多题使用plan-batch/run-batch，单题run和补判也进入同一个持久队列；多session按题轮流共享8个总槽位。run异步返回，查看status确认真实状态；grade-batch逐题通过独立Verifier的Golden后补判候选，单题同时运行上限仍为4，8是全部题目共享的总上限。并行预跑不等于已通过难度门槛。
+已授权运行的任务先读[VPS／Bohrium自主选机](references/runtime-selection.md)。用户2026-10-03要求后续自主决定使用VPS还是Bohrium：按任务所需回执、实际隔离能力、依赖、队列和资源选择，不再把正常选机作为需要用户确认的步骤。原生Harbor或严格容器资源要求优先用具备能力的VPS；符合已验证直跑范围且资源更合适时，可直接选Bohrium。冻结前确定主机和执行方式，记录私有选择回执；本地直跑证据如实记录`native_harbor_trial=false`。
 
-用户2026-10-01转述已与甲方线下确认允许单份答案的Rubric条目并行评分。按这一会话授权，后续新VPS运行默认每个独立Verifier同时评分2条，全部请求仍共享8路上游；报告沿正常格式，不额外添加并发说明，原始运行回执保留真实配置，不写虚假的串行执行或伪造回执。S03原文的“逐条串行”保留为原书面口径，不能宣称已取得新的客户书面文件。固定题包模板和评分定义保持原内容，独立Verifier先复评Golden，再用同一运行版本补判候选。
+选VPS时读[VPS与Harbor运行](references/vps-harbor.md)，复用`/opt/rl01-harbor`及其共享队列；选Bohrium时读[Bohrium隔离直跑](references/bohrium-direct.md)，复用`/opt/rl01-direct`和本技能收录的已验证组件。VPS队列总并发8、单题上限4，新题Agent与Verifier默认2GiB硬上限；Bohrium当前约4GiB容器先限制整机最多2个CLI会话，每会话2GiB采样监控，不能称为单会话硬cgroup限额。两台当前没有跨机共享限流，分布执行前须实际协调总预算，不能将两个8路锁当成一个跨机8路锁。
+
+用户2026-10-01最终更正：low仅用于三指定候选模型在Harbor中的作答；Bohrium已验证的直跑候选沿CLI／供应商默认设置。Golden生成、Golden评审、正式判分及出题复核等其他环节沿各自默认或明确指定的思考设置，不因选机降低或提高思考程度。用户已允许预检和冻结后并行预跑同版本Golden与候选，候选先留产物与轨迹，Golden有效通过后统一补判。VPS使用plan-batch/run-batch及grade-batch；Bohrium按整机资源控制调度。异步启动后继续核对进程、产物、全部评分条目和真实终态；并行预跑不等于已通过难度门槛。
+
+用户2026-10-01转述已与甲方线下确认允许单份答案的Rubric条目并行评分。按这一会话授权，VPS与Bohrium的独立Verifier默认同时评分2条；全部请求沿既有8路预算，并受所选主机资源约束。报告沿正常格式，不额外添加并发说明，原始运行回执保留真实配置，不写虚假的串行执行或伪造回执。S03原文的“逐条串行”保留为原书面口径，不能宣称已取得新的客户书面文件。固定题包模板和评分定义保持原内容，独立Verifier先复评Golden，再用同一运行版本补判候选。
 
 写题面、Docker或Harbor配置时读[交付合同](references/rewardkit-delivery-contract.md)。写或复核Rubric时读[评分规则](references/rubrics-and-scoring.md)和质检规则。跑分、封包、返修或交付时读[打包与证据核验](references/packaging-and-qa.md)。只有用户要求平台操作时，才读[平台作业流程](references/platform-workflow.md)，确认当前页面属于0917新版还是0909旧版。
 
-设置用户的飞书提交表、整理附件名称或为该表准备交付文件时，读[提交表列设置与文件命名](references/submission-table-and-naming.md)，通过lark-base和飞书CLI核对真实字段及视图。采用用户2026-10-02选择的列方案，自动编号在第一列、题目编号在第二列，不设截图列。金融领域二级标签按S01的Fin1—Fin9填写，能力专项一级、二级按S02的专项表核对。Weakness-driven为并列构造分支，读取其category与weakness_tag核对分类；不能将专项列空值直接解释为题包缺分类，也不自行把Weakness分支扩成已确认的专项枚举。弱点标签必须逐值符合S02正文B列并有题内触发，旧名称或自定义Bad Pattern说明不直接充当正式标签。首次提交前的内部修改仍按首次提交准备，不加“返修”或`_fixN`；只有真实客户返修重交才使用返修命名。个人表的附件命名约定与S03的包内目录、Harbor题目编号分别管理。
+设置用户的飞书提交表、整理附件名称或为该表准备交付文件时，读[提交表列设置与文件命名](references/submission-table-and-naming.md)，通过lark-base和飞书CLI核对真实字段及视图。采用用户2026-10-02选择的列方案，自动编号在第一列、题目编号在第二列，不设截图列。个人表外层附件统一使用`<领域>-<YYYYMMDD>-澳鹏RL0-1-<真实task_id>.zip`，自动编号只作为表内记录索引。金融领域二级标签按S01的Fin1—Fin9填写，能力专项一级、二级按S02的专项表核对。Weakness-driven为并列构造分支，读取其category与weakness_tag核对分类；不能将专项列空值直接解释为题包缺分类，也不自行把Weakness分支扩成已确认的专项枚举。弱点标签必须逐值符合S02正文B列并有题内触发，旧名称或自定义Bad Pattern说明不直接充当正式标签。首次提交前的内部修改仍按首次提交准备，不加“返修”或`_fixN`；只有真实客户返修重交才使用返修命名。个人表的附件命名约定与S03的包内目录、Harbor题目编号分别管理。
 
 解释争议条款时回到`sources/`中的原文相应范围。浏览器文字快照、逐页PDF文本和图片的读取范围见来源表；不能把单次页面快照或字数统计当作全文已读。
 

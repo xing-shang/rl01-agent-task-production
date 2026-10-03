@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RL0-1 local author rubric serialization",
+  "$comment": "Local author schema derived from S06 and maintained checker; not a client-issued official schema. Pool arithmetic, negate consistency and cross-file semantics require check_rl01_package.py.",
+  "type": "object",
+  "required": [
+    "metadata",
+    "items"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": [
+        "scoring"
+      ],
+      "properties": {
+        "scoring": {
+          "type": "object",
+          "required": [
+            "s_max"
+          ],
+          "properties": {
+            "s_max": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          }
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "description",
+          "dimension",
+          "criterion_type",
+          "criterion_necessity",
+          "type",
+          "weight",
+          "negate"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "description": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "dimension": {
+            "enum": [
+              "指令遵循",
+              "内容质量-结论正确性",
+              "内容质量-数值与计算准确性",
+              "内容质量-专业规范",
+              "内容质量-分析与论证质量",
+              "内容质量-事实忠实性",
+              "结构与组织",
+              "操作与交付安全",
+              "安全合规",
+              "超预期贡献",
+              "视觉美感"
+            ]
+          },
+          "criterion_type": {
+            "enum": [
+              "Objective",
+              "Subjective"
+            ]
+          },
+          "criterion_necessity": {
+            "enum": [
+              "Explicit",
+              "Implicit"
+            ]
+          },
+          "type": {
+            "enum": [
+              "Binary",
+              "Gradient",
+              "binary",
+              "gradient"
+            ]
+          },
+          "weight": {
+            "enum": [
+              -10,
+              -7,
+              -3,
+              3,
+              7,
+              10
+            ]
+          },
+          "negate": {
+            "type": "boolean"
+          },
+          "levels": {
+            "type": "object",
+            "required": [
+              "0",
+              "0.25",
+              "0.5",
+              "0.75",
+              "1"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "0": {
+                "type": "string",
+                "pattern": "\\S"
+              },
+              "0.25": {
+                "type": "string",
+                "pattern": "\\S"
+              },
+              "0.5": {
+                "type": "string",
+                "pattern": "\\S"
+              },
+              "0.75": {
+                "type": "string",
+                "pattern": "\\S"
+              },
+              "1": {
+                "type": "string",
+                "pattern": "\\S"
+              }
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "enum": [
+                    "Gradient",
+                    "gradient"
+                  ]
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "required": [
+                "levels"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

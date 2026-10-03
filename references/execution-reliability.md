@@ -29,3 +29,5 @@
 这份要求是运行策略，不是客户评分逻辑。实现放本地runner/代理/SDK配置及私有验证工具；固定test.sh与finalize.py保持客户模板。更新本Skill不等于正在运行的其他会话进程已热更新，应在下次启动时核验。
 
 2026-10-01的[VPS运行参考](vps-harbor.md)给出独立安装、三候选模型作答的low、缓存与并行预跑入口；其他环节不强制low，沿各自默认或明确设置。`scripts/vps_request_proxy.py`为Agent和Judge共用的缓冲代理；`scripts/test_vps_runtime.py`做本地故障注入，验证11次预算、HTTP200内错误、SSE完整终止及body超时。代理预算耗尽以明确的终止错误阻止外层SDK重启预算，私有审计保留原始HTTP状态。此实现不修改客户端固定评分模板，也不热更新其他运行中的session。
+
+2026-10-03纳入[Bohrium直跑参考](bohrium-direct.md)。其已验证组件位于`scripts/bohrium_runtime/`，`reliable_proxy.py`在等待上游响应头、响应体和退避期间保持下游连接，完整校验通过后只交付一次真实响应；修复了旧直跑入口在响应头延迟时提前断开的缺陷。相同11次预算覆盖候选与Judge，模块及可信入口哈希须进入新运行manifest。选机依据见[runtime-selection.md](runtime-selection.md)；换主机不重置失败请求预算，也不重复已成功的候选生成。

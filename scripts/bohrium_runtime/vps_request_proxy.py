@@ -7,12 +7,10 @@ import email.utils
 import fcntl
 import hashlib
 import http.server
-import ipaddress
 import json
 import os
 import queue
 import random
-import socket
 import threading
 import time
 import urllib.error
@@ -21,7 +19,6 @@ import uuid
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from pathlib import Path
-from urllib.parse import urlsplit
 
 DEFAULT_CONCURRENCY = 8
 
@@ -35,12 +32,6 @@ class DownstreamClosed(Exception):
 
 
 SSE_KEEPALIVE = b": rl01-keepalive\n\n"
-DNS_CACHE_TTL = 300.0
-DNS_FAILURE_RETRY_TTL = 30.0
-DNS_REGISTRY_LOCK = threading.Lock()
-DNS_CACHES: dict[str, list["UpstreamDnsCache"]] = {}
-ORIGINAL_GETADDRINFO = socket.getaddrinfo
-DNS_PATCH_INSTALLED = False
 
 
 def error_detail(exc: Exception) -> str | None:
@@ -104,84 +95,6 @@ def numeric_usage(value: dict) -> dict:
 
 
 @dataclass
-class UpstreamDnsCache:
-    host: str | None
-    ttl: float = DNS_CACHE_TTL
-    failure_retry_ttl: float = DNS_FAILURE_RETRY_TTL
-    lock: threading.Lock = field(default_factory=threading.Lock)
-    entries: dict[tuple[int, int, int, int], tuple[float, list[tuple]]] = field(default_factory=dict)
-    refresh_after: float = 0.0
-
-    def matches(self, hostname: str) -> bool:
-        return bool(self.host) and hostname.rstrip(".").lower() == self.host.rstrip(".").lower()
-
-    def resolve(self, original, hostname, port, family=0, type=0, proto=0, flags=0):
-        key = (family, type, proto, flags)
-        now = time.monotonic()
-        with self.lock:
-            cached = self.entries.get(key)
-            if cached and now < self.refresh_after:
-                return cached[1]
-            try:
-                resolved = original(hostname, port, family, type, proto, flags)
-            except socket.gaierror:
-                if not cached:
-                    raise
-                self.refresh_after = now + self.failure_retry_ttl
-                return cached[1]
-            self.entries[key] = (now, resolved)
-            self.refresh_after = now + self.ttl
-            return resolved
-
-
-def cached_getaddrinfo(hostname, port, family=0, type=0, proto=0, flags=0):
-    normalized = hostname.rstrip(".").lower()
-    with DNS_REGISTRY_LOCK:
-        caches = tuple(DNS_CACHES.get(normalized, ()))
-    if caches:
-        return caches[0].resolve(ORIGINAL_GETADDRINFO, hostname, port,
-                                 family, type, proto, flags)
-    return ORIGINAL_GETADDRINFO(hostname, port, family, type, proto, flags)
-
-
-def register_dns_cache(cache: UpstreamDnsCache):
-    if not cache.host:
-        return lambda: None
-    try:
-        ipaddress.ip_address(cache.host)
-    except ValueError:
-        pass
-    else:
-        return lambda: None
-    normalized = cache.host.rstrip(".").lower()
-    global DNS_PATCH_INSTALLED
-    with DNS_REGISTRY_LOCK:
-        DNS_CACHES.setdefault(normalized, []).append(cache)
-        if not DNS_PATCH_INSTALLED:
-            socket.getaddrinfo = cached_getaddrinfo
-            DNS_PATCH_INSTALLED = True
-    released = False
-
-    def unregister() -> None:
-        nonlocal released
-        global DNS_PATCH_INSTALLED
-        with DNS_REGISTRY_LOCK:
-            if released:
-                return
-            released = True
-            caches = DNS_CACHES.get(normalized, [])
-            if cache in caches:
-                caches.remove(cache)
-            if not caches:
-                DNS_CACHES.pop(normalized, None)
-            if not DNS_CACHES and DNS_PATCH_INSTALLED:
-                socket.getaddrinfo = ORIGINAL_GETADDRINFO
-                DNS_PATCH_INSTALLED = False
-
-    return unregister
-
-
-@dataclass
 class ProxyConfig:
     upstream: str
     token: str
@@ -198,7 +111,6 @@ class ProxyConfig:
     shared_slot_dir: Path | None = None
     lock: threading.Lock = field(default_factory=threading.Lock)
     upstream_slots: threading.Semaphore = field(init=False)
-    dns_cache: UpstreamDnsCache = field(init=False)
 
     def __post_init__(self) -> None:
         if self.max_in_flight < 1:
@@ -206,7 +118,6 @@ class ProxyConfig:
         if self.sse_keepalive_interval <= 0:
             raise ValueError("sse_keepalive_interval must be positive")
         self.upstream_slots = threading.BoundedSemaphore(self.max_in_flight)
-        self.dns_cache = UpstreamDnsCache(urlsplit(self.upstream).hostname)
 
     def record(self, value: dict) -> None:
         with self.lock:
@@ -243,16 +154,8 @@ class ProxyConfig:
 
 
 def make_server(bind: str, port: int, config: ProxyConfig) -> http.server.ThreadingHTTPServer:
-    unregister_dns_cache = register_dns_cache(config.dns_cache)
-
     class ProxyServer(http.server.ThreadingHTTPServer):
         request_queue_size = 32
-
-        def server_close(self):
-            try:
-                return super().server_close()
-            finally:
-                unregister_dns_cache()
 
     class Handler(http.server.BaseHTTPRequestHandler):
         protocol_version = "HTTP/1.1"
@@ -297,10 +200,6 @@ def make_server(bind: str, port: int, config: ProxyConfig) -> http.server.Thread
                 self.wfile.flush()
             except OSError as exc:
                 raise DownstreamClosed(type(exc).__name__) from exc
-
-        def write_chunked_body(self, body: bytes, chunk_size: int = 16 * 1024) -> None:
-            for offset in range(0, len(body), chunk_size):
-                self.write_chunk(body[offset:offset + chunk_size])
 
         def finish_chunked(self) -> None:
             try:
@@ -382,8 +281,7 @@ def make_server(bind: str, port: int, config: ProxyConfig) -> http.server.Thread
             request_id = str(uuid.uuid4())
             base = {"logical_request_id": request_id, "stage": config.stage,
                     "task_digest": config.task_digest, "model": payload.get("model"),
-                    "payload_hash": hashlib.sha256(body).hexdigest(), "request_bytes": len(body),
-                    "effort": config.effort,
+                    "payload_hash": hashlib.sha256(body).hexdigest(), "effort": config.effort,
                     "max_in_flight": config.max_in_flight}
             headers = {k: v for k, v in self.headers.items() if k.lower() not in
                        {"authorization", "x-api-key", "host", "content-length", "connection", "accept-encoding"}}
@@ -414,11 +312,10 @@ def make_server(bind: str, port: int, config: ProxyConfig) -> http.server.Thread
                         validation = validate_response(response_body, content_type, self.path)
                         record = {**base, "attempt_index": attempt, "retry_index": attempt,
                                   "http_status": status, "started_at": start, "ended_at": time.time(),
-                                  "backoff_seconds": 0, "final_status": "SUCCESS",
-                                  "response_bytes": len(response_body), **validation}
+                                  "backoff_seconds": 0, "final_status": "SUCCESS", **validation}
                         if chunked_started:
                             try:
-                                self.write_chunked_body(response_body)
+                                self.write_chunk(response_body)
                                 self.finish_chunked()
                             except DownstreamClosed as exc:
                                 record.update({"delivery_status": "FAILED", "delivery_error": str(exc)})
@@ -517,11 +414,7 @@ def make_server(bind: str, port: int, config: ProxyConfig) -> http.server.Thread
                                        "final_status": "DELIVERY_FAILED"})
                         return
 
-    try:
-        server = ProxyServer((bind, port), Handler)
-    except Exception:
-        unregister_dns_cache()
-        raise
+    server = ProxyServer((bind, port), Handler)
     server.daemon_threads = True
     return server
 

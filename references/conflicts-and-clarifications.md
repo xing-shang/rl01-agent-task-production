@@ -51,6 +51,8 @@
 
 ## 个案与用户反馈
 
+2026-10-03运行后端授权：用户要求“你把bohrium也写到skill，后面自己决策去vps跑还是bohrium跑”，承接本会话已授权的Bohrium隔离Claude Code与RewardKit直跑。后续对已请求运行的任务按[runtime-selection.md](runtime-selection.md)自主选机，不重复请求正常选机许可。该授权是本地执行选择，未修改客户Harbor回执、环境模板、资源或验收定义；Bohrium直跑实际能力与限制见[bohrium-direct.md](bohrium-direct.md)。
+
 2026-10-02提交表分类复核：S01第2页为领域及所属领域二级标签，金融对应Fin1—Fin9；S02第2页为能力专项一级/二级，Skills与Workflow合计5种二级类型。S02另列Weakness-driven分支，没有给出“Weakness 数据→Weakness-driven”作为专项两级的固定映射。此前按task.toml.category自行加入的这对选项已撤回，不能把个人表适配称为客户已确认枚举。用户表单独增加金融领域二级标签，5题按已提交版本domain_l2填写，3条没有专项映射依据的值留空；原包category、C分级及运行版本仍据实记录。金融知识体系与能力专项分别核对，普通多步计算或一个Skill文件本身不构成专项类型的充分证明。
 
 2026-10-02专项空值与交付合规追问：回查S02第2—3页及S03§3.2，Weakness-driven为独立允许的构造分支，3份原包均有category及weakness_tag；个人表的专项两列空值不能推断题包缺分类。原包进一步复核发现DW、CB、SPAC的弱点名称不符合当前采用的S02正文B列；DW有16条Likert锚点误用0—1，CAP含.DS_Store；PPA通过本次静态及词表检查。不能把“本地与上传哈希一致”或“字段非空”升级为交付合规。原冻结包的具体问题和来源记录在S10的classification_delivery_reviews；本地预检新增正式词表逐值检查，S09的客户答复状态仍未变。

@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RL0-1 local author parsed task.toml shape",
+  "$comment": "Applies to parsed TOML. Local engineering schema, not platform certification. metadata.tags is recommended in the author template; absent tags are a checker warning, not a client hard requirement.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "artifacts",
+    "task",
+    "metadata",
+    "agent",
+    "verifier",
+    "environment"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.4"
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "\\S"
+      }
+    },
+    "task": {
+      "type": "object",
+      "required": [
+        "name",
+        "version",
+        "description",
+        "keywords"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$"
+        },
+        "description": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "keywords": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "prefixItems": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9 _-]*$"
+            },
+            {
+              "const": "office"
+            },
+            {
+              "enum": [
+                "A1",
+                "A2",
+                "A3"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "required": [
+        "task_id",
+        "author_organization",
+        "category",
+        "domain",
+        "domain_l2",
+        "domain_l3",
+        "domain_l4",
+        "capabilities",
+        "difficulty",
+        "vl_dependency",
+        "source_note",
+        "tools",
+        "task_complexity",
+        "weakness_tag",
+        "environment_template",
+        "tool_set",
+        "skill_set",
+        "expected_tool_dependencies",
+        "expected_skill_dependencies",
+        "deliverables"
+      ],
+      "properties": {
+        "difficulty": {
+          "enum": [
+            "A1",
+            "A2",
+            "A3"
+          ]
+        },
+        "task_complexity": {
+          "enum": [
+            "C1",
+            "C2",
+            "C3",
+            "C4",
+            "C5"
+          ]
+        },
+        "environment_template": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "\\S"
+          }
+        },
+        "deliverables": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "path",
+              "required",
+              "desc"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "pattern": "\\S"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "desc": {
+                "type": "string",
+                "pattern": "\\S"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,67 @@
+# Complete configuration template; replace author placeholders before checking.
+schema_version = "1.4"
+
+artifacts = [
+  "/app/output/<exact-file-1>",
+  "/app/output/<exact-file-2>",
+]
+
+[task]
+name = "work/<normalized-task-id>"
+version = "1.0.0"
+description = "<one-sentence task description>"
+keywords = ["<domain-english>", "office", "<A1|A2|A3>"]
+
+[metadata]
+task_id = "<exact task-id>"
+author_organization = "<supplier-name>"
+category = "<skill-dependency | workflow-execution | weakness-driven | ...>"
+domain = "<domain>"
+domain_l2 = "<second-level label>"
+domain_l3 = "<third-level label>"
+domain_l4 = "<fourth-level scenario label>"
+capabilities = "<evaluated capabilities>"
+difficulty = "A1 | A2 | A3"
+vl_dependency = "是 | 否"
+source_note = "<task source and authenticity>"
+tools = "<Word/Excel/PPT/Python/etc.>"
+domain_knowledge = "<optional domain knowledge>"
+expected_pass_rate = 0.0
+task_complexity = "C1 | C2 | C3 | C4 | C5"
+weakness_tag = ["<at least one tag>"]
+environment_template = "<platform-confirmed environment template>"
+tool_set = ["<actual available tools>"]
+skill_set = ["<installed skill directory names>"]
+expected_tool_dependencies = ["<actual required tools>"]
+expected_skill_dependencies = ["<subset of skill_set>"]
+tags = ["<task keywords>"]
+
+[[metadata.deliverables]]
+path = "<exact basename or relative path under /app/output/>"
+required = true
+desc = "<one-sentence description>"
+
+[agent]
+timeout_sec = 72000.0
+
+[verifier]
+timeout_sec = 18000.0
+user = "root"
+
+[verifier.env]
+JUDGE_API_KEY = "${JUDGE_API_KEY:-}"
+JUDGE_BASE_URL = "${JUDGE_BASE_URL:-}"
+JUDGE_MODEL = "${JUDGE_MODEL:-qwen3.7-plus}"
+JUDGE_PROVIDER = "${JUDGE_PROVIDER:-anthropic}"
+JUDGE_API_PROTOCOL = "${JUDGE_API_PROTOCOL:-anthropic}"
+EVAL_API_KEY = "${EVAL_API_KEY:-}"
+EVAL_API_BASE = "${EVAL_API_BASE:-}"
+LITELLM_DROP_PARAMS = "true"
+
+[environment]
+os = "linux"
+build_timeout_sec = 18000.0
+network_mode = "public"
+cpus = 2
+memory_mb = 2048
+storage_mb = 30720

@@ -17,7 +17,7 @@ import urllib.request
 from unittest import mock
 from pathlib import Path
 
-from vps_request_proxy import ProxyConfig, make_server
+from vps_request_proxy import ProxyConfig, UpstreamDnsCache, make_server
 import vps_harbor
 
 GOOD = {"type": "message", "id": "local-message", "role": "assistant", "model": "local",
@@ -28,6 +28,15 @@ GOOD_SSE = b'event: message_start\ndata: {"type":"message_start","message":{"usa
 
 
 class RuntimeTests(unittest.TestCase):
+    def test_dns_cache_reuses_last_address_when_resolution_temporarily_fails(self):
+        cache = UpstreamDnsCache("api.example")
+        resolved = [(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("192.0.2.10", 443))]
+        original = mock.Mock(side_effect=[resolved, socket.gaierror("temporary failure")])
+        self.assertEqual(cache.resolve(original, "api.example", 443), resolved)
+        cache.refresh_after = 0
+        self.assertEqual(cache.resolve(original, "api.example", 443), resolved)
+        self.assertEqual(original.call_count, 2)
+
     def test_default_plan_keeps_four_per_task_with_eight_global_slots(self):
         with mock.patch.object(sys, 'argv', ['rl01', 'plan', '/unused-task']), \
                 mock.patch.object(sys, 'stdout', new_callable=io.StringIO), \

@@ -1,11 +1,11 @@
 # RL0-1 Agent Task Production
 
-当前本地`rl01-agent-task-production`skill及2026-10-02多领域项目补充的私有备份。
+当前多领域RL0-1生产Skill及网页Pro工程资料，工程版本20261003.1。
 
-从[SKILL.md](SKILL.md)读取技能入口；`references/`保存规范解读、来源原文及图片，`assets/`保存固定模板和运行资源，`scripts/`保存交付格式检查器及受控运行脚本。完整来源资料用于用户已授权的本项目工作。
+技能入口为[SKILL.md](SKILL.md)。网页作者先读[当前工程导航](project-support/20261003/31_20261003_当前工程导航.md)，取得[离线工程资料包](dist/RL01_author_engineering_20261003_1.zip)，核对manifest并实际运行冒烟检查。它包含当前目录/ZIP检查器、固定模板、JSON schema、统一JSON/TOML生成器及合成格式回归，覆盖档位端点键、数组结构和待确认环境标识。
 
-2026-10-02确认的项目规则见[多领域导航与分工](project-support/20261002/28_20261002_多领域项目导航与分工规则.md)和[项目指令](project-support/20261002/project-instructions.txt)。金融继续使用[用户提供的原始prompt](project-support/20261002/27_20261002_金融Pro生产Prompt_用户原文.md)，网页Pro制作、本地跑Harbor；医疗使用[仅本地格式核验的prompt](project-support/20261002/29_20261002_医疗Pro生产Prompt_仅本地格式核验.md)，网页Pro制作、本地只核对交付格式。后续其他领域使用[通用prompt](project-support/20261002/30_20261002_多领域Pro生产Prompt_按领域分工.md)，按当轮要求确定本地范围。
+当前项目指令见[project-instructions.txt](project-support/20261003/project-instructions.txt)。金融业务继续使用[用户原始Prompt](project-support/20261002/27_20261002_金融Pro生产Prompt_用户原文.md)，后续本地Harbor；医疗使用[当前医疗Prompt](project-support/20261003/35_20261003_医疗Pro生产Prompt.md)，后续本地仅检查交付格式；其他领域使用[当前通用Prompt](project-support/20261003/36_20261003_多领域Pro生产Prompt.md)，按当轮范围执行。
 
-所有领域网页Pro作者Golden必须严格>0.85，内部目标1.0，逐条取证、两遍评审并用代码复算。作者模拟结果、正式Judge分数、交付格式检查与实际难度分别记录。金融prompt与本轮用户原文逐字节一致。
+所有领域网页作者Golden严格>0.85、目标1.0。作者模拟、正式Judge、工程格式和实际难度分别记录；工程冒烟夹具不代表业务新题、专业正确性或A3验收。Schema是对适用来源的本地实现，不冒称客户官方Schema。客户原文按适用条款核对，历史项目生产说明不提供当前工程回执。
 
-上传清单见[snapshot-manifest.json](snapshot-manifest.json)，包含本地skill源文件哈希。缓存及生成文件未纳入版本。GitHub上传本身不代表新题已生成、正式模型运行或客户验收。
+源文件hash见[snapshot-manifest.json](snapshot-manifest.json)，工程包hash见[manifest](dist/RL01_author_engineering_20261003_1.manifest.json)。本仓库公开，实际凭据及生产日志不纳入版本。

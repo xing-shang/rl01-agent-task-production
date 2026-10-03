@@ -1,0 +1,16 @@
+{
+  "scope": "bohrium_isolated_direct_runtime_components",
+  "verified_on": "2026-10-03",
+  "files": {
+    "direct_isolation.py": "84d6e8556d5cf3d1e5b36b57ca58e4733ccd8b951c72af930ddd537b622fde68",
+    "direct_judge.py": "514db9a8e69ab5a3ca485639c9db13c85bf32390552e3481e88611a38a394543",
+    "reliable_proxy.py": "a4f3dfe0425fbc2688848ecce813cf7e154f7bc73ccd4a61a653f8015541c5f3",
+    "vps_request_proxy.py": "6f3ea87d9c90fbaa1edf4749f478b69284b0407521f871470899994dbf9a0721",
+    "sandbox_entry.py": "75dd56489e14a4048827499e894de578e1a261248e944291197dd3f5864abc4c"
+  },
+  "verified_source": "FIN4-WDS-001 transport-r2 and deployed trusted sandbox entry",
+  "remote_prefix": "/opt/rl01-direct",
+  "native_harbor_trial": false,
+  "contains_credentials": false,
+  "task_specific_controller_included": false
+}

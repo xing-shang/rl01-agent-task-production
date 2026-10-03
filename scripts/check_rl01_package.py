@@ -108,6 +108,7 @@ DOMAIN_ANCHORS = {
 MIN_CRITERIA = {"A1": 8, "A2": 12, "A3": 25}
 LEVELS = {"0", "0.25", "0.5", "0.75", "1"}
 RAW_LEVELS = {"1", "2", "3", "4", "5"}
+ENGINEERING_VERSION = "20261003.1"
 ANCHOR_LINE = re.compile(r"^\s*(?:[-*]\s+)?(?:\*\*)?([0-9]+(?:\.[0-9]+)?)\s*(?:分)?(?:\*\*)?\s*[:：]\s*(.*)$", re.MULTILINE)
 
 
@@ -208,7 +209,7 @@ def audit_expert_rubric(data: object, difficulty: object, criteria: object = Non
             levels = item.get("levels")
             if (not isinstance(levels, dict) or set(levels) != LEVELS
                     or any(not isinstance(v, str) or not v.strip() for v in levels.values())):
-                issues.append(fail("rubric-levels", f"{label} needs five nonempty levels 0/0.25/0.5/0.75/1"))
+                issues.append(fail("rubric-levels", f'{label} levels must be an object with exactly the string keys "0", "0.25", "0.5", "0.75", "1" and nonempty string descriptions; arrays and "0.0"/"1.0" keys do not match this local serialization contract'))
         weight = item.get("weight")
         if not numeric(weight) or weight not in {-10, -7, -3, 3, 7, 10}:
             issues.append(fail("rubric-weight", f"{label} needs a finite signed weight from ±3/±7/±10"))
@@ -299,7 +300,8 @@ def is_unresolved_template(value: object) -> bool:
         (label.startswith("<") and label.endswith(">"))
         or label.lower() in {"todo", "tbd", "placeholder"}
         or label.upper().startswith("REPLACE_WITH_")
-        or any(term in label for term in ("占位", "待填"))
+        or any(term in label for term in ("占位", "待填", "待确认", "未确认", "尚未确认"))
+        or re.search(r"\b(?:pending[\s_-]+confirmation|unconfirmed|to[\s_-]+be[\s_-]+confirmed|todo|tbd|placeholder)\b", label, re.I) is not None
     )
 
 
@@ -363,12 +365,22 @@ def validate(root: Path) -> tuple[list[dict[str, str]], list[str]]:
                 issues.append(fail("task.toml", 'schema_version must be "1.4"'))
             if not is_semver(task_block.get("version")):
                 issues.append(fail("task.toml", "task.version must be valid SemVer"))
+            if not isinstance(task_block.get("description"), str) or not task_block["description"].strip():
+                issues.append(fail("task.toml", "task.description must be a nonempty string (S03 section 3.2)"))
             task_id = metadata.get("task_id")
             task_name = task_block.get("name")
             if isinstance(task_id, str) and isinstance(task_name, str) and "/" in task_name:
                 if normalized_name(task_name.rsplit("/", 1)[1]) != normalized_name(task_id):
                     issues.append(fail("task.toml", "task.name name segment does not normalize to metadata.task_id"))
-            string_list_field(task_block.get("keywords"), "task.toml", "task.keywords", issues)
+            keywords = string_list_field(task_block.get("keywords"), "task.toml", "task.keywords", issues)
+            if (len(keywords) != 3 or keywords[1] != "office"
+                    or keywords[2] != metadata.get("difficulty")
+                    or re.fullmatch(r"[A-Za-z][A-Za-z0-9 _-]*", keywords[0]) is None):
+                issues.append(fail("task.toml", 'task.keywords must be [<domain in English>, "office", <metadata.difficulty>] (S03 section 3.2); free-form keywords belong in metadata.tags'))
+            if "tags" in metadata:
+                string_list_field(metadata["tags"], "task.toml", "metadata.tags", issues)
+            else:
+                warnings.append("metadata.tags is absent; the maintained author template includes it for free-form keywords, but S03 does not mark it as a required field")
             if metadata.get("task_id") != root.name:
                 issues.append(fail("task.toml", "metadata.task_id must equal directory name"))
             for field in REQUIRED_METADATA:
@@ -582,7 +594,8 @@ def main() -> int:
     parser.add_argument("task_dir", type=Path)
     args = parser.parse_args()
     issues, warnings = validate(args.task_dir)
-    result = {"ok": not issues, "issues": issues, "warnings": warnings}
+    result = {"ok": not issues, "engineering_version": ENGINEERING_VERSION,
+              "scope": "task_directory_static_preflight_only", "issues": issues, "warnings": warnings}
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if not issues else 1
 

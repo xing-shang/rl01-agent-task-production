@@ -8,6 +8,10 @@
 
 `criterion_type`为Objective或Subjective，`criterion_necessity`为Explicit或Implicit。显式要求能逐字回到题面；输入材料/必然业务含义的来源也记录清楚，不因Golden出现而认定Explicit。`type`接受原文Binary/Gradient及示例小写写法，成套保持一致。五档levels必须完整为0、0.25、0.5、0.75、1，描述互斥且无空隙。单纯提取数值通常是Binary；连续偏离、比例或覆盖质量只有在中间状态有业务意义时才用Gradient。
 
+本地作者序列化约定见`assets/schemas/rubrics.schema.json`：`levels`是对象，键必须逐字为`"0"`、`"0.25"`、`"0.5"`、`"0.75"`、`"1"`，值为非空判据字符串。数值正确的数组、`"0.0"/"1.0"`端点及`objectivity/visibility`字段别名不符合当前检查器格式。该Schema是对已读规范的本地工程约定，不冒称客户提供的官方Schema。用`scripts/render_rl01_config.py`从同一作者规格生成JSON和TOML，完整用法见[网页作者工程资料](web-author-engineering.md)。
+
+Binary判据保持“判据为真时score=yes，为假时score=no”的原生二值输出说明；负项描述实际违规谓词，是否反转只由TOML的`negate`控制。业务文件中的JSON布尔字段可以继续使用true/false；不能把业务布尔值与评分输出枚举混写。生成器明确附上二值输出说明，作者离线复查仍要验证无违规和发生违规的判定方向。
+
 多交付物时每条原始判据明确目标文件。转换TOML后ID集合、权重绝对值、正负方向及判据含义一一对应，不能只保证条数相等。JSON负权重转为TOML正权重加`negate=true`，绝不在TOML写负权重。
 
 S09询问JSON/TOML是否完全等同，目前未答复。两者是不同表示：例如JSON的Gradient、负权重和0—1档位必须转换为TOML的Likert、正权重加negate和1—5整数档；追求逐字相同会破坏判分。当前格式依据仍是S06和S03，具体状态见[冲突记录](conflicts-and-clarifications.md)。

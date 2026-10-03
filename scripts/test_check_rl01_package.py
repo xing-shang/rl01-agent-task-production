@@ -49,7 +49,7 @@ def write_package_fixture(root):
         name = "qa/fin-qa-001"
         version = "1.0.0"
         description = "Static checker fixture, not a production task"
-        keywords = ["finance", "A3"]
+        keywords = ["finance", "office", "A3"]
         [metadata]
         task_id = "FIN-QA-001"
         author_organization = "qa"
@@ -70,6 +70,7 @@ def write_package_fixture(root):
         skill_set = []
         expected_tool_dependencies = ["python"]
         expected_skill_dependencies = []
+        tags = ["static-fixture"]
         [[metadata.deliverables]]
         path = "report.txt"
         required = true
@@ -260,10 +261,47 @@ class PackagePreflightTests(unittest.TestCase):
                     self.assertIn(expected, [x["detail"] for x in issues if x["rule"] == "rubrics.toml"])
 
     def test_environment_template_placeholders(self):
-        for value in (None, "", "<platform template>", "REPLACE_WITH_PLATFORM_APPROVED_TEMPLATE", "TODO", "待填写占位"):
+        for value in (None, "", "<platform template>", "REPLACE_WITH_PLATFORM_APPROVED_TEMPLATE", "TODO", "待填写占位", "python:3.12-slim; pending confirmation", "模板未确认", "unconfirmed-template"):
             with self.subTest(value=value):
                 self.assertTrue(is_unresolved_template(value))
         self.assertFalse(is_unresolved_template("python:3.12-slim"))
+
+    def test_contract_description_keywords_and_pending_template_are_enforced(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "FIN-QA-001"
+            write_package_fixture(root)
+            path = root / "task.toml"
+            baseline = path.read_text()
+            for changed, expected in (
+                (baseline.replace('description = "Static checker fixture, not a production task"\n', ''), "task.description must be a nonempty string (S03 section 3.2)"),
+                (baseline.replace('["finance", "office", "A3"]', '["medical", "research", "A3"]'), 'task.keywords must be'),
+                (baseline.replace('local-validation-fixture', 'python:3.12-slim; pending confirmation'), 'metadata.environment_template is unresolved'),
+            ):
+                with self.subTest(expected=expected):
+                    path.write_text(changed)
+                    issues, _ = validate(root)
+                    self.assertTrue(any(x['detail'].startswith(expected) for x in issues), issues)
+            path.write_text(baseline.replace('tags = ["static-fixture"]\n', ''))
+            issues, warnings = validate(root)
+            self.assertFalse(issues, issues)
+            self.assertTrue(any('metadata.tags is absent' in x for x in warnings))
+
+    def test_complete_five_values_do_not_hide_adu_or_bsi_serialization_errors(self):
+        for levels in (
+            {"0.0": "零", "0.25": "少", "0.5": "半", "0.75": "多", "1.0": "全"},
+            [{"value": value, "description": "判据"} for value in (0, .25, .5, .75, 1)],
+        ):
+            with self.subTest(levels=levels):
+                data = rubric_fixture()
+                data['items'][0].update(type='Gradient', levels=levels)
+                issues, _ = audit_expert_rubric(data, 'A3')
+                self.assertIn('rubric-levels', {x['rule'] for x in issues})
+        data = rubric_fixture()
+        first = data['items'][0]
+        first['objectivity'] = first.pop('criterion_type')
+        first['visibility'] = first.pop('criterion_necessity')
+        issues, _ = audit_expert_rubric(data, 'A3')
+        self.assertEqual(2, sum(x['rule'] == 'rubrics.json' for x in issues))
 
     def test_golden_mirror_compares_relative_paths(self):
         with tempfile.TemporaryDirectory() as directory:

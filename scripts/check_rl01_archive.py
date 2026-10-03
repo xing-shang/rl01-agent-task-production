@@ -12,7 +12,7 @@ import tempfile
 import zipfile
 from pathlib import Path, PurePosixPath
 
-from check_rl01_package import validate
+from check_rl01_package import ENGINEERING_VERSION, validate
 
 
 GLOBAL_RESIDUE = {".DS_Store", "__MACOSX", ".git", "__pycache__", ".venv"}
@@ -41,6 +41,7 @@ def check_archive(archive: Path) -> dict:
     result = {
         "ok": False,
         "scope": "final_zip_static_preflight_only",
+        "engineering_version": ENGINEERING_VERSION,
         "archive": str(archive),
         "archive_sha256": None,
         "checker_sha256": sha256(Path(__file__).resolve()),
