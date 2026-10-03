@@ -21,7 +21,7 @@ description: Design, improve, review, calibrate and package Appen RL0-1 Harbor r
 
 ## 按任务读取
 
-出题或加难时读[构造方案](references/construction-plan.md)、[W1—W14词表](references/weakness-catalog.md)、[A3与批量生产](references/a3-production.md)，同时读[质检规则](references/quality-review.md)。选定金融场景时用[生产规范与知识体系](references/rl01-guideline.md)核对标签。
+出题或加难时读[构造方案](references/construction-plan.md)、[W1—W14词表](references/weakness-catalog.md)、[A3与批量生产](references/a3-production.md)，同时读[质检规则](references/quality-review.md)和[交包前内容复核](references/pre-delivery-content-checks.md)。选定金融场景时用[生产规范与知识体系](references/rl01-guideline.md)核对标签。
 
 网页Pro制作或本地接力时必读[Golden接力与量表回归](references/pro-golden-handoff.md)、[网页作者工程资料](references/web-author-engineering.md)及[网页启动与挂载](references/web-pro-startup.md)。网页操作端开启Pro制作时将当前小工程ZIP直接附到制作消息；先实际取得当前检查器、固定模板和hash清单，执行工程冒烟检查，项目文件列表可见不等于原件已进入本轮代码环境。网页交包前必做逐条Pro模拟Golden及反方复查，保留分数、证据和修复记录，不能因缺外部Judge跳过。当前用户要求所有领域网页作者Golden严格>0.85，目标1.0，客户通用≥0.85另记；金融后续本地跑Harbor，医疗后续本地仅delivery_format_only。后续其他领域按当轮范围处理，不自动继承金融运行流程。用户要求极难、复杂或增加坑点时读[金融高难度设计](references/adversarial-finance-design.md)；为候选模型及Judge启动请求前读[运行与10次重试](references/execution-reliability.md)。这些是用户目标及本地生产方法，不冒充客户新增验收条款。
 
@@ -53,7 +53,7 @@ Rubric须从题面与输入独立推导，接受有效替代解，按独立失�
 2. 先证明真实业务价值与可解性，再设计难度。用输入事实构成可复算的真值与证据链，映射到目标weakness及交付物。允许的冲突、缺失、恢复和Skill依赖须有可执行的正确路径，不用无关噪声、暗号、隐藏判据或故意坏环境压分。
 3. 检查与已有任务的知识点、Workflow、场景、来源组合、决策路径和交付物是否重复。同三级标签或同知识点/Workflow最多2题，不能靠改名规避。没有历史台账时，只声明本次可检范围。
 4. 准备源文件、可复算Golden和逐项证据。题面逐个列出输入与可用技能入口，给出准确输出路径；任务特有SOP保留在技能中。发现任务不泄露必要技能或干扰项身份。出题者的真值、错误设计说明、Rubric与Golden不能进入Agent可见输入。
-5. 先做题面/输入、Golden、Rubric、评分链路四部分质检。追溯每条要求，检查根因重复计扣、错误级联、负分方向、Gradient边界及等价正确解。参考答案高分不代替专业复核。
+5. 先做题面/输入、Golden、Rubric、评分链路四部分质检。按交包前内容复核，从题面独立列全硬要求，逐项核对输入、Golden实际实现及Rubric覆盖；检查输入透题、Judge可见证据，并实际检查开放题的合法替代方案和关键错误反例。追溯根因重复计扣、错误级联、负分方向及Gradient边界，将结果记入已有作者证据。参考答案高分不代替专业复核。
 6. 按交付合同建包。Golden生成一次后逐字节复制到两处；从`assets/templates/`取Dockerfile、solve.sh、prompt.md、test.sh和finalize.py。后两者固定，不为压分改动。源PDF相同不代表任意题包模板相同，仍需比较实际字节。
 7. 运行`scripts/check_rl01_package.py <task-directory>`做静态预检，逐值核对正式weakness_tag、实际TOML五档文字为1—5及JSON显式negate。保存当前检查器哈希、命令、退出码和完整JSON；存在错误或ok=false时完成授权范围内的修复及复验，未通过则如实记录未就绪，不用旧回执、作者说明或模型分数覆盖失败。再完成实际Docker、权限、文档渲染、语义与作者Golden预检并冻结。按VPS运行参考可并行预跑同版本Golden Judge与候选Agent，候选先关闭Verifier并保存完整产物和轨迹；有效Golden通过且扣分已解释后才统一补判、确认为正式难度证据。也可按资源采用串行。网页离线检查不替代实际Judge，Golden失败先恢复请求或修复真实缺陷，任务可见内容改变则重跑受影响候选。脚本输出仅证明它列明的静态检查；不代表平台Schema认证、业务正确或A3难度已验证。
 8. 从原始逐项回执复算主分，核对候选产物、轨迹、评分理由与冻结版本。每条全满分/全零、模型分差悬殊、Golden扣分都说明原因。返修后递增版本并复验受影响环节，全部有效证据必须对应最终冻结版本。

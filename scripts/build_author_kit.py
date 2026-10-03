@@ -23,6 +23,7 @@ FILES = (
     'references/web-author-engineering.md', 'references/rubrics-and-scoring.md',
     'references/rewardkit-delivery-contract.md', 'references/weakness-catalog.md',
     'references/submission-table-and-naming.md',
+    'references/pre-delivery-content-checks.md',
 )
 
 

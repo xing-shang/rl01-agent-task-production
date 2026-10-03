@@ -108,7 +108,7 @@ DOMAIN_ANCHORS = {
 MIN_CRITERIA = {"A1": 8, "A2": 12, "A3": 25}
 LEVELS = {"0", "0.25", "0.5", "0.75", "1"}
 RAW_LEVELS = {"1", "2", "3", "4", "5"}
-ENGINEERING_VERSION = "20261003.1"
+ENGINEERING_VERSION = "20261003.2"
 ANCHOR_LINE = re.compile(r"^\s*(?:[-*]\s+)?(?:\*\*)?([0-9]+(?:\.[0-9]+)?)\s*(?:分)?(?:\*\*)?\s*[:：]\s*(.*)$", re.MULTILINE)
 
 

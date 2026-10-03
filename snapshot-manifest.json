@@ -1,37 +1,13 @@
 {
   "snapshot_date": "2026-10-03",
-  "engineering_version": "20261003.1",
-  "created_at_utc": "2026-10-03T02:30:34.424240+00:00",
+  "engineering_version": "20261003.2",
+  "created_at_utc": "2026-10-03T03:16:04.663769+00:00",
   "skill_name": "rl01-agent-task-production",
   "skill_source_files": [
     {
-      "path": ".pytest_cache/.gitignore",
-      "bytes": 37,
-      "sha256": "3ed731b65d06150c138e2dadb0be0697550888a6b47eb8c45ecc9adba8b8e9bd",
-      "executable": false
-    },
-    {
-      "path": ".pytest_cache/CACHEDIR.TAG",
-      "bytes": 191,
-      "sha256": "37dc88ef9a0abeddbe81053a6dd8fdfb13afb613045ea1eb4a5c815a74a3bde4",
-      "executable": false
-    },
-    {
-      "path": ".pytest_cache/README.md",
-      "bytes": 302,
-      "sha256": "73fd6fccdd802c419a6b2d983d6c3173b7da97558ac4b589edec2dfe443db9ad",
-      "executable": false
-    },
-    {
-      "path": ".pytest_cache/v/cache/nodeids",
-      "bytes": 2073,
-      "sha256": "341852ec0b072729235f91a12feab6105377539a177df0c70458b4649c29b876",
-      "executable": false
-    },
-    {
       "path": "SKILL.md",
-      "bytes": 14962,
-      "sha256": "3bd23107c2366bb0bcf51c77419187b446bd591fa46418ab8ea7c1fc087f2c7f",
+      "bytes": 15255,
+      "sha256": "8814bff3430b57eb29979d4391dd7c6346e39e3e8fcfa69bb5fc1214e18de08b",
       "executable": false
     },
     {
@@ -138,8 +114,8 @@
     },
     {
       "path": "references/client-feedback-checks.md",
-      "bytes": 5358,
-      "sha256": "7b6f7be41d2a57ae25d9eb750ab91dfe5bb04a52f21d8a2709e56c97122a3bf8",
+      "bytes": 7102,
+      "sha256": "a18e12650d67bf43e65dc53f7f7275ab42b1e06d3e1634c445c0b5be6bf2cf1f",
       "executable": false
     },
     {
@@ -173,15 +149,21 @@
       "executable": false
     },
     {
+      "path": "references/pre-delivery-content-checks.md",
+      "bytes": 4321,
+      "sha256": "4125a5ae0041c0464f22aa2aa724df3b06fba6c31c3c3919144b4aee37b5a2ee",
+      "executable": false
+    },
+    {
       "path": "references/pro-golden-handoff.md",
-      "bytes": 9145,
-      "sha256": "a806e56d7f5408d72627028aa4d95d3b7317c78e2b19f5bb9bc1478b3cacbf28",
+      "bytes": 9594,
+      "sha256": "9350e4561e14a2d8f9e093ec0a089bbdc559ca9e6f345db632bdc73bd84d2b8c",
       "executable": false
     },
     {
       "path": "references/quality-review.md",
-      "bytes": 7289,
-      "sha256": "38244515ec4e78d2aa5315d860d5bd9d8c761ef079f72400fac006daa0abb775",
+      "bytes": 7544,
+      "sha256": "ab54a8614b12dd3b011979057d9e6063d3b9596ad5900f6b473b68300b51560c",
       "executable": false
     },
     {
@@ -606,14 +588,14 @@
     },
     {
       "path": "references/web-author-engineering.md",
-      "bytes": 4313,
-      "sha256": "2bf4b033d9fb7c0db97b050aabc072cd31dc95ff25a3dbe68575cde0d121ddf4",
+      "bytes": 4401,
+      "sha256": "976e7bb73813a141d7e22167cb8c8124c3d49c115055a02c8032e5a3c0147d14",
       "executable": false
     },
     {
       "path": "references/web-pro-startup.md",
-      "bytes": 1720,
-      "sha256": "939438b5eacf9942e2abb934719ed82463ee96c3d44133ab1433f4e32173d09c",
+      "bytes": 2167,
+      "sha256": "c371d0acb9053331b68c8750d77a780e89a430843d944c4d1aaf3ed9ec697976",
       "executable": false
     },
     {
@@ -660,8 +642,8 @@
     },
     {
       "path": "scripts/build_author_kit.py",
-      "bytes": 2729,
-      "sha256": "82a1453f5fa983d6d1715b59aa56bf296c8de07934e7f465eb4765168bbe66b9",
+      "bytes": 2778,
+      "sha256": "8a3124f50bcf07887bd7740168f3e6b7194958c8f361a17685c1bc2dacc2376a",
       "executable": false
     },
     {
@@ -673,7 +655,7 @@
     {
       "path": "scripts/check_rl01_package.py",
       "bytes": 32474,
-      "sha256": "29587bc7c89c1a4546b55060b7cc586f34a22ae115399cb982e0e7ed1fd01ab4",
+      "sha256": "4790e9ceaf036d2c8125d943a437aa860f9dd57533619b181eaf3470f4d0ac75",
       "executable": true
     },
     {
@@ -740,5 +722,6 @@
   "project_support": "project-support/20261003",
   "legacy_support_retained": "project-support/20261002",
   "original_finance_prompt_retained": true,
-  "startup_rule": "direct_current_kit_attachment"
+  "startup_rule": "direct_current_kit_attachment",
+  "content_review": "references/pre-delivery-content-checks.md"
 }

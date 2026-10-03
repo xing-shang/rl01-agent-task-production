@@ -1,8 +1,8 @@
-先读37_20261003_网页Pro启动与文件挂载.md，再读31导航。网页操作端开启Pro制作时，将32工程ZIP直接作为同一条制作消息附件；作者先在代码环境实际找到原件、核对hash并运行冒烟检查。项目ZIP未挂载且下载受阻时尽早明确缺口，由操作端附原件后继续，不长时间拼接Base64。37覆盖31/35/36的原件获取顺序，当前完整Skill为38。
+先读项目39_20261003_交包前内容复核.md；当前导航为https://raw.githubusercontent.com/xing-shang/rl01-agent-task-production/main/project-support/20261003/42_20261003_当前制作规则与交包复核.md。项目已达40文件上限，本次仅39上传，40/41/42由同版本GitHub原件或同消息附件提供。网页操作端将40工程ZIP直接随制作消息附上；作者实际取得字节、核对hash并运行冒烟检查。当前工程20261003.2，历史32/33仅对应20261003.1。
 
 本项目用于Appen RL0-1多领域Agent新题，支持金融、医疗、法律、通用办公及后续用户新增的领域。默认每轮1题，目标A3。领域、数量、阶段和交付范围按本轮明确请求确定；不因历史金融聊天或本次新增医疗而把后续任务锁定到该领域。已明确领域内的二级类型自主选择，逐题独立达到同一质量与证据门槛。所有领域网页Pro作者Golden必须严格>0.85，内部目标1.0，逐条取证、两遍评审并用代码复算；发现专业错误先修复。
 
-开始读取31_20261003_当前工程导航.md。金融使用27_20261002_金融Pro生产Prompt_用户原文.md，全文原样保留用户本轮金融Prompt；医疗使用35_20261003_医疗Pro生产Prompt.md；后续其他领域使用36_20261003_多领域Pro生产Prompt.md并按本轮要求确定范围。本轮明确的完整Prompt优先于默认作者流程。当前完整规则、来源原文及图片取38_RL01_skill_20261003_完整规则.zip；当前工程原件优先取32_RL01_工程资料_20261003_1.zip，无法挂载ZIP时完整读取33_20261003_可读取工程代码.md恢复相同hash原件。00—30保留作历史和适用客户原文参考，27金融业务原文继续有效；旧金融选题默认及旧作者阶段候选运行要求不跨领域或跨阶段沿用。按具体条款、适用范围和实际修订核对客户原文，不能只看上传日期。检索未命中时实际读文件或解压，不能编造规范、重建固定模板或自写宽松检查器。网页安装Skill与项目文件分别核对，不推定自动同步。
+金融业务使用27_20261002_金融Pro生产Prompt_用户原文.md；医疗和其他领域沿当前对应Prompt或用户本轮短prompt。当前完整规则、来源原文及图片取https://github.com/xing-shang/rl01-agent-task-production/releases/download/v20261003.2/RL01_skill_20261003_2.zip或同hash本地41；工程原件取同消息附件40或https://raw.githubusercontent.com/xing-shang/rl01-agent-task-production/main/dist/RL01_author_engineering_20261003_2.zip。历史文件保留作原文和范围参考，旧金融选题默认与旧候选运行要求不跨领域或阶段沿用。按具体条款、适用范围与实际修订核对来源；检索未命中时实际读文件或解压，不编造规范、重建固定模板或自写宽松检查器。网页安装Skill与项目文件分别核对，不推定自动同步。
 
 每题先核对该领域正式知识体系和专业规范。当前已有来源的分类为金融Fin1—Fin9、医疗Med1—Med5、法律Law1—Law6、通用办公T1—T8；其他领域按对应正式来源扩展，缺失的分类记录待核对，继续不依赖它的研究，不自造枚举。domain_l2/l3/l4是领域知识分类；category、能力专项与weakness另按S02核对。Weakness-driven是独立构造分支，不强塞进Skill/Workflow专项。weakness_tag逐值使用S02正文B列且有真实题内触发。金融个案S09及历史单题反馈按其范围引用，不扩大为医疗或其他领域通用豁免。
 
@@ -12,9 +12,11 @@
 
 网页作者完成真实输入、题面、Golden、Rubric、题包ZIP及单独作者证据ZIP；当前金融由后续本地Codex跑Harbor；当前医疗后续本地仅检查交付格式。默认网页作者Golden加权得分严格>0.85，目标1.0；客户通用门槛≥0.85另记。本轮可明确指定更严格门槛。两遍Pro模拟评审实际读取最终导出文件，逐条记录证据、raw/value/weight/negate并用代码聚合；第二遍反驳高分结论，修复缺陷再核验。报告标mode=author_simulation、external_judge_executed=false，不可判条目为null。专业错误不因总分达标被保留。金融按原Prompt核对已有正式Golden运行范围；当前医疗只做作者模拟及离线核验，正式Judge记未运行。作者自评、实际人工专业审阅及正式Judge分别报告真实状态。
 
+交包前执行39的内容复核，从题面独立列全硬要求，再逐项核对输入、Golden实际实现与Rubric覆盖；审查输入透题，实际检查开放题的合法替代方案与关键错误反例，核对Judge可见证据、视觉脱敏及路径可读性。派生数量按候选方案与公开输入重新计算，未规定的命名和措辞接受正确等价表达；业务精度与显示格式分别判断。结果写入现有作者证据，未完成或不可验证如实记录，不新增客户必交字段或个案阈值。
+
 原始rubrics.json使用items及metadata.scoring.s_max，每条显式布尔negate。每条完整保留criterion_type/criterion_necessity。Gradient levels在JSON必须是对象，字符串键精确为"0"/"0.25"/"0.5"/"0.75"/"1"，不使用数组或"0.0"/"1.0"键，TOML用likert、points=5与完整1—5整数档，正项raw=5是满分。A3至少25条独立正负项、至少2条+10，权重±3/±7/±10，扣分绝对值≤正分池50%，规定四类领域锚点正分≥30%。JSON与TOML逐项语义对应，负项只反转一次，不产生评分级联。每条保留准确待查产物路径。test.sh与finalize.py采用固定模板字节。
 
-先从32或33取得当前工程原件、核对kit_manifest逐文件hash，实际运行author_engineering_smoke.py验证生成器、目录/ZIP检查器及错误阻断；先完成资源可读可执行，再制作工程。配置从同一author_spec经render_rl01_config.py生成。task.description非空、keywords机械为[领域英文名,"office",难度]，metadata.tags只作自由关键词；环境标识须有来源依据且不能待确认。当前工程版本20261003.1，历史脚本不替代。运行当前check_rl01_package.py核对最终题目目录，再运行check_rl01_archive.py核对实际最终ZIP，均保存hash、命令、完整输出和退出码；存在error或ok=false时修复复验。核对渲染、权限、两处Golden字节、中文文件名、CRC、解压内容及SHA-256。未执行的Docker、Oracle、空输出或正式Judge明确记录，不写已验证或已验收。
+先从40或42导航的同版本公开原件取得当前工程原件、核对kit_manifest逐文件hash，实际运行author_engineering_smoke.py验证生成器、目录/ZIP检查器及错误阻断；先完成资源可读可执行，再制作工程。配置从同一author_spec经render_rl01_config.py生成。task.description非空、keywords机械为[领域英文名,"office",难度]，metadata.tags只作自由关键词；环境标识须有来源依据且不能待确认。当前工程版本20261003.2，历史脚本不替代。运行当前check_rl01_package.py核对最终题目目录，再运行check_rl01_archive.py核对实际最终ZIP，均保存hash、命令、完整输出和退出码；存在error或ok=false时修复复验。核对渲染、权限、两处Golden字节、中文文件名、CRC、解压内容及SHA-256。未执行的Docker、Oracle、空输出或正式Judge明确记录，不写已验证或已验收。
 
 金融本地接力按最新完整Skill及受控执行资料进行，完成预检和冻结后可采用已授权的同版Golden与候选预跑策略，独立Verifier有效复评Golden后统一补判。工程基线schema_version="1.4"、harbor-rewardkit[all]==0.1.7、claude-code@2.1.114；候选gpt-5.6-sol、claude-opus-4-8、qwen3.8-max0902，Judge为qwen3.7-plus。low仅用于三候选作答，其他环节沿各自默认或已有明确设置。默认8个共享总槽、单题4路、Agent/Verifier为2GiB；请求首次失败后最多重试10次，共11次，成功即停，有效低分不重抽。运行沿既有授权，项目规则本身不授权启动模型、修改VPS、平台提交或外发消息。
 
