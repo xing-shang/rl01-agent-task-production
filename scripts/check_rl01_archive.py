@@ -13,6 +13,7 @@ import zipfile
 from pathlib import Path, PurePosixPath
 
 from check_rl01_package import ENGINEERING_VERSION, validate
+from check_rl01_evidence import audit_evidence, build_manifest, compare_manifest, strict_json
 
 
 GLOBAL_RESIDUE = {".DS_Store", "__MACOSX", ".git", "__pycache__", ".venv"}
@@ -35,7 +36,7 @@ def member_name(info: zipfile.ZipInfo) -> str:
     return info.filename.encode("cp437").decode("utf-8")
 
 
-def check_archive(archive: Path) -> dict:
+def check_archive(archive: Path, expected_manifest: Path | None = None) -> dict:
     archive = archive.resolve()
     issues: list[dict] = []
     result = {
@@ -48,6 +49,8 @@ def check_archive(archive: Path) -> dict:
         "task_checker_sha256": sha256(Path(__file__).with_name("check_rl01_package.py")),
         "issues": issues,
         "tasks": [],
+        "evidence": None,
+        "staging_manifest_checked": expected_manifest is not None,
     }
 
     def fail(rule: str, detail: str) -> None:
@@ -132,6 +135,14 @@ def check_archive(archive: Path) -> dict:
                         "issues": task_issues,
                         "warnings": warnings,
                     })
+                extracted_batch = extraction / batch
+                if expected_manifest is not None:
+                    try:
+                        issues.extend(compare_manifest(extracted_batch, strict_json(expected_manifest)))
+                    except (OSError, UnicodeError, ValueError) as error:
+                        fail("archive-manifest", str(error))
+                result["evidence"] = audit_evidence(extracted_batch)
+                issues.extend(result["evidence"]["issues"])
     except (OSError, RuntimeError, ValueError, zipfile.BadZipFile) as error:
         fail("archive-read", str(error))
     try:
@@ -140,14 +151,29 @@ def check_archive(archive: Path) -> dict:
     except OSError:
         fail("archive-changed", "ZIP became unreadable during this check")
     result["ok"] = not issues and bool(result["tasks"]) and all(task["ok"] for task in result["tasks"])
+    result["review_required"] = bool(result["evidence"] and result["evidence"]["review_required"])
     return result
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("archive", type=Path)
+    parser.add_argument("--expected-manifest", type=Path, help="compare against a manifest recorded from the final staging directory")
+    parser.add_argument("--write-manifest", type=Path, help="treat the positional path as the staging directory; save its manifest outside that directory")
     args = parser.parse_args()
-    result = check_archive(args.archive)
+    if args.write_manifest:
+        if args.expected_manifest:
+            parser.error("record and compare are separate operations")
+        source = args.archive.resolve(strict=True)
+        destination = args.write_manifest.resolve()
+        if destination.is_relative_to(source):
+            parser.error("the staging manifest must be outside the batch directory")
+        manifest = build_manifest(source)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+        print(json.dumps({"ok": True, "scope": "local_staging_file_manifest", "path": str(destination), "files": len(manifest["files"])}, ensure_ascii=False))
+        return 0
+    result = check_archive(args.archive, args.expected_manifest)
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if result["ok"] else 1
 

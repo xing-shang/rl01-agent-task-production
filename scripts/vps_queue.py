@@ -51,6 +51,7 @@ def run_manifest(run_dir: Path) -> dict:
     if manifest.get("runtime_policy_digest") and hashlib.sha256(
             (run_dir / "runtime-compose.yaml").read_bytes()).hexdigest() != manifest["runtime_policy_digest"]:
         raise ValueError("Frozen runtime policy changed")
+    runtime.pro_review_accepted(manifest, task)
     return manifest
 
 
@@ -274,7 +275,8 @@ def refresh_run(queue: Queue, run_dir: Path):
                 manifest["golden_valid"] = valid
                 if valid:
                     manifest["golden_verifier_task_digest"] = manifest["task_digest"]
-                manifest["status"] = "CANDIDATES_AWAITING_REGRADE" if valid else "GOLDEN_NOT_VALIDATED"
+                accepted = runtime.pro_review_accepted(manifest, Path(manifest["task"]))
+                manifest["status"] = "CANDIDATES_AWAITING_REGRADE" if valid or accepted else "GOLDEN_NOT_VALIDATED"
         atomic_json(run_dir / "manifest.json", manifest)
 
 
@@ -386,8 +388,9 @@ def submit_runs(run_dirs: list[Path]) -> dict:
         if manifest["status"] != "PREPARED_NOT_RUN" and not queue.rows(path):
             raise ValueError("Unregistered historical run must be reviewed, not automatically rerun")
     for path, manifest in prepared:
+        pro_mode = runtime.pro_review_accepted(manifest, Path(manifest["task"]))
         queue.add(path, Path(manifest["task"]).name, manifest["concurrency"],
-                  [{"key": "golden", "kind": "golden"}] +
+                  ([] if pro_mode else [{"key": "golden", "kind": "golden"}]) +
                   [{"key": "candidate:" + model, "kind": "candidate", "model": model}
                    for model in runtime.MODELS])
         refresh_run(queue, path)
@@ -413,8 +416,8 @@ def submit_regrade(source: Path, task: Path, run_dir: Path, golden=False, depend
         raise ValueError("Source trial lacks its artifact manifest")
     artifact_digest = runtime.tree_hash(source / "artifacts")
     if not golden and dependency is None:
-        if not manifest.get("golden_valid") or runtime.tree_hash(task) != manifest.get("golden_verifier_task_digest"):
-            raise ValueError("First validate Golden on this verifier version")
+        if not runtime.candidate_grade_allowed(manifest, task):
+            raise ValueError("First provide the current Pro review or validate Golden on this verifier version")
     key = ("regrade-golden:" if golden else "regrade:") + str(source) + ":" + runtime.tree_hash(task)
     units = [{"key": key, "kind": "regrade_golden" if golden else "regrade_candidate",
               "source": str(source), "task": str(task), "dependency": dependency,
@@ -432,7 +435,7 @@ def submit_grades(run_dirs: list[Path]) -> dict:
         manifest = run_manifest(path)
         if manifest["status"] != "CANDIDATES_AWAITING_REGRADE" and not any(
                 r["kind"].startswith("regrade") for r in queue.rows(path.resolve(strict=True))):
-            raise ValueError("All selected tasks need a valid Golden and three saved candidates first")
+            raise ValueError("All selected tasks need an accepted Golden review and three saved candidates first")
     submitted = []
     for path in run_dirs:
         path = path.resolve(strict=True)
@@ -445,17 +448,22 @@ def submit_grades(run_dirs: list[Path]) -> dict:
                 adapter = runtime.prepare_verifier(path, None)
                 atomic_json(receipt_path, adapter)
         task = Path(adapter["verifier_task"])
-        golden = next(entry for entry in manifest["trial_index"] if entry["kind"] == "golden")
-        result = submit_regrade(Path(golden["trial"]), task, path, True, start_worker=False)
-        submitted.extend(result["units"])
+        dependency = None
+        if not runtime.pro_review_accepted(manifest, task):
+            golden = next(entry for entry in manifest["trial_index"] if entry["kind"] == "golden")
+            result = submit_regrade(Path(golden["trial"]), task, path, True, start_worker=False)
+            submitted.extend(result["units"])
+            dependency = result["key"]
         for entry in manifest["trial_index"]:
             if entry["kind"] == "candidate":
                 result_candidate = submit_regrade(Path(entry["trial"]), task, path,
-                                                  dependency=result["key"], start_worker=False)
+                                                  dependency=dependency, start_worker=False)
                 submitted.extend(result_candidate["units"])
     ensure_worker()
+    pro_only = all(run_manifest(path).get("golden_review_mode") == "pro_self_review" for path in run_dirs)
     return {"queued_regrades": submitted, "global_slots": DEFAULT_CONCURRENCY,
-            "status": "GOLDEN_REGRADE_THEN_CANDIDATE_REGRADE"}
+            "status": "CANDIDATE_REGRADE_PRO_REVIEW_ACCEPTED" if pro_only
+            else "GOLDEN_REGRADE_THEN_CANDIDATE_REGRADE"}
 
 
 def batch_runs(batch_dir: Path):

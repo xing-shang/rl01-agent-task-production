@@ -35,11 +35,11 @@ LibreOffice依赖公共字体、配置和必要库路径挂载，当前组件已
 
 ## 运行顺序
 
-先做静态、依赖、文件权限、无模型隔离与资源预检，在独立运行目录冻结题包、组件和实际资源。按整机最多2个CLI会话安排候选和Golden，允许预跑但候选评分等该题同版本Golden门槛通过。一次Verifier的2条criterion并发占用2个CLI会话，不再叠加其他候选或Verifier；同主机其他会话也计入这份起步容量。三指定候选各完成一次有效生成，已有成功产物直接留给对应版本Judge。
+先做静态、依赖、文件权限、无模型隔离和资源预检，核对作者记录并冻结题包、组件及实际资源。网页Pro提供Golden及作者自评，金融本地复用现成Golden取得同冻结版本的实际Oracle预检；可并行预跑Golden和三候选，实际Golden通过后统一补判。已有同版本有效记录先核对复用。整机最多2个CLI会话，一次Verifier的2条criterion并发占满这份起步容量，不叠加其他会话。三指定候选各完成一次有效生成，已有成功产物直接留给同版Judge。manifest记录golden_review_mode=pro_self_review、作者分数与来源，并保持local_golden_scoring_executed=false。
 
 候选使用`Stage(label, app, writable_output=True, model=指定模型, effort=None)`，题面来自冻结instruction.md，app只装输入和本轮空output。直接运行原生CLI，保存完整JSONL、终态、产物哈希及Stage.close回执；少做文件属于实际回答表现，请求／进程不可用按基础设施状态处理。当前候选沿CLI／供应商默认思考设置，不能因使用此主机擅自设low或high。
 
-判分调用该运行副本的`direct_judge.grade(tests, app, graded_reward, workers=2)`，随后使用题包固定finalize.py收尾。逐项数量须等于该题Rubric数量，verifier_error=0且各分数载体一致；先核对所有Golden正向项及负项，再核对空答案和候选。完整原始回执、每条理由、退出状态和分数复算保留在私有台账，客户要求的产物、轨迹和评分证据按主技能封包。
+判分调用运行副本的`direct_judge.grade(tests, app, graded_reward, workers=2)`，随后使用题包固定finalize.py收尾。逐项数量须等于该题Rubric数量，verifier_error=0且各分数载体一致。Pro流程核对作者记录后直接审计三候选；其他已请求的实际校准检查按真实状态保存，不把作者分数写成direct_judge运行结果。完整回执、每条理由、退出状态和复算保留在私有台账，客户要求的候选产物、轨迹和评分证据按主技能封包。
 
 受控代理使真实认证只留在可信进程；沙箱中仅有本会话临时身份。同逻辑请求成功即停，失败后最多再试10次，完整验证前不向CLI交付真实输出。确定性配置错误先修复配置，不伪造重试次数。保活修复避免等待响应头或重试退避时下游连接提前断开；候选和Judge都须使用同一已验证版本。耗尽写REQUEST_FAILED／VERIFIER_UNAVAILABLE，不写有效0分；恢复沿[execution-reliability.md](execution-reliability.md)。
 

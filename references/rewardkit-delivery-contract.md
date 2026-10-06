@@ -1,6 +1,6 @@
 # Rewardkit Delivery Contract
 
-This is a structured reading of `sources/03_外发版-评测题包交付规范（rewardkit）20260913.txt`. It is combined with the RL0-1 guideline and construction plan; do not replace the full snapshot with this summary.
+This reference uses the S03 PDF text and S12 original Markdown, `sources/12_rewardkit_feishu_20260913.md`. S12 supplies the exact fenced code-block bytes for the fixed verifier templates. It is combined with the RL0-1 guideline and construction plan; do not replace the full snapshots with this summary.
 
 ## One Task Per Directory
 
@@ -173,7 +173,7 @@ Field constraints:
 - `expected_tool_dependencies` and `expected_skill_dependencies` are subsets of their available sets. Do not require every available tool or skill to be called. In Skill Discovery, `expected_skill_dependencies` is a true strict subset of `skill_set`.
 - Optional `[metadata].expected_pass_rate`, when present, is a number from 0 to 1.
 - Required deliverable paths must be exact; `required = true` may not use glob. Optional process artifacts may use glob only if required is false.
-- Do not put dates, timestamps, or dynamic version components in deliverable filenames.
+- Do not generate dates, timestamps or version components dynamically in deliverable filenames. If the business requires a fixed date, write the exact dated filename in the instruction and keep it byte-identical across all six references, as permitted by S12 section 3.3. Personal-table outer ZIP naming follows its separate convention.
 - Names are case-sensitive. The exact deliverable name must be byte-identical in `instruction.md`, `[[metadata.deliverables]]`, `artifacts`, `solution/golden_output/`, `tests/__golden_output/`, and criterion description.
 - A deliverable path may include directory layers, but rubric descriptions must refer to complete file paths, not only directories. Use UTF-8 names without control characters, keep each filename at most 200 bytes, and prefer the task-ID prefix.
 - `expected_skill_dependencies` and any other expected dependency set must be a subset of the corresponding available set.
@@ -201,6 +201,8 @@ The last line must print `OK`. The self-check also proves Python, Bash, node/npm
 
 ## Solution And Golden
 
+本节保留客户题包与Oracle的书面要求。网页Pro完成Golden、逐项自评和真实生成记录，金融本地默认复用现成Golden完成同冻结版本真实Oracle预检及逐项评分，已有有效同版证据先核对复用。可按授权并行预跑Golden与三候选，Golden通过后统一评分候选。题包保留下述solve.sh、Golden及字节一致副本，各项实际执行状态按真实回执记录，接力步骤见[Pro接力](pro-golden-handoff.md)。医疗本地继续按已明确的格式范围处理。
+
 `solution/solve.sh` is normally `assets/templates/solve.sh`:
 
 ```bash
@@ -222,3 +224,5 @@ After Oracle execution, the standard answer must satisfy:
 ## Fixed Verifier Templates
 
 `tests/test.sh` and `tests/finalize.py` are platform-fixed templates in Appendix A of the rewardkit source. Copy them byte-for-byte, including comments. Do not modify, reformat, reorder, or trim them.
+
+The maintained assets are extracted from S12's fenced code blocks, preserving LF, comments, indentation and trailing blank lines. `assets/templates/source-manifest.json` records the source URL, raw Markdown hash, fence lines and extracted-template hashes. The checker verifies the manifest and assets against the reviewed pinned hashes before comparing the task copies; a missing manifest or asset, or a changed baseline, fails preflight even when the task copies match it. When the retained source is present its hash is also checked. Offline author kits include the manifest and hashes while private source documents remain outside the kit. These locally computed hashes are not client-published standalone script hashes.

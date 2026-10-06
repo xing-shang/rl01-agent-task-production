@@ -37,7 +37,7 @@ def main():
                 raise ValueError('kit hash mismatch: '+item['path'])
             receipt['files_verified'].append({'path':item['path'],'sha256':actual})
     receipt['checker_hashes']={name:hashlib.sha256((code_root/'scripts'/name).read_bytes()).hexdigest()
-                               for name in ('check_rl01_package.py','check_rl01_archive.py')}
+                               for name in ('check_rl01_package.py','check_rl01_archive.py','check_rl01_evidence.py')}
     with tempfile.TemporaryDirectory(prefix='rl01-author-smoke-') as temporary:
         batch=Path(temporary)/'format-smoke'
         task=batch/'FIN-QA-001'
@@ -53,12 +53,19 @@ def main():
         directory_run=subprocess.run(command,capture_output=True,text=True,check=False)
         receipt['directory_check']={'command':command,'exit_code':directory_run.returncode,'stdout':json.loads(directory_run.stdout),'stderr':directory_run.stderr}
         (batch/'交付文档.md').write_text('仅供工程格式测试的合成夹具，不是业务题或A3验收。\n',encoding='utf-8')
+        staging_manifest=args.output_dir/'staging-manifest.json'
+        manifest_command=[sys.executable,'-B',str(code_root/'scripts/check_rl01_archive.py'),str(batch),
+                          '--write-manifest',str(staging_manifest)]
+        manifest_run=subprocess.run(manifest_command,capture_output=True,text=True,check=False)
+        receipt['staging_manifest']={'command':manifest_command,'exit_code':manifest_run.returncode,
+                                     'stdout':json.loads(manifest_run.stdout),'stderr':manifest_run.stderr}
         archive=args.output_dir/'format-smoke.zip'
         with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as output:
             for path in sorted(batch.rglob('*')):
                 if path.is_file():
                     output.write(path,path.relative_to(batch.parent).as_posix())
-        archive_command=[sys.executable,'-B',str(code_root/'scripts/check_rl01_archive.py'),str(archive)]
+        archive_command=[sys.executable,'-B',str(code_root/'scripts/check_rl01_archive.py'),str(archive),
+                         '--expected-manifest',str(staging_manifest)]
         archive_run=subprocess.run(archive_command,capture_output=True,text=True,check=False)
         receipt['archive_check']={'command':archive_command,'exit_code':archive_run.returncode,'stdout':json.loads(archive_run.stdout),'stderr':archive_run.stderr}
         for label, levels in (
@@ -74,7 +81,7 @@ def main():
         (task/'task.toml').write_text(generated['task.toml'].replace('local-validation-fixture','python:3.12-slim; pending confirmation'))
         issues,_=validate(task)
         receipt['negative_controls'].append({'case':'CSE_pending_template','blocked':any(x['detail']=='metadata.environment_template is unresolved' for x in issues),'issues':issues})
-        receipt['ok']=(directory_run.returncode==0 and archive_run.returncode==0
+        receipt['ok']=(directory_run.returncode==0 and manifest_run.returncode==0 and archive_run.returncode==0
                        and all(x['blocked'] for x in receipt['negative_controls']))
     receipt_path=args.output_dir/'smoke-receipt.json'
     receipt_path.write_text(json.dumps(receipt,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')

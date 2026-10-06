@@ -9,21 +9,27 @@ import stat
 import zipfile
 from pathlib import Path
 
-from check_rl01_package import ENGINEERING_VERSION
+from check_rl01_package import ENGINEERING_VERSION, audit_template_baseline
 
 FILES = (
     'scripts/check_rl01_package.py', 'scripts/check_rl01_archive.py',
+    'scripts/check_rl01_evidence.py', 'scripts/test_check_rl01_evidence.py',
     'scripts/render_rl01_config.py', 'scripts/author_engineering_smoke.py',
+    'scripts/check_pro_golden_review.py',
     'scripts/test_check_rl01_package.py', 'scripts/test_check_rl01_archive.py',
     'scripts/test_render_rl01_config.py',
     'assets/schemas/rubrics.schema.json', 'assets/schemas/task.schema.json',
     'assets/templates/task.toml', 'assets/templates/Dockerfile',
     'assets/templates/solve.sh', 'assets/templates/prompt.md',
     'assets/templates/test.sh', 'assets/templates/finalize.py',
+    'assets/templates/source-manifest.json',
     'references/web-author-engineering.md', 'references/rubrics-and-scoring.md',
     'references/rewardkit-delivery-contract.md', 'references/weakness-catalog.md',
     'references/submission-table-and-naming.md',
     'references/pre-delivery-content-checks.md',
+    'references/pro-golden-handoff.md',
+    'references/web-handoff-bundle.md',
+    'references/acceptance-feedback-review.md',
 )
 
 
@@ -32,6 +38,9 @@ def main():
     parser.add_argument('output_zip',type=Path)
     args=parser.parse_args()
     root=Path(__file__).resolve().parent.parent
+    issues=audit_template_baseline()
+    if issues:
+        raise ValueError('cannot build author kit with an invalid template baseline: '+json.dumps(issues,ensure_ascii=False))
     prefix='rl01-author-engineering-'+ENGINEERING_VERSION
     manifest={'engineering_version':ENGINEERING_VERSION,'scope':'offline_author_engineering',
               'client_official_schema':False,'files':[]}
@@ -46,7 +55,7 @@ def main():
     args.output_zip.parent.mkdir(parents=True,exist_ok=True)
     with zipfile.ZipFile(args.output_zip,'w',zipfile.ZIP_DEFLATED) as output:
         for name,data,mode in entries:
-            info=zipfile.ZipInfo(prefix+'/'+name,date_time=(2026,10,3,0,0,0))
+            info=zipfile.ZipInfo(prefix+'/'+name,date_time=(2026,10,4,0,0,0))
             info.create_system=3
             info.external_attr=(stat.S_IFREG|mode)<<16
             info.compress_type=zipfile.ZIP_DEFLATED

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import os
@@ -106,9 +107,18 @@ DOMAIN_ANCHORS = {
     "内容质量-专业规范", "内容质量-事实忠实性",
 }
 MIN_CRITERIA = {"A1": 8, "A2": 12, "A3": 25}
+LAW_RECOMMENDED_CRITERIA = {"A1": 25, "A2": 30, "A3": 35}
 LEVELS = {"0", "0.25", "0.5", "0.75", "1"}
 RAW_LEVELS = {"1", "2", "3", "4", "5"}
-ENGINEERING_VERSION = "20261003.2"
+ENGINEERING_VERSION = "20261005.1"
+TEMPLATE_ROOT = Path(__file__).resolve().parent.parent / "assets/templates"
+TEMPLATE_SOURCE_PATH = "references/sources/12_rewardkit_feishu_20260913.md"
+TEMPLATE_SOURCE_URL = "https://shujufuwubu.feishu.cn/file/FnEXb0evro4XkBxb3sgcBExrn6d"
+TEMPLATE_SOURCE_SHA256 = "57058ac0e30aa455c50b488c36a26c54d624c56e76c6a448100e99ddd35607b1"
+FIXED_TEMPLATE_SHA256 = {
+    "test.sh": "568cb8c368d113de38b6f9d8c7bb809ebae3ee9a6cf8b28dbd3c14e5177b8926",
+    "finalize.py": "f528b27fd30dea03b405db02daffacae04799048f798928de6b20b6c8df9a747",
+}
 ANCHOR_LINE = re.compile(r"^\s*(?:[-*]\s+)?(?:\*\*)?([0-9]+(?:\.[0-9]+)?)\s*(?:分)?(?:\*\*)?\s*[:：]\s*(.*)$", re.MULTILINE)
 
 
@@ -210,6 +220,8 @@ def audit_expert_rubric(data: object, difficulty: object, criteria: object = Non
             if (not isinstance(levels, dict) or set(levels) != LEVELS
                     or any(not isinstance(v, str) or not v.strip() for v in levels.values())):
                 issues.append(fail("rubric-levels", f'{label} levels must be an object with exactly the string keys "0", "0.25", "0.5", "0.75", "1" and nonempty string descriptions; arrays and "0.0"/"1.0" keys do not match this local serialization contract'))
+        elif kind == "binary" and "levels" in item:
+            warnings.append(f"{label}: Binary carries levels; review whether the criterion is truly binary or should use business-specific Gradient anchors")
         weight = item.get("weight")
         if not numeric(weight) or weight not in {-10, -7, -3, 3, 7, 10}:
             issues.append(fail("rubric-weight", f"{label} needs a finite signed weight from ±3/±7/±10"))
@@ -268,6 +280,47 @@ def audit_expert_rubric(data: object, difficulty: object, criteria: object = Non
 
 def fail(rule: str, detail: str) -> dict[str, str]:
     return {"rule": rule, "detail": f"{detail}"}
+
+
+def audit_template_baseline(template_root: Path | None = None) -> list[dict[str, str]]:
+    """Bind local templates to the reviewed Markdown source, including comments.
+
+    Offline author kits carry the manifest and pinned hashes; the private source
+    document stays in the maintained skill and is also checked when present.
+    """
+    template_root = TEMPLATE_ROOT if template_root is None else template_root
+    issues = []
+    try:
+        manifest = json.loads((template_root / "source-manifest.json").read_text(encoding="utf-8"))
+        if not isinstance(manifest, dict):
+            raise ValueError("manifest must be an object")
+        if (manifest.get("source_sha256") != TEMPLATE_SOURCE_SHA256
+                or manifest.get("source_path") != TEMPLATE_SOURCE_PATH
+                or manifest.get("source_url") != TEMPLATE_SOURCE_URL):
+            issues.append(fail("template-source", "template manifest does not identify the reviewed Markdown source"))
+        templates = manifest.get("templates")
+        if (not isinstance(templates, dict) or set(templates) != set(FIXED_TEMPLATE_SHA256)
+                or any(not isinstance(templates[name], dict)
+                       or templates[name].get("sha256") != digest
+                       for name, digest in FIXED_TEMPLATE_SHA256.items())):
+            issues.append(fail("template-source", "template manifest hashes differ from the reviewed code blocks"))
+    except (OSError, UnicodeError, ValueError) as exc:
+        issues.append(fail("template-source", f"cannot read template source manifest: {exc}"))
+    for name, digest in FIXED_TEMPLATE_SHA256.items():
+        try:
+            actual = hashlib.sha256((template_root / name).read_bytes()).hexdigest()
+            if actual != digest:
+                issues.append(fail("template-source", f"maintained {name} differs from the reviewed Markdown code block"))
+        except OSError as exc:
+            issues.append(fail("template-source", f"cannot read maintained {name}: {exc}"))
+    source = template_root.parent.parent / TEMPLATE_SOURCE_PATH
+    if source.is_file():
+        try:
+            if hashlib.sha256(source.read_bytes()).hexdigest() != TEMPLATE_SOURCE_SHA256:
+                issues.append(fail("template-source", "retained Markdown source differs from the reviewed source hash"))
+        except OSError as exc:
+            issues.append(fail("template-source", f"cannot read retained Markdown source: {exc}"))
+    return issues
 
 
 def is_executable(path: Path) -> bool:
@@ -533,15 +586,21 @@ def validate(root: Path) -> tuple[list[dict[str, str]], list[str]]:
         extra_issues, extra_warnings = audit_expert_rubric(expert_rubric, metadata.get("difficulty"), criteria)
         issues.extend(extra_issues)
         warnings.extend(extra_warnings)
+        difficulty = metadata.get("difficulty")
+        items = expert_rubric.get("items") if isinstance(expert_rubric, dict) else None
+        if metadata.get("domain") == "法律" and isinstance(difficulty, str) and isinstance(items, list):
+            recommended = LAW_RECOMMENDED_CRITERIA.get(difficulty)
+            if recommended is not None and len(items) < recommended:
+                warnings.append(f"法律领域{difficulty}共有{len(items)}条评分项；S11建议至少{recommended}条，此项仅提示，通用条数门槛仍单独检查")
     original_items = expert_rubric.get("items", []) if isinstance(expert_rubric, dict) else []
     originals = {x["id"]: x for x in original_items
                  if isinstance(x, dict) and isinstance(x.get("id"), str)} if isinstance(original_items, list) else {}
     for item in criteria or []:
         original = originals.get(item.get("id")) if isinstance(item.get("id"), str) else None
         issues.extend(audit_likert_anchors(item, original))
-    template_root = Path(__file__).resolve().parent.parent / "assets/templates"
+    issues.extend(audit_template_baseline())
     for filename in ("test.sh", "finalize.py"):
-        actual, expected = root / "tests" / filename, template_root / filename
+        actual, expected = root / "tests" / filename, TEMPLATE_ROOT / filename
         if actual.is_file() and expected.is_file() and actual.read_bytes() != expected.read_bytes():
             issues.append(fail("fixed-template", f"tests/{filename} differs from the maintained appendix template"))
     if prompt_path.is_file():

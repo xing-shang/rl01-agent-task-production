@@ -28,13 +28,13 @@ VPS实测2核、约8GB内存、96GB系统盘。2026-10-01配置时，已有`FIN1
 
 设置`DISABLE_PROMPT_CACHING=0`及三个分模型开关为0。保持模型、effort、工具定义和稳定提示词前缀一致，保留原始`cache_control`及`anthropic-beta`头。以真实`usage.cache_read_input_tokens`和`cache_creation_input_tokens`核验命中，不能从本地缓存目录非空推定节约了API token。不同候选模型不共享模型缓存，重复Judge前缀可在同模型、同路由实际支持时获益。默认使用该固定CLI版本的缓存TTL；新文档的`CLAUDE_CODE_PROMPT_CACHE_TTL`等要求2.1.242以上，不给2.1.114照抄新开关或默认强制1小时。
 
-## Golden与三模型并行
+## Pro接力、正式Golden与三模型
 
-用户本轮允许后续用并行预跑节约时间。这是对旧的完全串行本地方法的更新，不放宽Golden、静态、业务正确性或正式难度门槛。先完成题面、输入、权限、Docker、量表与作者Golden预检并冻结，再并行执行同版本Golden Judge和候选Agent。候选先关闭Verifier，只保留实际产物、完整轨迹、config/result/lock和artifacts/manifest.json；此时记PRELIMINARY，不记正式分数。
+用户已确认最终交付按文档保留真实Golden预检。网页Pro负责制作答案和作者自评；金融本地核对题包、环境和记录后冻结版本，默认安排现成Golden的Oracle预检与三候选作答，真实Golden通过后统一评分候选。候选保存实际产物、轨迹、config/result/lock和artifacts/manifest.json；已有同版本有效Oracle回执先核对复用。
 
-Golden有效通过且剩余扣分已解释后，保留候选产物，按同一冻结评分版本统一补判。首次正式候选生成只有一遍，不因有效低分重抽。纯Judge网络故障、判分失败或量表技术映射修复可在原产物上regrade；评分含义、权重或Golden改变时记录新评分版本，对Golden和所有候选统一重评。题面、输入、Agent可见Skill、运行环境或可用工具改变，则受影响候选必须重跑生成；不能只补判继续引用旧轨迹。
+plan的--pro-review和plan-batch的--pro-review-dir导入完整作者记录并冻结其hash，默认golden_review_mode=formal_golden、formal_golden_required=true，保留golden.json和1个Oracle+3个候选单元。作者评分不写成Oracle回执。只有用户明确安排候选阶段时额外使用--skip-formal-golden；该模式需完整作者记录，golden_valid保持false，并标最终Golden预检待补。
 
-节约的是Golden判分与候选执行的重叠时间、重复依赖安装和重复候选生成。用户2026-10-01将后续默认总并发指定为8，并要求多题目、多session并发。8是整个新队列共享的运行单元上限；单题上限仍为4，可同时安排1路Golden与3路候选，两题可各占4路；多题时按各题正在运行的数量和上次分配时间轮流发放槽位，不要求一题全部完成再启动下一题。每题仍独立验证Golden、产物、轨迹和评分版本，不能用批次平均替代逐题门槛。
+首次候选只生成一遍，按实际失败恢复请求或原产物评分。规则含义、权重或Golden改变时更新作者评审及评分版本，验证该版本真实Golden再统一补判；Agent可见内容或环境改变则重跑受影响候选。队列仍共享8槽、单题最多4槽，逐题保留冻结版本及真实有效记录。医疗不因本参考扩大本地运行范围。
 
 Harbor0.23.0的`verifier.disable=true`能只跑Agent，`harbor trials regrade`能只补判已记录产物。regrade要求独立Verifier：运行副本的`[verifier] environment_mode="separate"`，并有能启动`/tests/test.sh`的Verifier环境。本机Docker backend实测仍在`tests/`寻找环境定义，单独设置separate不会自动复制`environment/Dockerfile`；须提供`tests/Dockerfile`或已验证的Verifier docker_image。Dockerfile必须包含所需依赖、`COPY . /tests`及预期输出目录。需要适配时在题包外建立运行副本，记录源包hash、Agent可见内容hash和适配diff；固定test.sh与finalize.py逐字节保留。运行副本保留原task.name或原目录basename，否则regrade会报Task name mismatch。独立Verifier恢复产物到原路径的能力先用无模型smoke核验；不能仅凭CLI帮助就认定业务题已可重评。
 
@@ -46,7 +46,7 @@ Harbor0.23.0会省略trial配置中的默认字段，Oracle的agent也可能完�
 
 S03§6.3第30页原文将individual描述为“逐条串行”。用户2026-10-01转述甲方已线下确认允许条目并行，授权本VPS后续采用该方式。此授权来自本会话，不是客户书面规范的新版本。报告沿用正常字段和格式，不额外新增并发说明；运行配置、日志和回执按真实执行保留，不将其描述成串行，也不改客户原文、题包模板或历史回执。
 
-新plan和plan-batch默认--judge-workers 2，每个独立Verifier的所有维度合计最多2个裁判会话，整台新环境的上游请求仍共享8路。可用--judge-workers 1准备原生串行版本。旧manifest没有judge_execution时继续按串行处理，不修改已有运行。首次共享Verifier的Golden按原生实现执行；grade-batch建立独立Verifier后，先按本次条目调度复评Golden，通过才放行同版本候选。
+新plan和plan-batch默认--judge-workers 2，每个独立Verifier最多2个裁判会话，整台上游请求共享8路。--judge-workers 1可准备原生串行版本；旧manifest没有judge_execution时按串行处理。默认模式在独立Verifier版本上先取得有效Golden，再补判同版本候选；明确候选阶段-only模式单列待补。
 
 assets/vps_parallel_rewardkit.py只替换RewardKit0.1.7的individual调度，提示词、schema、Claude Code调用、解析与聚合仍用其原实现。原始顺序汇总全部ID、权重、raw/value与reasoning，任何缺项、解析失败、取消或超时沿固定finalize.py判为不可用。确定性模拟裁判的串并行对照只验证调度和汇总，不证明真实模型两次评分一定相同。
 
@@ -65,49 +65,49 @@ python3 ~/.codex/skills/ssh-skill/scripts/ssh_execute.py 76.13.21.51 "/opt/rl01-
 后续获授权跑某题时，先按ssh-skill上传最终题包到`tasks/<task-id>-<digest>/`，再准备独立运行目录：
 
 ```bash
-/opt/rl01-harbor/bin/rl01 plan /opt/rl01-harbor/tasks/<task-id>-<digest>/<task-id>
+/opt/rl01-harbor/bin/rl01 plan /opt/rl01-harbor/tasks/<task-id>-<digest>/<task-id> --pro-review /opt/rl01-harbor/author-reviews/<task-id>.json
 /opt/rl01-harbor/bin/rl01 run /opt/rl01-harbor/runs/<prepared-run>
 ```
 
-plan执行源包静态检查，应用默认2048MiB或显式--memory-mb资源设置，再检查并冻结运行副本与Compose策略，不调用模型。独立Verifier继承该冻结内存设置。run立即将4个单元入队并返回，实际运行由rl01-harbor-dispatcher.service后台完成；终端退出不会丢失队列。各单元的Harbor原生并发为1，整任务重试为0。重复提交同一运行目录会复用已登记单元，不重复消耗模型；显式新建运行目录才构成新一轮运行。run返回QUEUED_ASYNCHRONOUSLY不代表任务完成。
+plan执行源包静态和Pro记录核验，应用默认2048MiB或显式--memory-mb，再检查并冻结运行副本与Compose策略，不调用模型。source-task.toml保留源配置，资源适配不改作者已检查的题面、输入、Golden及评分材料。默认run将1个Oracle及3个候选单元入队，由后台dispatcher执行；重复提交复用登记单元，各单元原生并发为1、整任务重试为0。返回QUEUED_ASYNCHRONOUSLY不代表完成。实际使用前核对服务器已同步本技能的check_pro_golden_review.py、vps_harbor.py和vps_queue.py；本地更新不等于运行中的worker已加载新代码，按原有排空方式加载，避免干扰既有会话。
 
 一次准备和运行多题：
 
 ```bash
-/opt/rl01-harbor/bin/rl01 plan-batch /opt/rl01-harbor/tasks/<batch-directory>
+/opt/rl01-harbor/bin/rl01 plan-batch /opt/rl01-harbor/tasks/<batch-directory> --pro-review-dir /opt/rl01-harbor/author-reviews/<batch-directory>
 /opt/rl01-harbor/bin/rl01 run-batch /opt/rl01-harbor/batches/<prepared-batch>
 /opt/rl01-harbor/bin/rl01 status
 /opt/rl01-harbor/bin/rl01 status /opt/rl01-harbor/runs/<prepared-run>
 ```
 
-plan-batch也接受多个明确题目目录，批次目录内只识别直接子目录的task.toml，不递归猜测多个版本。每题独立run/manifest，批次manifest仅索引这些运行。多session统一使用run或run-batch，共享同一state/queue.sqlite3和8个槽位。plan的--concurrency 2或3在新入口表示该题的同时运行上限，多题仍共享全局8；原有manifest里的显式值保留。status汇总队列状态，并给出worker心跳、实际可用槽位、内存/磁盘等待原因；全局视图最多展示50条单元，指定run时查看该题全部单元。
+plan-batch接受多个明确题目目录或一个批次，直接子目录须有task.toml；Pro记录目录中每题文件名为<题目目录名>.json，先核验全部记录再准备运行。每题独立manifest，批次只索引这些运行。多session共享state/queue.sqlite3和8槽，--concurrency 2或3表示单题同时运行上限。status显示队列、worker心跳、可用槽位与资源等待原因，全局最多50条，指定run查看该题全部单元。
 
 旧入口的“发现任意Harbor就等待”已经移除。8是通过rl01新入口提交的多session共享上限；既有未纳管session的Agent与独立Verifier容器只用于观察，不按容器个数强制扣减新槽位。实测旧session有4个容器时CPU负载约0.4、可用内存约5.5GB，按容器数预留会错误地阻止新题启动。新作业按实际资源余量安排，CPU负载用于观察，不单独把所有题拦住。可用内存低于1536MB、空闲磁盘低于15GB或无法读取容器清单时暂停启动新单元，资源恢复后自动继续。已有单元按冻结的CPU、内存和超时继续执行。新Compose策略设cpu_shares=128，新worker为nice15/idle I/O，使旧session在CPU竞争时有更高相对优先级。未纳入队列的旧作业不能被强制限流，其占用变化由容器清单观察，不宣称已改造其模型请求。
 
 后台队列跨进程事务领取槽位，按题轮转。控制进程异常重启时，未开始单元继续排队；已开始单元保留INTERRUPTED或ORPHANED并要求核对，存活的孤儿作业仍占槽位，不自动重跑候选。请求重试仍由代理承担11次物理尝试，不能用队列重放生成代替请求恢复。后续更新worker代码前查看status，已有dispatcher仍须自然排空后重载，不能停止其他session。2026-10-01由4槽切换8槽时使用独立dispatcher.lock和rl01-harbor-dispatcher.service接管调度；旧rl01-harbor-queue.service只停止领取新单元，已有线程、代理和Harbor进程继续至自然结束。队列新增owner_pid/owner_start记录实际控制进程，恢复时保留仍由存活控制进程维护的RUNNING单元，避免误标孤儿或重复运行。新dispatcher按SQLite里全部RUNNING/ORPHANED单元合计核对8槽，旧单元同样占槽。运行中的任务hash、已保存分数、轨迹和产物保持真实；新的槽数及交接回执单独记录。
 
-多题完成预跑并逐题审阅有效Golden后，可以整批补判：
+多题完成候选生成并核对已导入的Pro记录后，可以整批补判：
 
 ```bash
 /opt/rl01-harbor/bin/rl01 grade-batch /opt/rl01-harbor/batches/<prepared-batch>
 ```
 
-grade-batch复用已保留的干净Agent镜像，逐题建立独立Verifier副本并先重评该题Golden；只有该副本Golden有效通过，才放行本题3个候选regrade。不同题的Golden门槛独立，补判仍共享8个总槽位。结果记SCORES_READY_REQUIRES_REVIEW，后续复算、专业复核和正式难度归档按本技能完成，不因队列全部结束就写FULLY_ACCEPTED。
+默认grade-batch复用干净Agent镜像并建立独立Verifier，在当前评分版本取得有效Golden后放行候选补判，共享8槽。明确使用--skip-formal-golden的候选阶段仍标最终预检待补。结果记SCORES_READY_REQUIRES_REVIEW，继续复算、专业复核和难度归档，不因队列结束就写FULLY_ACCEPTED。
 
-Golden与候选执行结束后，核对本次缓存镜像的ID与输入版本，再准备独立Verifier副本。Harbor0.23.0内部镜像名称和清理行为不能从trial目录名推定；helper默认使用manifest里保留的镜像，也允许显式`--agent-image <verified-agent-image>`。它记录实际image ID，保留原任务名及Agent可见内容，并建立tests/Dockerfile：
+单题手工补判先核对缓存镜像ID和输入版本，再准备独立Verifier副本；helper记录实际image ID、保留任务名及Agent可见内容并建立tests/Dockerfile。实际候选补判使用：
 
 ```bash
 /opt/rl01-harbor/bin/rl01 prepare-verifier <prepared-run>
+/opt/rl01-harbor/bin/rl01 regrade <candidate-trial> --task <prepared-verifier-task> --run-dir <prepared-run>
+```
+
+默认正式模式中，新建独立Verifier须先核对该评分版本Golden；对应命令为：
+
+```bash
 /opt/rl01-harbor/bin/rl01 regrade <oracle-trial> --golden --task <prepared-verifier-task> --run-dir <prepared-run>
 ```
 
-即使共享Verifier的Golden已通过，新建独立Verifier也要先在该副本上重评Golden，保证最终所有分数使用同一环境与评分版本。若只需恢复已有独立Verifier的请求失败，可直接复用已核对的副本。Golden通过后，对每个候选trial统一运行：
-
-```bash
-/opt/rl01-harbor/bin/rl01 regrade <candidate-trial> --task <separate-verifier-runtime-task> --run-dir <prepared-run>
-```
-
-补判同样异步入共享队列。helper拒绝Agent可见内容改变、Golden未通过、评分版本不匹配或shared-mode Verifier；其他Harbor仅计入实际槽位占用。它不自行创建新业务题、不把退出码0当有效分数；最终仍按逐项回执、固定finalize.py、完整Rubric计数和verifier_error核验。评分版本有变更时，先用Oracle源trial执行`regrade ... --golden`取得对应版本Golden并审计，再统一补判候选；helper核对当前Verifier任务hash与已通过Golden的任务hash。
+补判异步入共享队列，拒绝Agent可见内容改变、Pro记录或评分材料不匹配、shared-mode Verifier；正式Golden模式另核对Golden评分版本。helper不把退出码0当有效分数，按完整Rubric计数、原始明细、固定finalize.py和verifier_error核验。评分材料改变时更新同版作者记录，并取得相应真实Oracle回执后统一补判候选。
 
 `vps_request_proxy.py`缓冲完整响应并识别HTTP、JSON错误及SSE终止，候选和Judge同用最多11次物理尝试。成功立即返回；预算耗尽返回明确的终止错误，以阻止外层SDK把整个预算重新重复。Harbor整任务重试为0。`test_vps_queue.py`验证多题轮转、跨进程8槽上限、重复提交、失败释放、孤儿恢复和逐题Golden依赖；`test_vps_runtime.py`使用本地假上游验证第11次成功、持续失败、HTTP200错误、半截流、body超时、认证拒绝及low/cache透传，不消耗模型额度。实际代理请求审计位于运行私有目录，记录payload hash、尝试计数和usage，不记录提示词、回答或密钥。
 

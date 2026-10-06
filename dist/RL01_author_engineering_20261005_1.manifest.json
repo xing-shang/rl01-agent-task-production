@@ -1,0 +1,175 @@
+{
+  "engineering_version": "20261005.1",
+  "scope": "offline_author_engineering",
+  "client_official_schema": false,
+  "files": [
+    {
+      "path": "scripts/check_rl01_package.py",
+      "bytes": 36281,
+      "sha256": "f269438b4a71e48eccba3854f036e6b42a20bf6eb5009a80309676934b85ed9f",
+      "mode": 493
+    },
+    {
+      "path": "scripts/check_rl01_archive.py",
+      "bytes": 8239,
+      "sha256": "68be2f3ae18d700bbc34d2d881bed706f3e1c12c01a15e68dca38a8a6baf3974",
+      "mode": 493
+    },
+    {
+      "path": "scripts/check_rl01_evidence.py",
+      "bytes": 14634,
+      "sha256": "a1dcf7553a2ea21751338862029cae56dfc0f8d3044e14133030753a418137a4",
+      "mode": 420
+    },
+    {
+      "path": "scripts/test_check_rl01_evidence.py",
+      "bytes": 8071,
+      "sha256": "f2572ba255c2aeb5898125404bace66079be023270349c89fdf276cf118fa6f4",
+      "mode": 420
+    },
+    {
+      "path": "scripts/render_rl01_config.py",
+      "bytes": 8004,
+      "sha256": "22e4e60934b74fb298339e823d519ae1135938aa64478963b3e4f05c03cc6983",
+      "mode": 493
+    },
+    {
+      "path": "scripts/author_engineering_smoke.py",
+      "bytes": 5790,
+      "sha256": "abcbcde1a66357a47ad0c88f323dfe9adbae82eb49cedac75988eb5cc09b9093",
+      "mode": 493
+    },
+    {
+      "path": "scripts/check_pro_golden_review.py",
+      "bytes": 6530,
+      "sha256": "2a17fcec299ed27c64765bd7052c554a28e1fdfb4b6dd97c50affa4fdf6550d4",
+      "mode": 493
+    },
+    {
+      "path": "scripts/test_check_rl01_package.py",
+      "bytes": 20120,
+      "sha256": "b88d44e2ed6505cf8415fec8ca51c11985d5dbd935e9cc767861ae5874bf1e6d",
+      "mode": 420
+    },
+    {
+      "path": "scripts/test_check_rl01_archive.py",
+      "bytes": 3310,
+      "sha256": "b28f3a08724ac3b2226c87b0336b79ca8b5d48ac35977a319c826b4f3dd6d70e",
+      "mode": 420
+    },
+    {
+      "path": "scripts/test_render_rl01_config.py",
+      "bytes": 3236,
+      "sha256": "abe72c12b756a1f33a10eb0dd1a54cb7c688aa63692486ea47cef6b6efff333e",
+      "mode": 420
+    },
+    {
+      "path": "assets/schemas/rubrics.schema.json",
+      "bytes": 3831,
+      "sha256": "d56de5e1bb587eb5e48c70ee1c78a9762640621172d8a97b98568f86650f05b4",
+      "mode": 420
+    },
+    {
+      "path": "assets/schemas/task.schema.json",
+      "bytes": 3351,
+      "sha256": "ef10aadeff2fa1c2a8da40dfba8ba308b901fe4aada67776e752413bc1684474",
+      "mode": 420
+    },
+    {
+      "path": "assets/templates/task.toml",
+      "bytes": 1962,
+      "sha256": "381435870fd0f1a1a3718e9c8ca53418fe1700557a69187605d2baa2323f27da",
+      "mode": 420
+    },
+    {
+      "path": "assets/templates/Dockerfile",
+      "bytes": 1314,
+      "sha256": "3eebc2b6f04067429d638862c694bd6a2c5a38d385be5adebdfeaa248b3cfa25",
+      "mode": 420
+    },
+    {
+      "path": "assets/templates/solve.sh",
+      "bytes": 97,
+      "sha256": "3f26ac81cb1c4583f60c92a76f386ecf0343e8a2e0f86b137d7943ecf0ea958c",
+      "mode": 420
+    },
+    {
+      "path": "assets/templates/prompt.md",
+      "bytes": 2360,
+      "sha256": "51824f3bc4a20547c35b3f2e8e22d5b5b2527fe8c7a3e5faf873ce39bfba2d23",
+      "mode": 420
+    },
+    {
+      "path": "assets/templates/test.sh",
+      "bytes": 3353,
+      "sha256": "568cb8c368d113de38b6f9d8c7bb809ebae3ee9a6cf8b28dbd3c14e5177b8926",
+      "mode": 493
+    },
+    {
+      "path": "assets/templates/finalize.py",
+      "bytes": 12331,
+      "sha256": "f528b27fd30dea03b405db02daffacae04799048f798928de6b20b6c8df9a747",
+      "mode": 493
+    },
+    {
+      "path": "assets/templates/source-manifest.json",
+      "bytes": 1044,
+      "sha256": "883592c5dcec110d6b5df0f1db36a39e830ac666bda29d686c50eda0534102f0",
+      "mode": 420
+    },
+    {
+      "path": "references/web-author-engineering.md",
+      "bytes": 5569,
+      "sha256": "e4330c217ff36dd55b571a26683e1ac94749a25f8a7ec073f56da49b97686890",
+      "mode": 420
+    },
+    {
+      "path": "references/rubrics-and-scoring.md",
+      "bytes": 9260,
+      "sha256": "895d53912ac00c126025dd391a53daabbb94e4b481ae55b063930b08d5c3621a",
+      "mode": 420
+    },
+    {
+      "path": "references/rewardkit-delivery-contract.md",
+      "bytes": 13256,
+      "sha256": "4180b5e2649a25626edc741087e4da6900d56fd0cbe524824bc6393ce7a3fc93",
+      "mode": 420
+    },
+    {
+      "path": "references/weakness-catalog.md",
+      "bytes": 4745,
+      "sha256": "ebbd723d1d6a791c4927d0a97cd5c08c2ee0c6de88d58749803ad99be2831304",
+      "mode": 420
+    },
+    {
+      "path": "references/submission-table-and-naming.md",
+      "bytes": 11586,
+      "sha256": "fb60a4303860e189bdc5378265a8823ddc13766db36772b339b6150bcb6eb1b7",
+      "mode": 420
+    },
+    {
+      "path": "references/pre-delivery-content-checks.md",
+      "bytes": 4712,
+      "sha256": "ef88f94babaca1ceb6ece862d877c0a1bb0a000d9db58aa487e9298bf2490c07",
+      "mode": 420
+    },
+    {
+      "path": "references/pro-golden-handoff.md",
+      "bytes": 12443,
+      "sha256": "6991fe2320bbab370cbfc29593781a4f5b22ff84c17fcdd7e250267a852305a1",
+      "mode": 420
+    },
+    {
+      "path": "references/web-handoff-bundle.md",
+      "bytes": 5401,
+      "sha256": "c1e8d87bf03ec78f321f299645d718b56129ba59617131601d640f8492c7aa76",
+      "mode": 420
+    },
+    {
+      "path": "references/acceptance-feedback-review.md",
+      "bytes": 10057,
+      "sha256": "91b74249921b170d55d15da1fa4b14ea71e82053d75bae972467ec1c4e089242",
+      "mode": 420
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "source_id": "S12",
+  "source_url": "https://shujufuwubu.feishu.cn/file/FnEXb0evro4XkBxb3sgcBExrn6d",
+  "source_path": "references/sources/12_rewardkit_feishu_20260913.md",
+  "source_sha256": "57058ac0e30aa455c50b488c36a26c54d624c56e76c6a448100e99ddd35607b1",
+  "source_bytes": 122164,
+  "document_date": "20260913",
+  "retrieved_on": "2026-10-04",
+  "hash_authority": "locally_computed_from_retained_source; not a client-published standalone script hash",
+  "extraction": "Copy UTF-8 fenced code-block bytes between the fence lines, retaining LF, comments, indentation and trailing blank lines.",
+  "templates": {
+    "test.sh": {
+      "opening_fence_line": 1538,
+      "closing_fence_line": 1612,
+      "bytes": 3353,
+      "sha256": "568cb8c368d113de38b6f9d8c7bb809ebae3ee9a6cf8b28dbd3c14e5177b8926"
+    },
+    "finalize.py": {
+      "opening_fence_line": 2132,
+      "closing_fence_line": 2440,
+      "bytes": 12331,
+      "sha256": "f528b27fd30dea03b405db02daffacae04799048f798928de6b20b6c8df9a747"
+    }
+  }
+}

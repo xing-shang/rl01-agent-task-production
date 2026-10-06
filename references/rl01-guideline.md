@@ -1,6 +1,8 @@
 # RL0-1 Production Guideline
 
-This is a structured reading of `sources/01_RL0-1-数据生产规范GuidelineV1.1--20260920+for外部供应商.txt`. It must be combined with the rewardkit delivery contract and the construction plan.
+This reference uses the S01 production PDF, the S11 Feishu text retrieved on 2026-10-04, and the applicable QA clauses. It must be combined with the rewardkit delivery contract and the construction plan. Exact sources and reading coverage are recorded in `source-snapshots.md`.
+
+For the user's web Pro handoff selected on 2026-10-04, reuse the final Golden files and complete author self-review, verify the package and runtime, then run the three candidates and their actual Judge scoring. Do not add local Golden generation or scoring. The client acceptance clauses below remain source requirements. Keep the authoring method and detailed review in the private ledger; delivery documents include only client-required content, without an extra Golden source or production-process field. Final delivery must satisfy the applicable client document using real files, scores and required evidence. See [the current handoff](pro-golden-handoff.md).
 
 ## Purpose And Scope
 
@@ -42,6 +44,8 @@ The task description must use natural language to describe the scenario, require
 
 Reference files are the real inputs required to complete the task, such as CSV, PDF, contracts, and logs. Use the actual source files for the scenario's real deliverable. They must be real data. Do not require the model to invent regulations, policy interpretations, role responsibilities, or statistics. There is no file-count limit, but the total size is at most 20 GB.
 
+S11 requires actual readable files in place of links that the candidate would need to search online. When web content is necessary, copy the needed content into a separate Word reference file. Record its source, acquisition date and included scope, retain relevant tables and images, and verify the exported file is readable. These provenance details are local production practice; they do not imply authorization for the candidate to browse or add new client-required metadata.
+
 ### Reference Answer
 
 The reference answer is produced by the domain expert and serves as the rubric self-check baseline. Its deliverable type, filename, and count must match the task description exactly. After scoring, it must meet `score_final >= 0.85`; if not, the answer or rubric must be corrected.
@@ -56,7 +60,7 @@ The RL0-1 guideline describes the original scoring rule with these fields:
 - `criterion_necessity`: `Explicit` or `Implicit`.
 - `type`: `Binary` or `Gradient`.
 - `weight`: one of `+10`, `+7`, `+3`, `-3`, `-7`, `-10`.
-- `levels`: for Gradient criteria, the score levels from 1 to 0.25 or 0.
+- `levels`: for Gradient criteria, exactly five normalized score levels: 0, 0.25, 0.5, 0.75 and 1.
 
 A positive score rewards behavior or output required by real production. A negative score represents behavior or output that real production must avoid. Do not create both a positive and a negative item on the same angle.
 
@@ -85,6 +89,8 @@ Content quality, operational and delivery safety should carry high weight. Add p
 ## Rubric Distribution
 
 Current QA C1 counts only the positive weights in conclusion correctness, numerical/calculation accuracy, professional standards and factual fidelity toward the 30% domain-anchor threshold. Analysis/evidence quality is still a valid dimension but is not in that numerator. A1/A2/A3 require at least 8/12/25 criteria. Total negative magnitude must not exceed 50% of total positive weight. Every task must include at least two `Critically Important` positive items worth 10. A -10 item is only for a major professional error, hallucination, business safety, or compliance risk. Instruction compliance, conclusion correctness, analysis/evidence quality, and factual fidelity are generally required; adjust other dimensions by deliverable type.
+
+S11 separately recommends at least 25/30/35 criteria for simple/intermediate/complex legal tasks, applied here to A1/A2/A3 difficulty. This is legal-domain guidance and produces a local warning below the recommendation; the general QA minimum remains a separate hard check. Count all independent positive and negative items, retain atomicity and business value, and do not equate these difficulty labels with C1—C5 task complexity.
 
 ## Metadata
 

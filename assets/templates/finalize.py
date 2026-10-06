@@ -62,7 +62,7 @@ def pooled_score(details):
 
     正向项：+weight 进分子、weight 进分母。
     negate 项：-weight 进分子、不进分母。明细里的 value 是翻转后的值
-    （违规存在 = 0），违规程度需还原为 1 - value。
+              （违规存在 = 0），违规程度需还原为 1 - value。
     异常条目一律不计入、改由 verifier_error 上报，包括：带 error（判官超时会把
     每条都记成 value = 0.0 并保留 negate，若计入会凭空扣分）、weight 非正数、
     value 非有限值、negate 非布尔值。
@@ -155,10 +155,9 @@ def read_stderr_tail(reward_path, limit=2000):
 
 
 # Python traceback 的**最后一条异常行**才是真正的错误信息（前面全是栈帧）。
-# rewardkit 用 ExceptionGroup 包裹异常，每行带 " | " 前缀，一并剥掉。
+# rewardkit 用 ExceptionGroup 包裹异常，每行带 "  | " 前缀，一并剥掉。
 _ERROR_LINE_RE = re.compile(
-    r"^[\s|+]*((?:\w+\.)*\w*(?:Error|Exception|Timeout)\b.*)$",
-    re.MULTILINE)
+    r"^[\s|+]*((?:\w+\.)*\w*(?:Error|Exception|Timeout)\b.*)$", re.MULTILINE)
 
 
 def last_error_line(text):
@@ -170,11 +169,11 @@ def last_error_line(text):
 # Reward Kit 抛出的异常类型 → AP 错误码。左侧字符串取自 rewardkit 0.1.7 源码里
 # 逐字写死的异常消息，不是猜测；未命中的一律按 scorer_error 兜底并透传原文。
 _EXIT_CODE_RULES = (
-    ("timed out after", "judge:timeout"),
+    ("timed out after", "judge:timeout"),                    # judges.py 超时（error 字段/warning）
     ("Could not parse JSON from judge response", "judge:parse_error"),
     ("expected dict with 'score' and 'reasoning'", "judge:parse_error"),
-    ("exited with code", "judge:scorer_error"),
-    ("RateLimitError", "judge:api_error:rate_limit"),
+    ("exited with code", "judge:scorer_error"),              # agent CLI 非零退出
+    ("RateLimitError", "judge:api_error:rate_limit"),        # litellm 异常类名
     ("ContentPolicyViolationError", "judge:api_error:content_filter"),
     ("AuthenticationError", "judge:api_error:auth"),
     ("litellm", "judge:api_error"),

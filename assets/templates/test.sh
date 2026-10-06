@@ -3,8 +3,7 @@
 
 set -uo pipefail
 
-# --- judge 凭据：JUDGE_*（task.toml [verifier.env] 声明、平台注入）优先，
-# EVAL_API_* 为旧环境兜底 ---
+# --- judge 凭据：JUDGE_*（task.toml [verifier.env] 声明、平台注入）优先，EVAL_API_* 为旧环境兜底 ---
 _JUDGE_KEY="${JUDGE_API_KEY:-${EVAL_API_KEY:-}}"
 _JUDGE_BASE="${JUDGE_BASE_URL:-${EVAL_API_BASE:-}}"
 export ANTHROPIC_BASE_URL="${ANTHROPIC_BASE_URL:-${_JUDGE_BASE}}"
@@ -71,3 +70,4 @@ graded_rc=$?
 python3 /tests/finalize.py \
   --graded /logs/verifier/graded/reward.json --graded-rc "$graded_rc" \
   --out /logs/verifier/reward.json
+

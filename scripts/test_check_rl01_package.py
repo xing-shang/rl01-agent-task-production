@@ -1,5 +1,6 @@
 import tempfile
 import unittest
+from unittest.mock import patch
 import copy
 import json
 import shutil
@@ -8,7 +9,7 @@ import sys
 from textwrap import dedent
 from pathlib import Path
 
-from check_rl01_package import audit_expert_rubric, audit_likert_anchors, is_unresolved_template, validate
+from check_rl01_package import TEMPLATE_ROOT, audit_expert_rubric, audit_likert_anchors, audit_template_baseline, is_unresolved_template, validate
 
 
 def rubric_fixture(weights=None):
@@ -101,6 +102,13 @@ def write_package_fixture(root):
 
 
 class CurrentQAContractTests(unittest.TestCase):
+    def test_binary_levels_are_reviewed_without_inventing_a_client_hard_ban(self):
+        data = rubric_fixture()
+        data["items"][0]["levels"] = {str(v): "Review anchor" for v in (0, .25, .5, .75, 1)}
+        issues, warnings = audit_expert_rubric(data, "A3")
+        self.assertFalse(issues, issues)
+        self.assertTrue(any("Binary carries levels" in warning for warning in warnings))
+
     def rules(self, data, difficulty="A3", toml=None):
         issues, _ = audit_expert_rubric(data, difficulty, toml)
         return {x["rule"] for x in issues}
@@ -220,6 +228,58 @@ class PackagePreflightTests(unittest.TestCase):
             bad = subprocess.run(command, capture_output=True, text=True, check=False)
             self.assertEqual(1, bad.returncode, bad.stdout + bad.stderr)
             self.assertEqual({"fixed-template"}, {x["rule"] for x in json.loads(bad.stdout)["issues"]})
+
+    def test_matching_task_and_mutated_baseline_cannot_hide_template_drift(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "FIN-QA-001"
+            write_package_fixture(root)
+            baseline = Path(directory) / "assets/templates"
+            shutil.copytree(TEMPLATE_ROOT, baseline)
+            changed = (baseline / "test.sh").read_bytes() + b"\n# changed comment\n"
+            (baseline / "test.sh").write_bytes(changed)
+            (root / "tests/test.sh").write_bytes(changed)
+            with patch("check_rl01_package.TEMPLATE_ROOT", baseline):
+                issues, _ = validate(root)
+            self.assertEqual({"template-source"}, {x["rule"] for x in issues})
+
+    def test_missing_or_relabelled_template_baseline_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            baseline = Path(directory) / "assets/templates"
+            shutil.copytree(TEMPLATE_ROOT, baseline)
+            self.assertEqual([], audit_template_baseline(baseline))
+            manifest_path = baseline / "source-manifest.json"
+            manifest = manifest_path.read_bytes()
+            for missing in ("test.sh", "finalize.py", "source-manifest.json"):
+                with self.subTest(missing=missing):
+                    path = baseline / missing
+                    saved = path.read_bytes()
+                    path.unlink()
+                    self.assertTrue(audit_template_baseline(baseline))
+                    path.write_bytes(saved)
+            for malformed in ([], {"source_sha256": "wrong"}, {**json.loads(manifest), "templates": []}):
+                with self.subTest(manifest=malformed):
+                    manifest_path.write_text(json.dumps(malformed))
+                    self.assertTrue(audit_template_baseline(baseline))
+
+    def test_law_recommendation_warns_without_rejecting_a_valid_package(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "FIN-QA-001"
+            write_package_fixture(root)
+            path = root / "task.toml"
+            original = path.read_text()
+            for difficulty, recommended in (("A1", None), ("A2", 30), ("A3", 35)):
+                with self.subTest(difficulty=difficulty):
+                    path.write_text(original.replace('domain = "金融"', 'domain = "法律"')
+                                    .replace('"office", "A3"', f'"office", "{difficulty}"')
+                                    .replace('difficulty = "A3"', f'difficulty = "{difficulty}"'))
+                    issues, warnings = validate(root)
+                    self.assertEqual([], issues)
+                    law_warnings = [x for x in warnings if "法律领域" in x]
+                    self.assertEqual(0 if recommended is None else 1, len(law_warnings))
+                    if recommended:
+                        self.assertIn(f"至少{recommended}条", law_warnings[0])
+            path.write_text(original)
+            self.assertFalse(any("法律领域" in x for x in validate(root)[1]))
 
     def test_malformed_task_fields_report_diagnostics(self):
         cases = (

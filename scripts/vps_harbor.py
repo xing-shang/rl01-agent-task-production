@@ -20,6 +20,7 @@ from urllib.parse import urlsplit
 from pathlib import Path
 
 from vps_request_proxy import DEFAULT_CONCURRENCY, ProxyConfig, make_server
+from check_pro_golden_review import validate as validate_pro_review
 
 PREFIX = Path(os.environ.get("RL01_RUNTIME_PREFIX", "/opt/rl01-harbor"))
 MODELS = ["gpt-5.6-sol", "claude-opus-4-8", "qwen3.8-max0902"]
@@ -173,7 +174,10 @@ def freeze_memory_limits(task: Path, memory_mb: int) -> dict:
 
 
 def prepare(task: Path, concurrency: int, memory_mb: int = DEFAULT_MEMORY_MB,
-            criterion_workers: int = DEFAULT_CRITERION_WORKERS) -> Path:
+            criterion_workers: int = DEFAULT_CRITERION_WORKERS,
+            pro_review: Path | None = None, skip_formal_golden: bool = False) -> Path:
+    if type(skip_formal_golden) is not bool or (skip_formal_golden and pro_review is None):
+        raise ValueError("Skipping formal Golden requires an explicit flag and a complete Pro review")
     if type(memory_mb) is not int or memory_mb <= 0:
         raise ValueError("memory_mb must be a positive integer in MiB")
     task = task.resolve(strict=True)
@@ -182,6 +186,7 @@ def prepare(task: Path, concurrency: int, memory_mb: int = DEFAULT_MEMORY_MB,
     result = subprocess.run([sys.executable, str(checker), str(task)], capture_output=True, text=True)
     if result.returncode:
         raise ValueError("Static preflight failed; inspect checker output:\n" + result.stdout + result.stderr)
+    author_review = validate_pro_review(task, pro_review) if pro_review is not None else None
     run_dir = PREFIX / "runs" / (time.strftime("%Y%m%dT%H%M%S") + "-" + secrets.token_hex(4))
     run_dir.mkdir(parents=True, mode=0o700)
     judge_policy = freeze_judge_runtime(run_dir, criterion_workers)
@@ -204,8 +209,19 @@ def prepare(task: Path, concurrency: int, memory_mb: int = DEFAULT_MEMORY_MB,
                                     "adjustments": changes},
                 "effort_policy": {"candidate": "low", "golden": "provider_default",
                                    "judge": "provider_default"},
-                "judge": "qwen3.7-plus", "models": MODELS}
+                "judge": "qwen3.7-plus", "models": MODELS,
+                "formal_golden_required": not skip_formal_golden}
     manifest['judge_execution'] = judge_policy
+    if author_review is not None:
+        review_copy = run_dir / "pro-golden-review.json"
+        shutil.copy2(pro_review, review_copy)
+        review_copy.chmod(0o600)
+        if hashlib.sha256(review_copy.read_bytes()).hexdigest() != author_review["review_sha256"]:
+            raise ValueError("Pro review changed while preparing the frozen run")
+        manifest.update(golden_review_mode="pro_self_review" if skip_formal_golden else "formal_golden", golden_valid=False,
+                        local_golden_scoring_executed=False,
+                        pro_golden_review={**author_review, "path": str(review_copy)})
+        pro_review_accepted(manifest, frozen)
     policy = run_dir / "runtime-compose.yaml"
     shutil.copy2(Path(__file__).parents[1] / "assets/vps-build-network.yaml", policy)
     manifest["runtime_policy_digest"] = hashlib.sha256(policy.read_bytes()).hexdigest()
@@ -213,12 +229,17 @@ def prepare(task: Path, concurrency: int, memory_mb: int = DEFAULT_MEMORY_MB,
     (run_dir / "source-static-preflight.json").write_text(source_preflight)
     (run_dir / "static-preflight.json").write_text(result.stdout)
     for name, config in plans(frozen, run_dir, concurrency, "http://" + bridge_ip() + ":PORT").items():
+        if skip_formal_golden and name == "golden":
+            continue
         (run_dir / (name + ".json")).write_text(json.dumps(config, indent=2))
     return run_dir
 
 
 def prepare_batch(paths: list[Path], concurrency: int, memory_mb: int = DEFAULT_MEMORY_MB,
-                  criterion_workers: int = DEFAULT_CRITERION_WORKERS) -> dict:
+                  criterion_workers: int = DEFAULT_CRITERION_WORKERS,
+                  pro_review_dir: Path | None = None, skip_formal_golden: bool = False) -> dict:
+    if type(skip_formal_golden) is not bool or (skip_formal_golden and pro_review_dir is None):
+        raise ValueError("Skipping formal Golden requires an explicit flag and a complete Pro review directory")
     tasks = []
     for path in paths:
         path = path.resolve(strict=True)
@@ -230,7 +251,13 @@ def prepare_batch(paths: list[Path], concurrency: int, memory_mb: int = DEFAULT_
         raise ValueError('No task directories found')
     if len(set(tasks)) != len(tasks) or len({p.name for p in tasks}) != len(tasks):
         raise ValueError('Each batch needs distinct task directories and task IDs')
-    runs = [str(prepare(task, concurrency, memory_mb, criterion_workers)) for task in tasks]
+    reviews = [pro_review_dir / (task.name + ".json") if pro_review_dir is not None else None
+               for task in tasks]
+    for task, review in zip(tasks, reviews):
+        if review is not None:
+            validate_pro_review(task, review)
+    runs = [str(prepare(task, concurrency, memory_mb, criterion_workers, review, skip_formal_golden))
+            for task, review in zip(tasks, reviews)]
     batch = PREFIX / 'batches' / (time.strftime('%Y%m%dT%H%M%S') + '-' + secrets.token_hex(4))
     batch.mkdir(parents=True, mode=0o700)
     result = {'batch_dir': str(batch), 'runs': runs, 'models_executed': False}
@@ -341,9 +368,11 @@ def prepare_verifier(run_dir: Path, agent_image: str | None, task: Path | None =
     (verifier / "tests/Dockerfile").write_text(dockerfile)
     if tree_hash(verifier, True) != manifest["agent_visible_digest"]:
         raise ValueError("Verifier adaptation altered Agent-visible content")
+    author_review_accepted = pro_review_accepted(manifest, verifier)
     receipt = {"verifier_task": str(verifier), "source_task_digest": tree_hash(task),
                "verifier_task_digest": tree_hash(verifier), "agent_visible_digest": manifest["agent_visible_digest"],
-               "agent_image_id": image["Id"], "status": "VERIFIER_READY_REQUIRES_GOLDEN_REGRADE"}
+               "agent_image_id": image["Id"], "status": "VERIFIER_READY_PRO_REVIEW_ACCEPTED"
+               if author_review_accepted else "VERIFIER_READY_REQUIRES_GOLDEN_REGRADE"}
     receipt['judge_execution'] = judge_policy
     (parent / "receipt.json").write_text(json.dumps(receipt, indent=2))
     return receipt
@@ -458,6 +487,29 @@ def golden_valid(run_dir: Path) -> bool:
                                    (run_dir / "jobs/golden").glob("*/verifier/reward.json"))
 
 
+def pro_review_accepted(manifest: dict, task: Path) -> bool:
+    mode = manifest.get("golden_review_mode")
+    if mode not in {"pro_self_review", "formal_golden"}:
+        return False
+    saved = manifest.get("pro_golden_review", {})
+    if not saved.get("path"):
+        if mode == "formal_golden":
+            return False
+        raise ValueError("Pro self-review mode needs its frozen author review")
+    review = Path(saved["path"])
+    receipt = validate_pro_review(task, review, review.parent / "source-task.toml")
+    if any(receipt.get(key) != value for key, value in saved.items() if key != "path"):
+        raise ValueError("Frozen Pro review receipt changed")
+    return mode == "pro_self_review"
+
+
+def candidate_grade_allowed(manifest: dict, task: Path) -> bool:
+    if pro_review_accepted(manifest, task):
+        return True
+    return bool(manifest.get("golden_valid") and
+                tree_hash(task) == manifest.get("golden_verifier_task_digest"))
+
+
 def launch(run_dir: Path) -> dict:
     from vps_queue import submit_runs
     return submit_runs([run_dir])
@@ -485,10 +537,8 @@ def execute_regrade(source: Path, task: Path, run_dir: Path, is_golden=False) ->
         original = json.loads((source / "config.json").read_text())
         if source_agent_name(original) != "oracle":
             raise ValueError("--golden requires an Oracle source trial")
-    elif not manifest.get("golden_valid"):
-        raise ValueError("Golden has not passed. Regrade the Golden first and audit its reward before candidate scoring.")
-    elif tree_hash(task) != manifest.get("golden_verifier_task_digest"):
-        raise ValueError("Verifier version changed; first regrade and audit the Golden with --golden")
+    elif not candidate_grade_allowed(manifest, task):
+        raise ValueError("Candidate scoring needs the current Pro review or a valid same-version Golden")
     output = run_dir / ("regrade-" + secrets.token_hex(4))
     output.mkdir(mode=0o700)
     env = base_environment()
@@ -533,12 +583,20 @@ def main() -> None:
     plan.add_argument("--memory-mb", type=int, default=DEFAULT_MEMORY_MB,
                       help="New Agent and Verifier memory limit in MiB (default: 2048)")
     plan.add_argument('--judge-workers', type=int, choices=(1, 2), default=DEFAULT_CRITERION_WORKERS)
+    plan.add_argument('--pro-review', type=Path,
+                      help='Import the complete web Pro author review; formal Golden remains enabled by default')
+    plan.add_argument('--skip-formal-golden', action='store_true',
+                      help='Explicit candidate-stage-only mode; requires --pro-review and does not satisfy final Golden preflight')
     batch_plan = commands.add_parser('plan-batch')
     batch_plan.add_argument('paths', nargs='+', type=Path)
     batch_plan.add_argument('--concurrency', type=int, choices=[2, 3, 4], default=DEFAULT_TASK_CONCURRENCY)
     batch_plan.add_argument('--memory-mb', type=int, default=DEFAULT_MEMORY_MB,
                             help='New Agent and Verifier memory limit in MiB (default: 2048)')
     batch_plan.add_argument('--judge-workers', type=int, choices=(1, 2), default=DEFAULT_CRITERION_WORKERS)
+    batch_plan.add_argument('--pro-review-dir', type=Path,
+                            help='Directory containing <task-directory-name>.json Pro reviews')
+    batch_plan.add_argument('--skip-formal-golden', action='store_true',
+                            help='Explicit candidate-stage-only mode; requires --pro-review-dir')
     run = commands.add_parser("run")
     run.add_argument("run_dir", type=Path)
     batch_run = commands.add_parser('run-batch')
@@ -561,7 +619,8 @@ def main() -> None:
     if args.command == "doctor":
         result = host_status()
     elif args.command == 'plan-batch':
-        result = prepare_batch(args.paths, args.concurrency, args.memory_mb, args.judge_workers)
+        result = prepare_batch(args.paths, args.concurrency, args.memory_mb, args.judge_workers,
+                               args.pro_review_dir, args.skip_formal_golden)
     elif args.command in {'run-batch', 'grade-batch', 'status', 'worker'}:
         import vps_queue
         if args.command == 'worker':
@@ -573,7 +632,8 @@ def main() -> None:
             runs = vps_queue.batch_runs(args.batch_dir)
             result = vps_queue.submit_runs(runs) if args.command == 'run-batch' else vps_queue.submit_grades(runs)
     elif args.command == "plan":
-        result = {"prepared_run": str(prepare(args.task, args.concurrency, args.memory_mb, args.judge_workers)), "models_executed": False}
+        result = {"prepared_run": str(prepare(args.task, args.concurrency, args.memory_mb,
+                                             args.judge_workers, args.pro_review, args.skip_formal_golden)), "models_executed": False}
     elif args.command == "run":
         result = launch(args.run_dir)
     elif args.command == "prepare-verifier":
